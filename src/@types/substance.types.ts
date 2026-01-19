@@ -1,0 +1,15 @@
+export type TSubstance = {
+  imageId: string;
+  imageUrl: string;
+  casNumber: string | null;
+  weight: string | null;
+  cLogP: string | null;
+  referenceCount: number;
+  ceilLineCount: number;
+  smiles: string;
+};
+
+export type TSelectedImage = {
+  title: string;
+  src: string;
+};
