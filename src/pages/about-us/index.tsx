@@ -21,7 +21,7 @@ export const AboutPage = () => {
 
             <main className="px-8 pt-50 sm:px-30 mb-29">
                 {/* Who we are */}
-                <section className="flex items-center gap-30 mb-29">
+                <section className="max-w-[1284px] mx-auto flex items-center justify-between gap-30 mb-29">
                     <div className="max-w-[500px]">
                         <h1 className="uppercase text-primary sub-heading font-black mb-11">
                             WHO WE ARE

@@ -130,7 +130,7 @@ export const MainPage = () => {
     <>
       <AppHeader />
 
-      <main className="px-8 pt-50 sm:px-30">
+      <main className="max-w-[1284px] mx-auto px-8 pt-50 sm:px-30">
         <section className="mb-30">
           <div className="flex w-full flex-col items-center gap-5">
             <h1 className="max-w-2xl text-primary text-center section-title font-extrabold">

@@ -26,37 +26,39 @@ export const HomeHeader = () => {
   // };
 
   // useEffect(() => {
-    // getCounts();
+  // getCounts();
   // }, []);
 
   return (
     <>
-      <nav className="fixed w-full bg-gunmetal z-100 flex items-center gap-25 justify-between px-8 py-4 sm:px-30">
-        <Link to="/">
-          <img src={newLogo} alt="Metal Based Drug Finder" />
-        </Link>
-
-        <ul className="flex items-center gap-25">
-          <Link to="/about" className="flex items-center text-2xl text-white font-light gap-[10px]">
-            About Us
-
-            <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
+      <nav className="fixed w-full mx-auto bg-gunmetal z-100 px-8 py-4 sm:px-30">
+        <div className="max-w-[1284px] mx-auto flex items-center gap-25 justify-between">
+          <Link to="/">
+            <img src={newLogo} alt="Metal Based Drug Finder" />
           </Link>
 
-          <Link to="/contact" className="flex items-center text-2xl text-white font-light gap-[10px]">
-            Contact
-            <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
-          </Link>
+          <ul className="flex items-center gap-25">
+            <Link to="/about" className="flex items-center text-2xl text-white font-light gap-[10px]">
+              About Us
 
-          <a href="#" className="flex items-center text-2xl text-white font-light gap-[10px]">
-            The Babak Lab
-            <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
+              <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
+            </Link>
+
+            <Link to="/contact" className="flex items-center text-2xl text-white font-light gap-[10px]">
+              Contact
+              <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
+            </Link>
+
+            <a href="#" className="flex items-center text-2xl text-white font-light gap-[10px]">
+              The Babak Lab
+              <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
+            </a>
+          </ul>
+
+          <a href="#" className="transition-colors text-2xl text-white font-light bg-secondary py-5 px-10 rounded-full hover:bg-primary">
+            Explore
           </a>
-        </ul>
-
-        <a href="#" className="transition-colors text-2xl text-white font-light bg-secondary py-5 px-10 rounded-full hover:bg-primary">
-          Explore
-        </a>
+        </div>
       </nav>
 
       {/* <header className="flex flex-col items-center justify-between gap-10 p-8 md:flex-row">

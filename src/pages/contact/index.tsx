@@ -10,7 +10,7 @@ export const ContactPage = () => {
                 <img src={goldDecorator} aria-hidden="true" className="absolute w-[700px] -left-[15%] bottom-[10%]" />
 
                 {/* Contact form */}
-                <section className="flex items-start justify-between gap-50">
+                <section className="flex max-w-[1284px] mx-auto items-start justify-between gap-50">
                     <div className="max-w-[330px]">
                         <h1 className="uppercase text-primary sub-heading font-black mb-11">
                             NEED MORE?
