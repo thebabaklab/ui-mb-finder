@@ -73,7 +73,7 @@ export const AboutPage = () => {
                 </section>
 
                 {/* Decorators */}
-                <section className="flex items-center justify-between">
+                <section className="max-w-[1284px] mx-auto flex items-center justify-between">
                     <img className="w-[80px]" src={whiteCircle} aria-hidden="true" />
                     <img className="w-[80px]" src={goldCircle} aria-hidden="true" />
                     <img className="w-[80px]" src={silveCircle} aria-hidden="true" />
