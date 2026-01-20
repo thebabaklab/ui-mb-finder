@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
-import { mdiMinus } from "@mdi/js";
-import { Icon, TextField } from "@ui-kit";
+// import { mdiMinus } from "@mdi/js";
+import { TextField } from "@ui-kit";
 
 import { LogicalOperatorSelect } from "../logical-operator-select";
 

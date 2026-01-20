@@ -1,9 +1,9 @@
 import type { FC } from "react";
 
-import { mdiFileDocumentOutline, mdiFlask, mdiMolecule } from "@mdi/js";
+// import { mdiFileDocumentOutline, mdiFlask, mdiMolecule } from "@mdi/js";
 import { useStore } from "@store";
 import type { TTabValue } from "@types";
-import { Icon, Tabs, TabsList, TabsTrigger } from "@ui-kit";
+import { Tabs, TabsList, TabsTrigger } from "@ui-kit";
 import { cn } from "@utils";
 import substanceLogo from "@assets/img/substances-icon.svg";
 import cellLineLogo from "@assets/img/cell_lines-icon.svg";

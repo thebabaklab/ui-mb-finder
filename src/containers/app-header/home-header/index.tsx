@@ -1,33 +1,33 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 import newLogo from "@assets/img/app-logo.svg";
-import axios from "axios";
+// import axios from "axios";
 
-import { StatHexagon } from "../../stat-hexagon";
+// import { StatHexagon } from "../../stat-hexagon";
 import { Link } from "@tanstack/react-router";
 
 export const HomeHeader = () => {
-  const [counts, setCounts] = useState({
-    compoundsCount: 0,
-    referenceCount: 0,
-    cellsCount: 0,
-  });
+  // const [counts, setCounts] = useState({
+  //   compoundsCount: 0,
+  //   referenceCount: 0,
+  //   cellsCount: 0,
+  // });
 
-  const getCounts = async () => {
-    try {
-      const { data } = await axios.get(
-        "https://stage-api.mb-finder.com/api/v2/get-count",
-      );
+  // const getCounts = async () => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       "https://stage-api.mb-finder.com/api/v2/get-count",
+  //     );
 
-      setCounts(data);
-    } catch (err) {
-      console.error("Error", err);
-    }
-  };
+  //     setCounts(data);
+  //   } catch (err) {
+  //     console.error("Error", err);
+  //   }
+  // };
 
-  useEffect(() => {
-    getCounts();
-  }, []);
+  // useEffect(() => {
+    // getCounts();
+  // }, []);
 
   return (
     <>
