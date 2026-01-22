@@ -23,8 +23,8 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ headers, fixedHeader, 
             key={i}
             role="columnheader"
             className={cn(
-              "group bg-background-muted text-foreground-muted text-xs",
-              "border-border h-10 border-r border-b px-3 font-semibold capitalize last-of-type:border-r-0",
+              "group first-of-type:rounded-s-full last-of-type:rounded-e-full bg-platinum-silver text-gunmetal text-base font-light",
+              "border-gunmetal h-10 border-r px-3 py-4 capitalize last-of-type:border-r-0",
               alignments[align],
               sortable && "pointer-events-auto outline-0"
             )}
@@ -39,8 +39,8 @@ export const TableHeader: React.FC<TableHeaderProps> = ({ headers, fixedHeader, 
         {expandable && (
           <th
             className={cn(
-              "group bg-background-muted text-foreground-muted max-w-12 text-xs",
-              "h-10 border-r border-b px-3 font-semibold capitalize last-of-type:border-r-0"
+              "group bg-platinum-silver text-gunmetal max-w-12 text-base font-light",
+              "h-10 border-r border-b px-3 capitalize last-of-type:border-r-0"
             )}
           ></th>
         )}

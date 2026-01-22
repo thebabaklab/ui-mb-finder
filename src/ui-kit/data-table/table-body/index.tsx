@@ -33,7 +33,7 @@ export const TableBody: React.FC<TableBodyProps> = ({
         </tr>
       ) : !items?.length ? (
         <tr>
-          <td colSpan={headers.length} className="h-[98px] text-center font-semibold">
+          <td colSpan={headers.length} className="h-[98px] text-center text-platinum-silver text-base font-light">
             No data available
           </td>
         </tr>

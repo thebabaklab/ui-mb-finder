@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import { FilterDialog, NoDataFound, PaginationSection, ReferenceCard, ReferenceCardSkeleton } from "@containers";
-import { mdiArrowLeft, mdiFilterOutline } from "@mdi/js";
+import { mdiChevronLeft, mdiFilterOutline } from "@mdi/js";
 import { useStore } from "@store";
 import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
@@ -59,13 +59,13 @@ export const ReferencesPage = () => {
     <div className="flex flex-col gap-5">
       <div className={cn("flex", imgId || ceillineName ? "justify-between" : "justify-end lg:hidden")}>
         {(imgId || ceillineName) && (
-          <Button variant="outline" size="small" className="w-fit" onClick={() => back()}>
-            <Icon name={mdiArrowLeft} color="current" dense />
+          <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
+            <Icon name={mdiChevronLeft} color="current" large />
             Back
           </Button>
         )}
 
-        <Button variant="outline" size="small" className="lg:hidden" onClick={() => setDialogs(["filter"])}>
+        <Button variant="back" size="small" className="w-fit text-base font-light px-4 py-2 lg:hidden" onClick={() => setDialogs(["filter"])}>
           <Icon name={mdiFilterOutline} color="current" dense />
           Filter
         </Button>

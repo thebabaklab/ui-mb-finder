@@ -45,7 +45,7 @@ export const SearchHeader = () => {
   };
 
   return (
-    <header className="pt-50">
+    <header className="pt-30">
       <AppContainer className="flex flex-col gap-5 items-center">
         <div className="flex flex-col items-center justify-between gap-5 max-w-2xl">
           {/* <Link

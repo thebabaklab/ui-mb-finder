@@ -28,12 +28,12 @@ interface TableRowProps {
 export const TableRow: FC<TableRowProps> = ({ item, headers, expandable, expandContent, expanded, onExpand }) => {
   return (
     <>
-      <tr className="hover:bg-background group">
+      <tr className="group">
         {headers.map(({ text, value, align = "start", width, maxWidth }, hi) => (
           <td
             key={hi}
             className={clsx(
-              "group flex h-14 items-center justify-between px-5 text-sm text-gray-600 lg:table-cell lg:px-3",
+              "group flex h-14 items-center justify-between px-5 text-base font-light text-platinum-silver lg:table-cell lg:px-3",
               "border-border border-b group-last-of-type:border-b-0 lg:border-r lg:last-of-type:border-r-0",
               "overflow-hidden text-ellipsis",
               alignments[align]
@@ -41,7 +41,7 @@ export const TableRow: FC<TableRowProps> = ({ item, headers, expandable, expandC
             style={{ width, maxWidth }}
             title={typeof value === "string" && typeof item[value] === "string" ? item[value] : undefined}
           >
-            <div className={clsx("overflow-hidden font-semibold text-ellipsis whitespace-nowrap lg:hidden")}>
+            <div className={clsx("overflow-hidden font-light text-ellipsis whitespace-nowrap lg:hidden")}>
               {typeof text === "function" ? <>{text()}</> : <>{text}</>}
             </div>
             <div className="overflow-hidden text-ellipsis whitespace-nowrap">

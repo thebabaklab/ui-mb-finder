@@ -1,10 +1,13 @@
 import { type FC, useState } from "react";
 
-import { mdiFileDocumentOutline, mdiFullscreen, mdiMinus, mdiMolecule } from "@mdi/js";
+import { mdiFullscreen, mdiMinus } from "@mdi/js";
 import { useStore } from "@store";
 import { useNavigate } from "@tanstack/react-router";
 import type { TSubstance } from "@types";
 import { Button, Icon } from "@ui-kit";
+import { cn } from "@utils";
+import celllineIcon from "@assets/img/cell_lines-icon.svg";
+import referenceIcon from "@assets/img/references-icon.svg";
 
 interface SubstanceCardProps {
   substance: TSubstance;
@@ -58,52 +61,54 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
   };
 
   return (
-    <div className="border-border rounded-xl border">
-      <div className="bg-secondary rounded-t-xl px-6 py-3 font-semibold text-white">
+    <div className="border-primary rounded-4xl border">
+      <div className="bg-primary rounded-full px-8 py-4 font-bold text-base text-gunmetal">
         {index + 1}. ID: {substance.imageId}
       </div>
 
       <div className="flex flex-col gap-5 p-6">
-        <div className="flex flex-wrap gap-5">
-          <div className="border-border relative w-fit rounded-xl border p-5">
-            <img src={substance.imageUrl} alt="" className="h-[125px] w-[140px]" />
+        <div className="flex flex-wrap gap-10">
+          <div className="border-primary relative w-fit rounded-4xl border p-3">
+            <img src={substance.imageUrl} alt="" className="border-1 border-platinum-silver rounded-3xl h-[200px] w-[240px]" />
 
-            <Button variant="icon" size="icon" className="absolute top-0 right-0" onClick={handleFullscreen}>
+            <Button variant="transparent" size="icon" className="absolute top-6 right-6" onClick={handleFullscreen}>
               <Icon name={mdiFullscreen} />
             </Button>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-white font-light">
             <div className="flex items-center gap-2">
-              <span className="font-bold">CAS:</span>
+              <span className="text-primary font-bold">CAS:</span>
               {substance.casNumber || <Icon name={mdiMinus} dense />}
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-bold">Molecular Weight:</span>
+              <span className="text-primary font-bold">Molecular Weight:</span>
               {substance.weight || <Icon name={mdiMinus} dense />}
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-bold">cLogP:</span>
+              <span className="text-primary font-bold">cLogP:</span>
               {substance.cLogP ? (+substance.cLogP).toFixed(2) : <Icon name={mdiMinus} dense />}
             </div>
           </div>
         </div>
 
-        {showSmiles && <div className="text-foreground-muted font-semibold">{substance.smiles}</div>}
+        {showSmiles && <div className="text-white font-light break-all">{substance.smiles}</div>}
 
-        <div className="flex flex-col justify-between gap-3 md:flex-row">
-          <Button size="small" className="max-w-[250px]" onClick={toggleSmiles}>
+        <div className={cn("flex flex-col justify-between items-center gap-3 md:flex-row", showSmiles ? "mt-0" : "mt-11")}>
+          <Button variant={"back"} size="small" className="text-base font-light py-6 max-w-[250px]" onClick={toggleSmiles}>
             SMILES
           </Button>
 
           <div className="flex flex-col gap-3 md:flex-row">
-            <Button size="small" className="max-w-[250px]" onClick={handleReferencesClick}>
-              <Icon name={mdiFileDocumentOutline} color="current" dense />
-              References ({substance.referenceCount})
-            </Button>
-            <Button size="small" className="max-w-[250px]" onClick={handleCellLinesClick}>
-              <Icon name={mdiMolecule} color="current" dense />
+            <Button variant={"transparent"} size="small" className="text-primary text-base font-light" onClick={handleCellLinesClick}>
+              {/* <Icon name={mdiMolecule} color="current" dense /> */}
+              <img className="w-[20px]" src={celllineIcon} aria-hidden="true" />
               Cell Lines ({substance.ceilLineCount})
+            </Button>
+            <Button variant={"transparent"} size="small" className="text-primary text-base font-light" onClick={handleReferencesClick}>
+              {/* <Icon name={mdiFileDocumentOutline} color="current" dense /> */}
+              <img className="w-[20px]" src={referenceIcon} aria-hidden="true" />
+              References ({substance.referenceCount})
             </Button>
           </div>
         </div>

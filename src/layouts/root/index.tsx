@@ -9,12 +9,12 @@ export const RootLayout = () => {
 
       <SearchHeader />
 
-      <main className="min-h-[calc(100vh_-_185px)] grow py-20">
+      <main className="min-h-[calc(100vh_-_185px)] grow pt-20">
         <AppContainer>
           <div className="flex items-start gap-25">
             <AppSidebar />
 
-            <div className="grow">
+            <div className="grow sticky top-4">
               <Outlet />
             </div>
           </div>

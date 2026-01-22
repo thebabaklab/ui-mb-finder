@@ -61,9 +61,9 @@ export const DataTable: React.FC<DataTableProps> = ({
   pageCount,
 }) => {
   return (
-    <div className={cn(className, "w-full max-w-full rounded-t-xl bg-white leading-normal")}>
+    <div className={cn(className, "w-full max-w-full leading-normal")}>
       <div style={{ ...style, height: height && `${height}px` }}>
-        <table border={1} className={cn("text-light-blue relative w-full")}>
+        <table border={1} className={cn("text-platinum-silver relative w-full")}>
           <TableHeader headers={headers} fixedHeader={fixedHeader} expandable={expandable} />
 
           <TableBody
