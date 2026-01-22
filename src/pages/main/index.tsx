@@ -209,7 +209,7 @@ export const MainPage = () => {
           {/* Second row */}
           <div className="flex flex-wrap justify-center xl:justify-between gap-10 lg:gap-20">
             <article className="frame-container">
-              <img src={substanceLogo} aria-hidden="true" className="w-[94px] mb-5" />
+              <img src={substanceLogo} aria-hidden="true" className="h-[90px] mb-5" />
 
               <p className="section-title text-xl text-primary font-extrabold mb-5">
                 Search by Structures<br />"Substances"
@@ -228,7 +228,7 @@ export const MainPage = () => {
             </article>
 
             <article className="frame-container">
-              <img src={cellLineLogo} aria-hidden="true" className="w-[90px] mb-5" />
+              <img src={cellLineLogo} aria-hidden="true" className="h-[90px] mb-5" />
 
               <p className="section-title text-xl text-primary font-extrabold mb-5">
                 Search by Cell Lines<br />"Cell Lines"
@@ -245,7 +245,7 @@ export const MainPage = () => {
             </article>
 
             <article className="frame-container">
-              <img src={referenceLogo} aria-hidden="true" className="w-[70px] mb-5" />
+              <img src={referenceLogo} aria-hidden="true" className="h-[90px] mb-5" />
 
               <p className="section-title text-xl text-primary font-extrabold mb-5">
                 Search by Scientific References<br />"References"
