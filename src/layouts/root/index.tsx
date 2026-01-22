@@ -11,7 +11,7 @@ export const RootLayout = () => {
 
       <main className="min-h-[calc(100vh_-_185px)] grow py-20">
         <AppContainer>
-          <div className="flex items-start gap-10">
+          <div className="flex items-start gap-25">
             <AppSidebar />
 
             <div className="grow">

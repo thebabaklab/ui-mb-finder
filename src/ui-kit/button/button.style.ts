@@ -21,6 +21,8 @@ export const buttonVariants = cva(
         link: "text-primary underline",
         success:
           "bg-button-success-background text-button-success-foreground shadow hover:bg-button-success-background/90",
+        transparent: "rounded-full border-1 border-transparent hover:border-primary text-secondary",
+        transparent_active: "rounded-full text-gunmetal border-1 bg-secondary",
       },
       size: {
         default: "h-12 px-8",

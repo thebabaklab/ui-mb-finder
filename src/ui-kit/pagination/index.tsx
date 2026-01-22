@@ -12,7 +12,7 @@ const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
     role="navigation"
     aria-label="pagination"
-    className={cn("mx-auto flex w-full justify-center", className)}
+    className={cn("mx-auto flex w-full justify-end", className)}
     {...props}
   />
 );
@@ -40,7 +40,7 @@ const PaginationLink = ({ className, isActive, size = "icon", ...props }: Pagina
     aria-current={isActive ? "page" : undefined}
     className={cn(
       buttonVariants({
-        variant: isActive ? "default" : "outline",
+        variant: isActive ? "transparent_active" : "transparent",
         size,
       }),
       "border-secondary border",
@@ -68,7 +68,7 @@ PaginationNext.displayName = "PaginationNext";
 
 const PaginationEllipsis = ({ className, ...props }: React.ComponentProps<"span">) => (
   <span aria-hidden className={cn("flex h-9 w-9 items-center justify-center", className)} {...props}>
-    <Icon name={mdiDotsHorizontal} className="h-4 w-4" />
+    <Icon name={mdiDotsHorizontal} className="h-4 w-4" color="secondary" />
     <span className="sr-only">More pages</span>
   </span>
 );
