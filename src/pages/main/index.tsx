@@ -169,7 +169,7 @@ export const MainPage = () => {
 
         {/* Metal based drug finder info */}
         <section className="mb-30">
-          <h2 className="headline text-center xl:text-start text-3xl md:text-6xl lg:text-7xl leading-14 md:leading-24 uppercase font-black text-primary mb-15 md:mb-30">
+          <h2 className="headline text-start text-3xl md:text-6xl lg:text-7xl leading-14 md:leading-24 uppercase font-black text-primary mb-15 md:mb-30">
             METAL BASED DRUG <br className="hidden lg:block" />FINDER
           </h2>
 
