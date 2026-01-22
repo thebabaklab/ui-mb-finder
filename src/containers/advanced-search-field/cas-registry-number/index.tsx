@@ -24,11 +24,11 @@ export const CasRegistryNumber: FC<CasRegistryNumberProps> = ({
       <div className="grow">
         <TextField
           value={value}
-          placeholder=""
+          placeholder="CAS Registry Number:"
           hideDetails
           full_p={true}
           prependInner={
-            <div className="text-gunmetal font-light mr-3 hidden items-center gap-3 text-sm whitespace-nowrap sm:flex">
+            <div className="text-gunmetal font-light mr-3 hidden items-center gap-3 text-sm whitespace-nowrap">
               CAS Registry Number:
               {/* <div className="bg-foreground h-4 w-[1px]"></div> */}
             </div>

@@ -86,7 +86,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
   return (
     <div
       className={cn(
-        "flex w-full flex-col gap-22 justify-between",
+        "flex w-full flex-col gap-8 md:gap-5 lg:gap-22 justify-between",
         field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug
           ? "sm:flex-row sm:items-center"
           : field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber ||
@@ -107,7 +107,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
         </div>
 
         <Button
-          variant="icon"
+          variant="close_icon"
           size="icon"
           className={cn(
             "ml-auto",
@@ -120,7 +120,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
           )}
           onClick={onRemove}
         >
-          <Icon name={mdiClose} />
+          <Icon name={mdiClose} color="primary" />
         </Button>
       </div>
 
