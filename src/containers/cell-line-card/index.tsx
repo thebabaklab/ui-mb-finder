@@ -1,10 +1,10 @@
 import type { FC } from "react";
 
-import { mdiAtom, mdiFileDocumentOutline, mdiFlask } from "@mdi/js";
+// import { mdiAtom, mdiFileDocumentOutline, mdiFlask } from "@mdi/js";
 import { useStore } from "@store";
 import { useNavigate } from "@tanstack/react-router";
 import type { TCellLine } from "@types";
-import { Button, Icon } from "@ui-kit";
+import { Button } from "@ui-kit";
 import biodataIcon from "@assets/img/biodata-icon.svg";
 import substanceIcon from "@assets/img/substances-icon.svg";
 import referenceIcon from "@assets/img/references-icon.svg";
