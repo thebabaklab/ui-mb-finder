@@ -16,7 +16,7 @@ export const HomeHeader = () => {
   // const getCounts = async () => {
   //   try {
   //     const { data } = await axios.get(
-  //       "https://stage-api.mb-finder.com/api/v2/get-count",
+  //       "https://stage-api.mb-finder.org/api/v2/get-count",
   //     );
 
   //     setCounts(data);
@@ -31,66 +31,31 @@ export const HomeHeader = () => {
 
   return (
     <>
-      <nav className="fixed w-full mx-auto bg-gunmetal z-100 px-8 py-4 sm:px-30">
-        <div className="max-w-[1284px] mx-auto flex items-center gap-25 justify-between">
+      <nav className="fixed w-full mx-auto bg-gunmetal z-100 px-8 py-4">
+        <div className="max-w-[1284px] mx-auto flex items-center md:gap-25 justify-between">
           <Link to="/">
-            <img src={newLogo} alt="Metal Based Drug Finder" />
+            <img src={newLogo} className="w-[100px]" alt="Metal Based Drug Finder" />
           </Link>
 
-          <ul className="flex items-center gap-25">
-            <Link to="/about" className="flex items-center text-2xl text-white font-light gap-[10px]">
+          <ul className="flex flex-col md:flex-row items-end md:items-center md:gap-25">
+            <Link to="/about" className="flex items-center text-xl text-white font-light gap-[10px]">
               About Us
 
-              <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
+              <div className="decorator bg-secondary rounded-full w-3 h-3"></div>
             </Link>
 
-            <Link to="/contact" className="flex items-center text-2xl text-white font-light gap-[10px]">
+            <Link to="/contact" className="flex items-center text-xl text-white font-light gap-[10px]">
               Contact
-              <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
+              <div className="decorator bg-secondary rounded-full w-3 h-3"></div>
             </Link>
 
-            <a href="#" className="flex items-center text-2xl text-white font-light gap-[10px]">
+            <a href="https://thebabaklab.com/" target="_blank" className="flex items-center text-xl text-white font-light gap-[10px]">
               The Babak Lab
-              <div className="decorator bg-secondary rounded-full w-4 h-4"></div>
+              <div className="decorator bg-secondary rounded-full w-3 h-3"></div>
             </a>
           </ul>
-
-          <a href="#" className="transition-colors text-2xl text-white font-light bg-secondary py-5 px-10 rounded-full hover:bg-primary">
-            Explore
-          </a>
         </div>
       </nav>
-
-      {/* <header className="flex flex-col items-center justify-between gap-10 p-8 md:flex-row">
-        <div className="relative flex flex-col items-center md:h-[120px] md:w-[400px] md:flex-row">
-          <img
-            src={appLogo}
-            alt="app logo"
-            className="ml-5 h-[130px] w-[236px] object-cover md:absolute md:-right-10 md:-bottom-20 md:h-[250px] md:w-[250px]"
-          />
-          <div className="text-secondary text-5xl font-semibold">MB Finder</div>
-        </div>
-
-        <div className="relative flex min-w-[375px] justify-center gap-1 sm:min-w-0 md:h-[240px] md:w-[220px]">
-          <StatHexagon
-            value={counts.compoundsCount}
-            name="Compounds"
-            className="bg-[#134B42] md:absolute md:top-1/2 md:left-0 md:-translate-y-1/2"
-          />
-
-          <StatHexagon
-            value={counts.cellsCount}
-            name="Cell Lines"
-            className="bg-[#80917D] md:absolute md:top-0 md:right-0"
-          />
-
-          <StatHexagon
-            value={counts.referenceCount}
-            name="References"
-            className="bg-[#EEA83B] md:absolute md:right-0 md:bottom-0"
-          />
-        </div>
-      </header> */}
     </>
   );
 };

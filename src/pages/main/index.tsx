@@ -130,7 +130,7 @@ export const MainPage = () => {
     <>
       <AppHeader />
 
-      <main className="max-w-[1284px] mx-auto px-8 pt-50 sm:px-30">
+      <main className="max-w-[1284px] mx-auto px-8 lg:px-16 xl:px-8 pt-50">
         <section className="mb-30">
           <div className="flex w-full flex-col items-center gap-5">
             <h1 className="max-w-2xl text-primary text-center section-title font-extrabold">
@@ -169,18 +169,18 @@ export const MainPage = () => {
 
         {/* Metal based drug finder info */}
         <section className="mb-30">
-          <h2 className="headline uppercase font-black text-primary mb-30">
-            METAL BASED DRUG<br />FINDER
+          <h2 className="headline text-center xl:text-start text-3xl md:text-6xl lg:text-7xl leading-14 md:leading-24 uppercase font-black text-primary mb-15 md:mb-30">
+            METAL BASED DRUG <br className="hidden lg:block" />FINDER
           </h2>
 
           {/* First row */}
-          <div className="flex justify-between gap-20 mb-30">
+          <div className="flex flex-wrap justify-center xl:justify-between gap-10 lg:gap-20 mb-30">
             <article className="frame-container white py-10 pr-12">
               <p className="text-title text-primary font-extrabold mb-5">
                 The Power and The Problem
               </p>
 
-              <p className="w-[300px] text-white font-light">
+              <p className="text-sm md:text-base text-white font-light">
                 Metallodrugs are innovative therapies containing metal ions, offering unique mechanisms to fight cancer that are unavailable to conventional drugs; however, critical data on these promising compounds is severely fragmented and absent from public databases, hindering vital research.
               </p>
             </article>
@@ -190,7 +190,7 @@ export const MainPage = () => {
                 Our Solution
               </p>
 
-              <p className="w-[300px] text-white font-light">
+              <p className="text-sm md:text-base text-white font-light">
                 MB Finder directly addresses this gap as the first comprehensive, online search engine dedicated to standardizing and curating biological and physico-chemical data for metal-based anticancer compounds, providing researchers with a single, trusted source.
               </p>
             </article>
@@ -200,18 +200,18 @@ export const MainPage = () => {
                 Explore the Data
               </p>
 
-              <p className="w-[300px] text-white font-light">
+              <p className="text-sm md:text-base text-white font-light">
                 Our platform enables you to instantly search and compare key metrics like IC50, lipophilicity, and stability for a wide range of complexes, including Platinum, Copper, Ruthenium, Gold, and other transition metals.
               </p>
             </article>
           </div>
 
           {/* Second row */}
-          <div className="flex justify-between gap-18">
-            <article className="">
+          <div className="flex flex-wrap justify-center xl:justify-between gap-10 lg:gap-20">
+            <article className="frame-container">
               <img src={substanceLogo} aria-hidden="true" className="w-[94px] mb-5" />
 
-              <p className="section-title text-primary font-extrabold mb-5">
+              <p className="section-title text-xl text-primary font-extrabold mb-5">
                 Search by Structures<br />"Substances"
               </p>
 
@@ -227,10 +227,10 @@ export const MainPage = () => {
               </p>
             </article>
 
-            <article className="">
+            <article className="frame-container">
               <img src={cellLineLogo} aria-hidden="true" className="w-[90px] mb-5" />
 
-              <p className="section-title text-primary font-extrabold mb-5">
+              <p className="section-title text-xl text-primary font-extrabold mb-5">
                 Search by Cell Lines<br />"Cell Lines"
               </p>
 
@@ -244,10 +244,10 @@ export const MainPage = () => {
               </p>
             </article>
 
-            <article className="">
+            <article className="frame-container">
               <img src={referenceLogo} aria-hidden="true" className="w-[70px] mb-5" />
 
-              <p className="section-title text-primary font-extrabold mb-5">
+              <p className="section-title text-xl text-primary font-extrabold mb-5">
                 Search by Scientific References<br />"References"
               </p>
 
@@ -265,11 +265,11 @@ export const MainPage = () => {
 
         {/* Our team */}
         <section>
-          <h3 className="uppercase sub-heading text-primary font-black mb-18">
+          <h3 className="uppercase text-center xl:text-start sub-heading text-primary font-black mb-18">
             Our team
           </h3>
 
-          <div className="flex items-start flex-wrap gap-18">
+          <div className="flex items-start flex-wrap justify-center xl:justify-start gap-18">
             <article>
               <img src={mariaPhoto} alt="Prof. Maria Babak" className="w-[180px] mb-3" />
 

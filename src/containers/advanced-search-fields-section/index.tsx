@@ -30,7 +30,7 @@ export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> =
         />
       ))}
 
-      <Button className="gap-2 w-[330px] bg-transparent shadow-none text-2xl font-light hover:bg-transparent hover:text-primary" onClick={onAdd}>
+      <Button className="gap-2 w-[330px] bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={onAdd}>
         Add Advanced Search Field
         <Icon name={mdiPlus} className="bg-secondary rounded-full" color="current" add_sf />
       </Button>

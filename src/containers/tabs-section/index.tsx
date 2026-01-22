@@ -34,7 +34,7 @@ export const TabsSection: FC<TabsSectionProps> = ({ selectedTab = "substances", 
 
   return (
     <Tabs value={selectedTab} className="py-0">
-      <TabsList className="relative gap-[78px]">
+      <TabsList className="relative md:gap-[78px]">
         <TabsTrigger value="substances" className="" onClick={() => handleTabChange("substances")}>
           <img src={substanceLogo} className="mr-2" />
           Substances
@@ -52,8 +52,8 @@ export const TabsSection: FC<TabsSectionProps> = ({ selectedTab = "substances", 
       <div className="px-1">
         <div
           className={cn("bg-primary h-0.5 w-[108px] transition-all sm:w-40", {
-            "translate-x-[108px] sm:translate-x-57": selectedTab === "cell-lines",
-            "translate-x-[216px] sm:translate-x-112": selectedTab === "references",
+            "translate-x-[120px] sm:translate-x-57": selectedTab === "cell-lines",
+            "translate-x-[236px] sm:translate-x-112": selectedTab === "references",
           })}
         />
       </div>

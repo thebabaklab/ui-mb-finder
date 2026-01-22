@@ -40,7 +40,7 @@ export const BioDataPage = () => {
       setLoading(true);
 
       const { data } = await axios.post(
-        "https://stage-api.mb-finder.com/api/v2/get-ceil-line-bio-data",
+        "https://stage-api.mb-finder.org/api/v2/get-ceil-line-bio-data",
         {
           ...search,
           currentPage,
