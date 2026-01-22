@@ -24,7 +24,7 @@ export const AppSidebar = () => {
   );
 
   return (
-    <div className="flex flex-col gap-30 sticky top-4">
+    <div className="hidden lg:flex flex-col gap-30 sticky top-4">
       <aside className="border-primary hidden w-[260px] min-w-[260px] overflow-auto rounded-4xl border lg:block overflow-visible">
         <h3 className="text-gunmetal text-base bg-primary font-bold rounded-full py-5 px-6">
           Filter
