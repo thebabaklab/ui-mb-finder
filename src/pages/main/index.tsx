@@ -130,7 +130,7 @@ export const MainPage = () => {
     <>
       <AppHeader />
 
-      <main className="max-w-[1284px] mx-auto px-8 lg:px-16 xl:px-8 pt-50">
+      <main className="max-w-[1284px] mx-auto px-8 lg:px-16 xl:px-8 pt-20">
         <section className="mb-30">
           <div className="flex w-full flex-col items-center gap-5">
             <h1 className="max-w-2xl text-primary text-center section-title font-extrabold">
@@ -175,7 +175,7 @@ export const MainPage = () => {
 
           {/* First row */}
           <div className="flex flex-wrap justify-center xl:justify-between gap-10 lg:gap-20 mb-30">
-            <article className="frame-container white py-10 pr-12">
+            <article className="frame-container white py-10 pr-14">
               <p className="text-title text-primary font-extrabold mb-5">
                 The Power and The Problem
               </p>
@@ -185,7 +185,7 @@ export const MainPage = () => {
               </p>
             </article>
 
-            <article className="frame-container gold py-10 pr-12">
+            <article className="frame-container gold py-10 pr-14">
               <p className="text-title text-primary font-extrabold mb-5">
                 Our Solution
               </p>
@@ -195,7 +195,7 @@ export const MainPage = () => {
               </p>
             </article>
 
-            <article className="frame-container silver py-10 pr-12">
+            <article className="frame-container silver py-10 pr-14">
               <p className="text-title text-primary font-extrabold mb-5">
                 Explore the Data
               </p>
