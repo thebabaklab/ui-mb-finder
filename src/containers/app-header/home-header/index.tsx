@@ -31,7 +31,7 @@ export const HomeHeader = () => {
 
   return (
     <>
-      <nav className="fixed w-full mx-auto bg-gunmetal z-100 px-8 py-4">
+      <nav className="fixed w-full mx-auto bg-gunmetal z-40 px-8 py-4">
         <div className="max-w-[1284px] mx-auto flex items-center md:gap-25 justify-between">
           <Link to="/">
             <img src={newLogo} className="w-[100px]" alt="Metal Based Drug Finder" />
