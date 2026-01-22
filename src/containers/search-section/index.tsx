@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
 import { mdiHexagonOutline, mdiMagnify } from "@mdi/js";
-import { useLocation } from "@tanstack/react-router";
+// import { useLocation } from "@tanstack/react-router";
 import type { TSearch } from "@types";
 import { Button, Icon, TextField } from "@ui-kit";
 import { cn } from "@utils";
@@ -23,8 +23,8 @@ export const SearchSection: FC<SearchSectionProps> = ({
   onChange,
   onSearch,
 }) => {
-  const location = useLocation();
-  const pathname = location.pathname;
+  // const location = useLocation();
+  // const pathname = location.pathname;
 
   return (
     <div className={cn("flex items-center w-full gap-2", className)}>
@@ -32,7 +32,9 @@ export const SearchSection: FC<SearchSectionProps> = ({
         className="grow"
         onSubmit={(e) => {
           e.preventDefault();
-          onSearch();
+
+          if (search.queryStr)
+            onSearch();
         }}
       >
         <TextField
@@ -41,22 +43,23 @@ export const SearchSection: FC<SearchSectionProps> = ({
           className="search-bar text-base placeholder:font-semibold"
           clearable
           hideDetails
-          full_p={pathname === "/" ? false : true}
+          // full_p={pathname === "/" ? false : true}
           appendInner={
-            pathname === "/" ? (
-              <Button
-                variant="draw"
-                size="draw"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onDrawerClick?.();
-                }}
-              >
-                Draw
-                <Icon name={mdiHexagonOutline} color="white" large />
-              </Button>
-            ) : undefined
+
+            <Button
+              type="button"
+              variant="draw"
+              size="draw"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onDrawerClick?.();
+              }}
+            >
+              Draw
+              <Icon name={mdiHexagonOutline} color="white" large />
+            </Button>
+
           }
           onChange={(e) => onChange(e.target.value)}
         />
