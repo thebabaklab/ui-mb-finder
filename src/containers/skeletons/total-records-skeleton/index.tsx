@@ -6,7 +6,7 @@ const shimmer =
 export const TotalRecordsSkeleton = () => {
   return (
     <div className={cn(shimmer, "relative mt-1 overflow-hidden rounded-xl")}>
-      <div className="h-5 w-60 rounded-md bg-gray-200 text-sm font-medium" />
+      <div className="h-5 w-60 rounded-md bg-primary text-sm font-medium" />
     </div>
   );
 };

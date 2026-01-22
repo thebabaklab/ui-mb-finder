@@ -1,12 +1,14 @@
 import type { FC } from "react";
 
-import { mdiFileDocumentOutline, mdiFlask, mdiMolecule } from "@mdi/js";
 import { useStore } from "@store";
 import { useNavigate } from "@tanstack/react-router";
 import type { TReference } from "@types";
-import { Button, Icon } from "@ui-kit";
+import { Button } from "@ui-kit";
 
 import { CollapsibleContent } from "./collapsible-content";
+import substanceIcon from "@assets/img/substances-icon.svg";
+import celllineIcon from "@assets/img/cell_lines-icon.svg";
+
 
 interface ReferenceCardProps {
   reference: TReference;
@@ -47,36 +49,34 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
   };
 
   return (
-    <div className="border-border max-w-[calc(100vw_-_2.5rem)] rounded-xl border sm:max-w-none">
-      <div className="bg-secondary rounded-t-xl px-4.5 py-3 text-lg font-semibold text-white sm:px-7.5">
-        {index + 1}
+    <div className="border-primary max-w-[calc(100vw_-_2.5rem)] rounded-4xl border sm:max-w-none">
+      <div className="bg-primary rounded-full px-4 py-4 text-lg font-bold text-gunmetal sm:px-8">
+        {index + 1}.
       </div>
 
       <div className="flex flex-col gap-10 px-3 py-6 sm:p-6">
         <div className="flex flex-col gap-5">
           <h3 className="flex items-start gap-2">
-            <Icon name={mdiFileDocumentOutline} color="state-warning-foreground" className="mt-1" />
-
             <a
               href={`https://www.doi.org/${reference.doi}`}
-              className="font-bold underline underline-offset-2"
+              className="font-bold text-primary"
               target="_blank"
             >
               {reference.title}
             </a>
           </h3>
 
-          <div className="flex flex-col gap-2 px-7.5 text-sm">
+          <div className="flex flex-col gap-2 text-white text-base font-light">
             <div>
-              <span className="mr-2 font-bold">Authors:</span>
+              <span className="mr-2 font-bold text-primary">Authors:</span>
               {reference.authors}
             </div>
             <div className="flex gap-2">
-              <span className="font-bold">Publication year:</span>
+              <span className="font-bold text-primary">Publication year:</span>
               {reference.year}
             </div>
             <div className="flex gap-2">
-              <span className="font-bold">DOI:</span>
+              <span className="font-bold text-primary">DOI:</span>
               {reference.doi}
             </div>
           </div>
@@ -84,13 +84,15 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
 
         <CollapsibleContent>{reference.abstract}</CollapsibleContent>
 
-        <div className="flex flex-col justify-end gap-3 px-7.5 sm:flex-row">
-          <Button size="small" onClick={handleSubstancesClick}>
-            <Icon name={mdiFlask} color="current" dense />
+        <div className="flex flex-col justify-end gap-3 sm:flex-row">
+          <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleSubstancesClick}>
+            {/* <Icon name={mdiFlask} color="current" dense /> */}
+            <img className="w-[22px]" src={substanceIcon} aria-hidden="true" />
             Substances ({reference.substancesCount})
           </Button>
-          <Button size="small" onClick={handleCellLinesClick}>
-            <Icon name={mdiMolecule} color="current" dense />
+          <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleCellLinesClick}>
+            {/* <Icon name={mdiMolecule} color="current" dense /> */}
+            <img className="w-[22px]" src={celllineIcon} aria-hidden="true" />
             Cell Lines ({reference.ceilLinesCount})
           </Button>
         </div>
