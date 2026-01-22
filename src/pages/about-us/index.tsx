@@ -19,10 +19,10 @@ export const AboutPage = () => {
         <>
             <AppHeader />
 
-            <main className="px-8 pt-50 sm:px-30 mb-29">
+            <main className="px-8 lg:px-16 xl:px-8 pt-20 lg:pt-30 mb-29">
                 {/* Who we are */}
-                <section className="max-w-[1284px] mx-auto flex items-center justify-between gap-30 mb-29">
-                    <div className="max-w-[500px]">
+                <section className="max-w-[1284px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-20 lg:gap-30 mb-29">
+                    <div className="lg:max-w-[500px]">
                         <h1 className="uppercase text-primary sub-heading font-black mb-11">
                             WHO WE ARE
                         </h1>
@@ -53,30 +53,30 @@ export const AboutPage = () => {
                         </p>
                     </div>
 
-                    <div className="relative">
-                        <img src={mainPhoto} className="min-w-[500px]" aria-hidden="true" />
+                    <div className="relative w-full">
+                        <img src={mainPhoto} className="md:min-w-[500px] w-full" aria-hidden="true" />
 
-                        <article className="absolute bg-gunmetal left-0 bottom-0 text-white w-[97%] h-[108px] rounded-r-full pl-8 pt-8 pb-5">
-                            <img src={cisplatinIcon} className="absolute left-3 top-1 w-[20px]" aria-hidden="true" />
+                        <article className="absolute bg-gunmetal left-0 bottom-0 text-white w-[97%] md:h-[108px] rounded-r-full pl-4 md:pl-8 pt-4 md:pt-8 pb-3 md:pb-5">
+                            <img src={cisplatinIcon} className="absolute left-1 md:left-3 top-1 w-[10px] md:w-[20px]" aria-hidden="true" />
 
-                            <p className="text-2xl font-bold">
+                            <p className="text-lg md:text-2xl font-bold">
                                 MB FINDER is
                             </p>
 
-                            <p className="photo-text font-normal">
+                            <p className="photo-text text-sm md:text-base font-normal relative z-10">
                                 determined, enthusiastic and innovative
                             </p>
 
-                            <img src={roundedDecorator} className="absolute right-0 top-0 h-[108px]" aria-hidden="true" />
+                            <img src={roundedDecorator} className="absolute right-0 top-0 h-[76px] md:h-[108px]" aria-hidden="true" />
                         </article>
                     </div>
                 </section>
 
                 {/* Decorators */}
                 <section className="max-w-[1284px] mx-auto flex items-center justify-between">
-                    <img className="w-[80px]" src={whiteCircle} aria-hidden="true" />
-                    <img className="w-[80px]" src={goldCircle} aria-hidden="true" />
-                    <img className="w-[80px]" src={silveCircle} aria-hidden="true" />
+                    <img className="w-[60px] md:w-[80px]" src={whiteCircle} aria-hidden="true" />
+                    <img className="w-[60px] md:w-[80px]" src={goldCircle} aria-hidden="true" />
+                    <img className="w-[60px] md:w-[80px]" src={silveCircle} aria-hidden="true" />
                 </section>
             </main>
 
