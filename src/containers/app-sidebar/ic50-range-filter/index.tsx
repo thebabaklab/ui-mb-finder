@@ -2,7 +2,7 @@ import { type ChangeEvent, type FC, useEffect, useState } from "react";
 
 import { useStore } from "@store";
 import { ENUM_SEARCH_FIELD_TYPE, type TFilterItem } from "@types";
-import { Button, Icon, TextField } from "@ui-kit";
+import { Button, TextField } from "@ui-kit";
 
 import { SearchFilter } from "../../search-filter";
 
