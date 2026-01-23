@@ -34,11 +34,11 @@ export const SearchFilter: FC<PropsWithChildren<SearchFilterProps>> = ({ name, c
             name={mdiChevronDown}
             size={28}
             color="current"
-            className="absolute -right-14 transition-transform group-data-[state=open]/collapsible:rotate-180"
+            className="absolute right-0 lg:-right-14 transition-transform group-data-[state=open]/collapsible:rotate-180"
           />
         </span>
       </CollapsibleTrigger>
-      <CollapsibleContent className="flex flex-col gap-5 px-11 py-2">{children}</CollapsibleContent>
+      <CollapsibleContent className="flex flex-col gap-5 px-3 py-2">{children}</CollapsibleContent>
     </Collapsible>
   );
 };

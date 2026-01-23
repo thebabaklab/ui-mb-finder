@@ -39,9 +39,9 @@ export const SmilesFilter: FC<SmilesFilterFilterProps> = ({ onSubmit }) => {
 
   return (
     <SearchFilter defaultOpen={!!smiles} name="SMILES">
-      <TextField value={smiles} placeholder="Type SMILES..." hideDetails dense onChange={handleChange} />
+      <TextField className="text-platinum-silver" value={smiles} full_p={true} bg_color="bg-gunmetal" placeholder="" hideDetails dense onChange={handleChange} />
 
-      <Button size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
         Search
       </Button>
     </SearchFilter>

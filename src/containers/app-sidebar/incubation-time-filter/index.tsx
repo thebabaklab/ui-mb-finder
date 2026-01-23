@@ -141,14 +141,17 @@ export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ onSubmit }
 
       <TextField
         value={otherValue}
-        placeholder="Other..."
+        placeholder=""
+        full_p={true}
+        className="text-platinum-silver"
+        bg_color="bg-gunmetal"
         type="number"
         hideDetails
         dense
         onChange={handleOtherValueChange}
       />
 
-      <Button size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
         Apply
       </Button>
     </SearchFilter>

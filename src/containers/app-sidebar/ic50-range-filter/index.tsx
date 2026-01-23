@@ -1,6 +1,5 @@
 import { type ChangeEvent, type FC, useEffect, useState } from "react";
 
-import { mdiMinus } from "@mdi/js";
 import { useStore } from "@store";
 import { ENUM_SEARCH_FIELD_TYPE, type TFilterItem } from "@types";
 import { Button, Icon, TextField } from "@ui-kit";
@@ -56,25 +55,29 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ onSubmit }) => {
       }
     >
       <div className="flex flex-col gap-2">
-        <label className="text-foreground-muted cursor-pointer text-sm font-semibold select-none">Range:</label>
+        <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 
-        <div className="flex items-center gap-1">
+        <div className="flex flex-col items-center gap-4">
           <TextField
             value={startIC50}
             name="startIC50"
-            placeholder="From"
+            className="text-platinum-silver"
+            placeholder=""
+            full_p={true}
+            bg_color="bg-gunmetal"
             type="number"
             hideDetails
             dense
             onChange={handleChange}
           />
 
-          <Icon name={mdiMinus} small />
-
           <TextField
             value={endIC50}
             name="endIC50"
-            placeholder="To"
+            className="text-platinum-silver"
+            placeholder=""
+            full_p={true}
+            bg_color="bg-gunmetal"
             type="number"
             hideDetails
             dense
@@ -83,7 +86,7 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ onSubmit }) => {
         </div>
       </div>
 
-      <Button size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
         Apply
       </Button>
     </SearchFilter>

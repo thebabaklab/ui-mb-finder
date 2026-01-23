@@ -45,13 +45,16 @@ export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ onSu
     <SearchFilter defaultOpen={!!casRegistryNumber} name="CAS Registry Number">
       <TextField
         value={casRegistryNumber}
-        placeholder="Enter a CAS Number..."
+        placeholder=""
+        className="text-platinum-silver"
+        full_p={true}
+        bg_color="bg-gunmetal"
         hideDetails
         dense
         onChange={handleChange}
       />
 
-      <Button size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
         Search
       </Button>
     </SearchFilter>

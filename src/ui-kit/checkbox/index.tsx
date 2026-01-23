@@ -9,14 +9,18 @@ import { Icon } from "../icon";
 interface CheckboxProps extends ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
   label?: string;
   readOnly?: boolean;
+  reversed?: boolean;
+  justifyType?: string;
 }
 
 const Checkbox = forwardRef<ElementRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(
-  ({ className, label, readOnly, ...props }, ref) => (
+  ({ className, label, readOnly, reversed, justifyType, ...props }, ref) => (
     <div
       className={cn(
         "flex items-center gap-2",
         !readOnly && "cursor-pointer",
+        reversed ? "flex-row-reverse" : "",
+        justifyType ? justifyType : "",
         props.disabled && "cursor-not-allowed opacity-50"
       )}
       onClick={

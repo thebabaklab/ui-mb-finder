@@ -1,9 +1,8 @@
 import { type ChangeEvent, type FC, useEffect, useState } from "react";
 
-import { mdiMinus } from "@mdi/js";
 import { useStore } from "@store";
 import { ENUM_SEARCH_FIELD_TYPE, type TFilterItem } from "@types";
-import { Button, Icon, TextField } from "@ui-kit";
+import { Button, TextField } from "@ui-kit";
 
 import { SearchFilter } from "../../search-filter";
 
@@ -52,25 +51,29 @@ export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ onSubmit
   return (
     <SearchFilter defaultOpen={!!startWeight || !!endWeight} name="Molecular Weight">
       <div className="flex flex-col gap-2">
-        <label className="text-foreground-muted cursor-pointer text-sm font-semibold select-none">Range:</label>
+        <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 
-        <div className="flex items-center gap-1">
+        <div className="flex flex-col items-center gap-4">
           <TextField
             value={startWeight}
             name="startWeight"
-            placeholder="From"
+            placeholder=""
+            className="text-platinum-silver"
+            bg_color="bg-gunmetal"
+            full_p={true}
             type="number"
             hideDetails
             dense
             onChange={handleChange}
           />
 
-          <Icon name={mdiMinus} small />
-
           <TextField
             value={endWeight}
             name="endWeight"
-            placeholder="To"
+            placeholder=""
+            className="text-platinum-silver"
+            bg_color="bg-gunmetal"
+            full_p={true}
             type="number"
             hideDetails
             dense
@@ -79,7 +82,7 @@ export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ onSubmit
         </div>
       </div>
 
-      <Button size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
         Apply
       </Button>
     </SearchFilter>

@@ -14,6 +14,7 @@ interface TextFieldProps extends ComponentProps<"input"> {
   dense?: boolean;
   shaped?: "left" | "right";
   full_p?: true | false;
+  bg_color?: string;
   prependInner?: ReactNode;
   appendInner?: ReactNode;
 }
@@ -31,6 +32,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       dense,
       shaped,
       full_p,
+      bg_color,
       prependInner,
       appendInner,
       ...props
@@ -65,7 +67,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
     };
 
     return (
-      <div className="flex flex-col gap-1 text-start">
+      <div className="flex flex-col gap-1 w-full text-start">
         {label && (
           <label
             htmlFor={label}
@@ -82,12 +84,13 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           <div
             ref={containerRef}
             className={cn(
-              "bg-platinum-silver focus-within:ring-ring border-border flex w-full cursor-text items-center rounded-full border pl-4 transition-colors focus-within:ring-1",
+              "focus-within:ring-ring border-border flex w-full cursor-text items-center rounded-full border pl-4 transition-colors focus-within:ring-1",
               shaped === "left" && "rounded-l-none",
               shaped === "right" && "rounded-r-none",
               props.disabled && "cursor-not-allowed",
               dense ? "h-10" : "h-[46px]",
               full_p ? "pr-4" : "",
+              bg_color ? bg_color : "bg-platinum-silver",
               hasError
                 ? "border-error focus-within:ring-error"
                 : "focus-within:border-secondary focus-within:ring-secondary focus-within:text-secondary"
@@ -101,7 +104,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
               id={label}
               type={type}
               className={cn(
-                "bg-platinum-silver text-foreground placeholder:text-foreground-muted-more disabled:text-foreground-muted-more h-full w-full rounded-xl text-sm focus-visible:outline-none disabled:cursor-not-allowed",
+                "text-foreground placeholder:text-foreground-muted-more disabled:text-foreground-muted-more h-full w-full rounded-xl text-sm focus-visible:outline-none disabled:cursor-not-allowed",
+                bg_color ? bg_color : "bg-platinum-silver",
                 className
               )}
               onClick={(e) => e.stopPropagation()}

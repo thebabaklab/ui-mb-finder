@@ -39,9 +39,9 @@ export const DoiFilter: FC<DoiFilterProps> = ({ onSubmit }) => {
 
   return (
     <SearchFilter name="DOI">
-      <TextField value={doi} placeholder="Enter DOI..." hideDetails dense onChange={handleChange} />
+      <TextField className="text-platinum-silver" bg_color="bg-gunmetal" full_p={true} value={doi} placeholder="" hideDetails dense onChange={handleChange} />
 
-      <Button size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
         Search
       </Button>
     </SearchFilter>

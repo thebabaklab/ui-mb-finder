@@ -39,9 +39,9 @@ export const CellLinesFilter: FC<CellLinesFilterProps> = ({ onSubmit }) => {
 
   return (
     <SearchFilter name="Cell Lines">
-      <TextField value={cellLines} placeholder="Enter Cell Lines..." hideDetails dense onChange={handleChange} />
+      <TextField className="text-platinum-silver" bg_color="bg-gunmetal" full_p={true} value={cellLines} placeholder="" hideDetails dense onChange={handleChange} />
 
-      <Button size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
         Search
       </Button>
     </SearchFilter>

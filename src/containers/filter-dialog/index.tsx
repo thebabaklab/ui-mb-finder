@@ -42,12 +42,12 @@ export const FilterDialog = () => {
         aria-describedby={undefined}
       >
         <DialogHeader>
-          <DialogTitle className="text-secondary w-full text-center">
+          <DialogTitle className="text-primary font-bold text-base w-full text-center">
             Filter
           </DialogTitle>
 
           <Button
-            variant="icon"
+            variant="close_icon"
             size="icon"
             className="-mr-2"
             onClick={() => setDialogs([])}

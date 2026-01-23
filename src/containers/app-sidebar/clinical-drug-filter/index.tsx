@@ -44,7 +44,7 @@ export const ClinicalDrugFilter: FC<ClinicalDrugFilterProps> = ({ onSubmit }) =>
     <SearchFilter defaultOpen={!!clinicalDrug.length} name="Clinical Drug">
       <ClinicalDrug value={clinicalDrug} onChange={handleChange} direction="vertical" />
 
-      <Button size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
         Apply
       </Button>
     </SearchFilter>
