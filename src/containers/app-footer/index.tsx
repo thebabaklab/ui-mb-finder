@@ -21,8 +21,8 @@ export const AppFooter = () => {
                 <span className="text-primary text-base">©</span> Copyright 2025. All rights reserved.
               </p>
 
-              <p className="text-xl">
-                Address
+              <p className="text-base lg:text-lg text-center lg:text-start">
+                Drug Discovery Lab, Department of Chemistry, CityUHK, 83 Tat Chee Avenue, Hong Kong
               </p>
 
               <ul className="flex gap-3 text-primary">
