@@ -65,19 +65,19 @@ export const HomeHeader = () => {
           <StatHexagon
             value={counts.compoundsCount}
             name="Compounds"
-            className="bg-secondary lg:absolute lg:top-1/2 lg:left-0 lg:-translate-y-1/2"
+            className="bg-secondary border-secondary lg:absolute lg:top-1/2 lg:left-0 lg:-translate-y-1/2"
           />
 
           <StatHexagon
             value={counts.cellsCount}
             name="Cell Lines"
-            className="bg-titanium-gray lg:absolute lg:top-0 lg:right-0"
+            className="bg-titanium-gray border-titanium-gray lg:absolute lg:top-0 lg:right-0"
           />
 
           <StatHexagon
             value={counts.referenceCount}
             name="References"
-            className="bg-primary lg:absolute lg:right-0 lg:bottom-0"
+            className="bg-primary border-primary lg:absolute lg:right-0 lg:bottom-0"
           />
         </div>
       )}
