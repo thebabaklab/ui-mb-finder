@@ -16,10 +16,8 @@ export const ContactPage = () => {
                             NEED MORE?
                         </h1>
 
-                        <p className="text-white font-light">
-                            For additional information about our company
-                            or partnership opportunities, please contact us.Our team will review your request and
-                            respond promptly with the details you need.
+                        <p className="text-lg text-white font-light">
+                            For additional information about our company or partnership opportunities, please contact us. Our team will review your request and respond promptly with the details you need.
                         </p>
                     </div>
 
