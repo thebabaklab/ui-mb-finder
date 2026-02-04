@@ -1,33 +1,36 @@
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "@tanstack/react-router";
 
 import newLogo from "@assets/img/app-logo.svg";
-// import axios from "axios";
+import axios from "axios";
 
-// import { StatHexagon } from "../../stat-hexagon";
+import { StatHexagon } from "../../stat-hexagon";
 import { Link } from "@tanstack/react-router";
 
 export const HomeHeader = () => {
-  // const [counts, setCounts] = useState({
-  //   compoundsCount: 0,
-  //   referenceCount: 0,
-  //   cellsCount: 0,
-  // });
+  const [counts, setCounts] = useState({
+    compoundsCount: 0,
+    referenceCount: 0,
+    cellsCount: 0,
+  });
+  const location = useLocation();
+  const pathname = location.pathname;
 
-  // const getCounts = async () => {
-  //   try {
-  //     const { data } = await axios.get(
-  //       "https://stage-api.mb-finder.org/api/v2/get-count",
-  //     );
+  const getCounts = async () => {
+    try {
+      const { data } = await axios.get(
+        "https://stage-api.mb-finder.org/api/v2/get-count",
+      );
 
-  //     setCounts(data);
-  //   } catch (err) {
-  //     console.error("Error", err);
-  //   }
-  // };
+      setCounts(data);
+    } catch (err) {
+      console.error("Error", err);
+    }
+  };
 
-  // useEffect(() => {
-  // getCounts();
-  // }, []);
+  useEffect(() => {
+    getCounts();
+  }, []);
 
   return (
     <>
@@ -53,8 +56,31 @@ export const HomeHeader = () => {
               The Babak Lab
             </a>
           </ul>
+
         </div>
       </nav>
+
+      {pathname === '/' && (
+        <div className="relative lg:absolute top-8 lg:top-8 right-0 lg:right-8 flex min-w-[375px] justify-center gap-1 sm:min-w-0 lg:h-[240px] lg:w-[220px]">
+          <StatHexagon
+            value={counts.compoundsCount}
+            name="Compounds"
+            className="bg-secondary lg:absolute lg:top-1/2 lg:left-0 lg:-translate-y-1/2"
+          />
+
+          <StatHexagon
+            value={counts.cellsCount}
+            name="Cell Lines"
+            className="bg-titanium-gray lg:absolute lg:top-0 lg:right-0"
+          />
+
+          <StatHexagon
+            value={counts.referenceCount}
+            name="References"
+            className="bg-primary lg:absolute lg:right-0 lg:bottom-0"
+          />
+        </div>
+      )}
     </>
   );
 };
