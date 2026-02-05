@@ -32,7 +32,7 @@ export const BioDataPage = () => {
   const setDialogs = useStore((s) => s.setDialogs);
   const currentPage = useMemo(() => {
     canFetch.current = true;
-    Number(page);
+    return Number(page);
   }, [page]);
 
   const getCellLinesBioData = useCallback(async () => {

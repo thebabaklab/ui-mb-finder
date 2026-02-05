@@ -25,7 +25,7 @@ export const ReferencesPage = () => {
   const setTotalRecords = useStore((s) => s.setTotalRecords);
   const currentPage = useMemo(() => {
     canFetch.current = true;
-    Number(page);
+    return Number(page);
   }, [page]);
 
   const getReferences = useCallback(async () => {
