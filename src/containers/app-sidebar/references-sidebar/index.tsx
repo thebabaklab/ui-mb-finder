@@ -24,7 +24,7 @@ export const ReferencesSidebar = () => {
       setLoading(true);
 
       const { data } = await axios.post(
-        `https://api.mb-finder.org/api/v1/get-references`,
+        `https://stage-api.mb-finder.org/api/v2/get-references`,
         {
           ...search,
           currentPage,

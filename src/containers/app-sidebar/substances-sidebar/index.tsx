@@ -23,7 +23,7 @@ export const SubstancesSidebar = () => {
     try {
       setLoading(true);
 
-      const { data } = await axios.post(`https://api.mb-finder.org/api/v1/get-substances`, {
+      const { data } = await axios.post(`https://stage-api.mb-finder.org/api/v2/get-substances`, {
         ...search,
         currentPage,
         ...(title ? { title } : {}),

@@ -24,7 +24,7 @@ export const BioDataSidebar = () => {
       setLoading(true);
 
       const { data } = await axios.post(
-        `https://api.mb-finder.org/api/v1/get-ceil-line-bio-data`,
+        `https://stage-api.mb-finder.org/api/v2/get-ceil-line-bio-data`,
         {
           ...search,
           currentPage,

@@ -26,7 +26,7 @@ export const CellLinesSearchSection = () => {
       setLoading(true);
 
       const { data } = await axios.post(
-        `https://api.mb-finder.org/api/v1/get-cell-lines`,
+        `https://stage-api.mb-finder.org/api/v2/get-cell-lines`,
         {
           ...search,
           currentPage,
