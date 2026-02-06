@@ -19,7 +19,7 @@ export const HomeHeader = () => {
   const getCounts = async () => {
     try {
       const { data } = await axios.get(
-        "https://stage-api.mb-finder.org/api/v2/get-count",
+        "https://api.mb-finder.org/api/v1/get-count",
       );
 
       setCounts(data);

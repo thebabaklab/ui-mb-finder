@@ -42,7 +42,7 @@ export const SubstancesPage = () => {
       setLoading(true);
 
       const { data } = await axios.post(
-        "https://stage-api.mb-finder.org/api/v2/get-substances",
+        "https://api.mb-finder.org/api/v1/get-substances",
         {
           ...search,
           currentPage,
