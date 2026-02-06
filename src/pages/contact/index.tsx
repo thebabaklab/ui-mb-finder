@@ -1,7 +1,32 @@
 import { AppFooter, AppHeader } from "@containers";
 import goldDecorator from "@assets/img/gold-frame.svg";
+import emailjs from '@emailjs/browser';
+import { useRef } from "react";
 
 export const ContactPage = () => {
+    const formRef = useRef<HTMLFormElement>(null);
+
+    const sendMail = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!formRef.current) return;
+
+        try {
+            await emailjs.sendForm(
+                'mb-finder.org',
+                'template_ms1w1u9',
+                formRef.current,
+                { publicKey: 'Yo9U8BBp1SG_QtEEg' }
+            );
+
+            alert('Message sent successfully!');
+            formRef.current.reset();
+        } catch (error) {
+            console.error(error);
+            alert('Failed to send message');
+        }
+    };
+
     return (
         <>
             <AppHeader />
@@ -21,7 +46,7 @@ export const ContactPage = () => {
                         </p>
                     </div>
 
-                    <form action="" className="flex flex-col gap-4 w-full lg:w-[550px]">
+                    <form ref={formRef} onSubmit={sendMail} className="flex flex-col gap-4 w-full lg:w-[550px]">
                         <div className="flex flex-col gap-4">
                             <label className="pl-4 text-primary font-semibold section-title text-xl">
                                 Name:
@@ -46,7 +71,7 @@ export const ContactPage = () => {
                             <textarea name="message" className="bg-platinum-silver rounded-4xl p-4 resize-none" rows={8}></textarea>
                         </div>
 
-                        <button className="transition-colors cursor-pointer border-1 border-secondary bg-secondary text-white font-light text-xl py-5 px-10 rounded-full self-end hover:bg-transparent hover:text-primary hover:border-primary">
+                        <button type="submit" className="transition-colors cursor-pointer border-1 border-secondary bg-secondary text-white font-light text-xl py-5 px-10 rounded-full self-end hover:bg-transparent hover:text-primary hover:border-primary">
                             Submit
                         </button>
                     </form>
