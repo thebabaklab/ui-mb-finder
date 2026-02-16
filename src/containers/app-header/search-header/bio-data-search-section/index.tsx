@@ -29,7 +29,7 @@ export const BioDataSearchSection = () => {
       setLoading(true);
 
       const { data } = await axios.post(
-        `https://stage-api.mb-finder.org/api/v2/get-substances`,
+        `https://stage-api.mb-finder.org/api/v2/get-ceil-line-bio-data`,
         {
           ...search,
           currentPage,
