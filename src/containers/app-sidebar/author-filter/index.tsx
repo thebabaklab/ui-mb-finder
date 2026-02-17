@@ -26,6 +26,7 @@ export const AuthorFilter: FC<AuthorFilterProps> = ({ onSubmit }) => {
     }
 
     setSearch({ ...search, filters: newFilters });
+    setAuthor(e.target.value);
   };
 
   useEffect(() => {

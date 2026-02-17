@@ -26,6 +26,7 @@ export const DoiFilter: FC<DoiFilterProps> = ({ onSubmit }) => {
     }
 
     setSearch({ ...search, filters: newFilters });
+    setDoi(e.target.value);
   };
 
   useEffect(() => {

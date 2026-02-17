@@ -26,6 +26,7 @@ export const SmilesFilter: FC<SmilesFilterFilterProps> = ({ onSubmit }) => {
     }
 
     setSearch({ ...search, filters: newFilters });
+    setSmiles(e.target.value);
   };
 
   useEffect(() => {

@@ -34,6 +34,10 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ onSubmit
     }
 
     setSearch({ ...search, filters: newFilters });
+    if (name === "startYear")
+      setStartYear(value);
+    else
+      setEndYear(value);
   };
 
   useEffect(() => {
@@ -65,7 +69,7 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ onSubmit
             hideDetails
             dense
             onChange={handleChange}
-            />
+          />
 
           <TextField
             value={endYear}

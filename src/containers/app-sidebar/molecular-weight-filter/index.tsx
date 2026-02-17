@@ -34,6 +34,10 @@ export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ onSubmit
     }
 
     setSearch({ ...search, filters: newFilters });
+    if (name === "startWeight")
+      setStartWeight(value);
+    else
+      setEndWeight(value);
   };
 
   useEffect(() => {

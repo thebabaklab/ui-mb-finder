@@ -32,6 +32,11 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ onSubmit }) => {
     }
 
     setSearch({ ...search, filters: newFilters });
+
+    if (name === "startIC50")
+      setStartIC50(value);
+    else
+      setEndIC50(value);
   };
 
   useEffect(() => {

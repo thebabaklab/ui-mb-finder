@@ -28,6 +28,7 @@ export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ onSu
     }
 
     setSearch({ ...search, filters: newFilters });
+    setCasRegistryNumber(e.target.value);
   };
 
   useEffect(() => {

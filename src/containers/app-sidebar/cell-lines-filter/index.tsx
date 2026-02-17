@@ -26,6 +26,7 @@ export const CellLinesFilter: FC<CellLinesFilterProps> = ({ onSubmit }) => {
     }
 
     setSearch({ ...search, filters: newFilters });
+    setCellLines(e.target.value);
   };
 
   useEffect(() => {
