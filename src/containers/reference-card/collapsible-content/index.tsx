@@ -1,4 +1,4 @@
-import { type FC, type PropsWithChildren, useMemo, useRef, useState } from "react";
+import { type FC, type PropsWithChildren, useRef, useState } from "react";
 
 import { mdiChevronDown } from "@mdi/js";
 import { Button, Icon } from "@ui-kit";
@@ -8,7 +8,6 @@ export const CollapsibleContent: FC<PropsWithChildren> = ({ children }) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
   const [height, setHeight] = useState<number | string>(28);
   const [collapsed, setCollapsed] = useState<boolean>(true);
-  const open = useMemo(() => height !== 28, [height]);
 
   const handleToggle = () => {
     if (containerRef.current) {
