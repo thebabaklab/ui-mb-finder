@@ -6,13 +6,22 @@ import { cn } from "@utils";
 
 export const CollapsibleContent: FC<PropsWithChildren> = ({ children }) => {
   const containerRef = useRef<HTMLParagraphElement>(null);
-  const [height, setHeight] = useState<number | string>(190);
-  const open = useMemo(() => height !== 190, [height]);
+  const [height, setHeight] = useState<number | string>(28);
+  const [collapsed, setCollapsed] = useState<boolean>(true);
+  const open = useMemo(() => height !== 28, [height]);
 
   const handleToggle = () => {
     if (containerRef.current) {
-      if (height === 190) setHeight(containerRef.current.scrollHeight);
-      else setHeight(190);
+      if (height === 28) {
+        setCollapsed(false);
+        containerRef.current.classList.remove("truncate")
+        setHeight(containerRef.current.scrollHeight);
+      }
+      else {
+        setCollapsed(true);
+        containerRef.current.classList.add("truncate")
+        setHeight(28);
+      }
     }
   };
 
@@ -20,7 +29,7 @@ export const CollapsibleContent: FC<PropsWithChildren> = ({ children }) => {
     <div className="text-base text-white">
       <div className="font-bold text-primary mb-4">Abstract:</div>
 
-      <p ref={containerRef} className="font-light overflow-hidden transition-all duration-300 mb-6" style={{ height }}>
+      <p ref={containerRef} className="md:max-w-[500px] lg:max-w-[400px] xl:max-w-[850px] font-light truncate overflow-hidden text-ellipsis transition-all duration-300 mb-6" style={{ height }}>
         {children}
       </p>
 
