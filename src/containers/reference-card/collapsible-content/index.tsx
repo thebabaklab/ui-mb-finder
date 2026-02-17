@@ -34,12 +34,12 @@ export const CollapsibleContent: FC<PropsWithChildren> = ({ children }) => {
       </p>
 
       <Button variant="back" className="pl-6 text-base font-light pr-4 gap-6" onClick={handleToggle}>
-        {open ? "Hide full text" : "Show full text"}
+        {!collapsed ? "Hide full text" : "Show full text"}
         <Icon
           name={mdiChevronDown}
           color="current"
           className={cn("transition-all duration-300", {
-            "rotate-180": open,
+            "rotate-180": !collapsed,
           })}
           large
         />
