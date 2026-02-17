@@ -6,7 +6,12 @@ export const useBioDataHeaders = () => {
 
   const headers: HeaderItem[] = [
     {
-      text: "incubation time",
+      text: () => (
+        <span>
+          incubation time, <span className="lowercase">h</span>
+
+        </span>
+      ),
       value: "incubationTime",
       maxWidth: mdAndUp ? 120 : undefined,
     },
