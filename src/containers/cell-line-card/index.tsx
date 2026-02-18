@@ -3,7 +3,7 @@ import type { FC } from "react";
 // import { mdiAtom, mdiFileDocumentOutline, mdiFlask } from "@mdi/js";
 import { useStore } from "@store";
 import { useNavigate } from "@tanstack/react-router";
-import type { TCellLine } from "@types";
+import { ENUM_SEARCH_FIELD_TYPE, type TCellLine } from "@types";
 import { Button } from "@ui-kit";
 import biodataIcon from "@assets/img/biodata-icon.svg";
 import substanceIcon from "@assets/img/substances-icon.svg";
@@ -35,8 +35,11 @@ export const CellLineCard: FC<CellLineCardProps> = ({ cellLine, index }) => {
 
   const handleReferencesClick = () => {
     setSearch({
-      queryStr: search.queryStr,
-      filters: [],
+      // queryStr: search.queryStr,
+      queryStr: "",
+      filters: [
+        { filterType: ENUM_SEARCH_FIELD_TYPE.CellLines, filterValue: cellLine.name }
+      ],
       cellLinesTable: "ic50",
       complexTable: "compounds",
       compoundId: "",
@@ -54,7 +57,7 @@ export const CellLineCard: FC<CellLineCardProps> = ({ cellLine, index }) => {
   return (
     <div className="border-primary rounded-4xl border">
       <div className="bg-primary rounded-full px-6 py-3 font-bold text-gunmetal">
-        {index + 1}. {cellLine.name}
+        {index}. {cellLine.name}
       </div>
 
       <div className="flex flex-wrap gap-3 p-6">

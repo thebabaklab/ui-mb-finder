@@ -108,7 +108,7 @@ export const SubstancesPage = () => {
       ) : substances.length ? (
         <>
           {substances.map((substance, i) => (
-            <SubstanceCard key={i} substance={substance} index={i} />
+            <SubstanceCard key={i + 1} substance={substance} index={search.size * (currentPage - 1) + i + 1} />
           ))}
 
           {!!substances.length && totalPages > 1 && (

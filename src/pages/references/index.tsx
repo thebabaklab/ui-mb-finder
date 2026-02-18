@@ -7,15 +7,17 @@ import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import { cn } from "@utils";
 import axios from "axios";
+import { ENUM_SEARCH_FIELD_TYPE } from "@types";
 
 export const ReferencesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, imgId, ceillineName } = useSearch({ from: "/search/references" });
+  // const { page, imgId, ceillineName } = useSearch({ from: "/search/references" });
+  const { page, imgId, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({ from: "/search/references" });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
-  const canFetch = useRef(true);
+  // const canFetch = useRef(true);
   const loading = useStore((s) => s.loading);
   const setLoading = useStore((s) => s.setLoading);
   const references = useStore((s) => s.references);
@@ -23,10 +25,11 @@ export const ReferencesPage = () => {
   const totalPages = useStore((s) => s.totalPages);
   const setTotalPages = useStore((s) => s.setTotalPages);
   const setTotalRecords = useStore((s) => s.setTotalRecords);
-  const currentPage = useMemo(() => {
-    canFetch.current = true;
-    return Number(page);
-  }, [page]);
+  // const currentPage = useMemo(() => {
+  //   canFetch.current = true;
+  //   return Number(page);
+  // }, [page]);
+  const currentPage = Number(page);
 
   const getReferences = useCallback(async () => {
     try {
@@ -36,7 +39,13 @@ export const ReferencesPage = () => {
         ...search,
         currentPage,
         imgId,
-        ...(ceillineName ? { filterInnerQuery: { ceillineName } } : {}),
+        filters: [
+          { filterType: ENUM_SEARCH_FIELD_TYPE.Author, filterValue: author },
+          //   { filterType: ENUM_SEARCH_FIELD_TYPE.PublicationYear, filterValue: { startYear: pyearStart, endYear: pyearEnd } },
+          //   { filterType: ENUM_SEARCH_FIELD_TYPE.Doi, filterValue: doi },
+          //   { filterType: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug, filterValue: cliDrug }
+        ],
+        // ...(ceillineName ? { filterInnerQuery: { ceillineName } } : {}),
       });
       setReferences(data.data);
       setTotalPages(data.meta.last_page);
@@ -46,19 +55,20 @@ export const ReferencesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, imgId, ceillineName, setLoading, setReferences, setTotalPages, setTotalRecords]);
+  }, [search, currentPage, imgId, author]);
+  // }, [search, currentPage, imgId, author, pyearStart, pyearEnd, doi, cliDrug, setLoading, setReferences, setTotalPages, setTotalRecords]);
 
   useEffect(() => {
-    if (canFetch.current) {
-      canFetch.current = false;
-      void getReferences();
-    }
-  }, [getReferences]);
+    // if (canFetch.current) {
+    // canFetch.current = false;
+    void getReferences();
+    // }
+  }, [page, imgId, author, pyearStart, pyearEnd, doi, cliDrug]);
 
   return (
     <div className="flex flex-col gap-5">
-      <div className={cn("flex", imgId || ceillineName ? "justify-between" : "justify-end lg:hidden")}>
-        {(imgId || ceillineName) && (
+      <div className={cn("flex", imgId || author || pyearStart || pyearEnd || doi || cliDrug ? "justify-between" : "justify-end lg:hidden")}>
+        {(imgId || author || pyearStart || pyearEnd || doi || cliDrug) && (
           <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
             <Icon name={mdiChevronLeft} color="current" large />
             Back
@@ -82,7 +92,7 @@ export const ReferencesPage = () => {
       ) : references.length ? (
         <>
           {references.map((reference, i) => (
-            <ReferenceCard key={i} reference={reference} index={i} />
+            <ReferenceCard key={i} reference={reference} index={search.size * (currentPage - 1) + i + 1} />
           ))}
 
           {!!references.length && totalPages > 1 && <PaginationSection currentPage={page || 0} length={totalPages} />}

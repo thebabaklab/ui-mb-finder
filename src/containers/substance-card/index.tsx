@@ -34,7 +34,8 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
 
   const handleReferencesClick = () => {
     setSearch({
-      queryStr: search.queryStr,
+      // queryStr: search.queryStr,
+      queryStr: "",
       filters: [],
       cellLinesTable: "ic50",
       complexTable: "compounds",
@@ -48,7 +49,8 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
 
   const handleCellLinesClick = () => {
     setSearch({
-      queryStr: search.queryStr,
+      // queryStr: search.queryStr,
+      queryStr: "",
       filters: [],
       cellLinesTable: "ic50",
       complexTable: "compounds",
@@ -63,7 +65,7 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
   return (
     <div className="border-primary rounded-4xl border">
       <div className="bg-primary rounded-full px-8 py-4 font-bold text-base text-gunmetal">
-        {index + 1}. ID: {substance.imageId}
+        {index}. ID: {substance.imageId}
       </div>
 
       <div className="flex flex-col gap-5 p-6">

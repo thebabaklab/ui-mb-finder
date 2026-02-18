@@ -82,7 +82,7 @@ export const CellLinesPage = () => {
       ) : cellLines.length ? (
         <>
           {cellLines.map((cellLine, i) => (
-            <CellLineCard key={i} cellLine={cellLine} index={i} />
+            <CellLineCard key={i} cellLine={cellLine} index={search.size * (currentPage - 1) + i + 1} />
           ))}
 
           {!!cellLines.length && totalPages > 1 && <PaginationSection currentPage={page || 0} length={totalPages} />}

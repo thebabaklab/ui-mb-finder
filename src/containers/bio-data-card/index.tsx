@@ -28,7 +28,7 @@ export const BioDataCard: FC<BioDataCardProps> = ({ bioData, index }) => {
   return (
     <div className="border-primary rounded-4xl border">
       <div className="bg-primary rounded-full px-6 py-3 font-bold text-gunmetal">
-        {index + 1}. {bioData.name}
+        {index}. {bioData.name}
       </div>
 
       <div className="flex flex-wrap items-start gap-10 p-6 md:flex-nowrap lg:flex-wrap xl:flex-nowrap">

@@ -9,6 +9,11 @@ export const referencesRoute = createRoute({
   validateSearch: z.object({
     page: z.number().optional(),
     imgId: z.string().optional(),
-    ceillineName: z.string().optional(),
+    // ceillineName: z.string().optional(),
+    author: z.string().optional(),
+    pyearStart: z.number().optional(),
+    pyearEnd: z.number().optional(),
+    doi: z.string().optional(),
+    cliDrug: z.array(z.string()).optional()
   }),
 }).lazy(() => import("./references.lazy").then((d) => d.Route));

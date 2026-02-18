@@ -97,7 +97,7 @@ export const BioDataPage = () => {
       ) : bioDatas.length ? (
         <>
           {bioDatas.map((bioData, i) => (
-            <BioDataCard key={i} bioData={bioData} index={i} />
+            <BioDataCard key={i} bioData={bioData} index={search.size * (currentPage - 1) + i + 1} />
           ))}
 
           {!!bioDatas.length && totalPages > 1 && (

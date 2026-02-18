@@ -51,7 +51,7 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
   return (
     <div className="border-primary max-w-[calc(100vw_-_2.5rem)] rounded-4xl border sm:max-w-none">
       <div className="bg-primary rounded-full px-4 py-4 text-lg font-bold text-gunmetal sm:px-8">
-        {index + 1}.
+        {index}.
       </div>
 
       <div className="flex flex-col gap-10 px-3 py-6 sm:p-6">
