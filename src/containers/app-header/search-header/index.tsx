@@ -1,9 +1,9 @@
 import { useStore } from "@store";
 import {
-  // Link,
   useLocation,
   useMatches,
   useNavigate,
+  useSearch,
 } from "@tanstack/react-router";
 import type { TTabValue } from "@types";
 
@@ -17,6 +17,7 @@ import { SubstancesSearchSection } from "./substances-search-section";
 
 export const SearchHeader = () => {
   const navigate = useNavigate();
+  const { queryStr } = useSearch({ strict: false });
   const location = useLocation();
   const pathname = location.pathname;
   const loading = useStore((s) => s.loading);
@@ -37,31 +38,17 @@ export const SearchHeader = () => {
 
   const handleTabChange = (value: TTabValue) => {
     if (value === "substances")
-      navigate({ to: "/substances", search: { page: 1 } });
+      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr } });
     else if (value === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1 } });
+      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr } });
     else if (value === "references")
-      navigate({ to: "/references", search: { page: 1 } });
+      navigate({ to: "/references", search: { page: 1, queryStr: queryStr } });
   };
 
   return (
     <header className="pt-30">
       <AppContainer className="flex flex-col gap-5 items-center">
         <div className="flex flex-col items-center justify-between gap-5 max-w-2xl">
-          {/* <Link
-            to="/"
-            className="relative flex w-[315px] min-w-[315px] flex-col items-center md:h-[100px] md:flex-row"
-          >
-            <img
-              src="/app-logo.png"
-              alt="app logo"
-              className="-top-10 -right-5 h-[130px] w-[236px] object-cover md:absolute md:h-[200px] md:w-[200px]"
-            />
-            <div className="text-secondary text-5xl font-semibold md:text-4xl">
-              MB Finder
-            </div>
-          </Link> */}
-
           <TabsSection
             selectedTab={
               pathname.includes("bio-data")
@@ -88,28 +75,6 @@ export const SearchHeader = () => {
             </div>
           )}
         </div>
-
-        {/* <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-0"> */}
-          {/* <TabsSection
-            selectedTab={
-              pathname.includes("bio-data")
-                ? "cell-lines"
-                : (pathname.slice(1) as TTabValue)
-            }
-            onChange={handleTabChange}
-          /> */}
-
-          {/* {loading ? (
-            <TotalRecordsSkeleton />
-          ) : (
-            <div className="flex gap-2 sm:justify-end">
-              About <b>{totalRecords}</b>
-              results for search:
-            </div>
-          )} */}
-        {/* </div> */}
-
-        {/* <div className="bg-border h-[1px]"></div> */}
       </AppContainer>
     </header>
   );

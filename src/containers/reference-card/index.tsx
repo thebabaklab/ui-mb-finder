@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useStore } from "@store";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import type { TReference } from "@types";
 import { Button } from "@ui-kit";
 import { CollapsibleContent } from "./collapsible-content";
@@ -14,12 +14,11 @@ interface ReferenceCardProps {
 
 export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
   const navigate = useNavigate();
-  const search = useStore((s) => s.search);
   const setSearch = useStore((s) => s.setSearch);
 
   const handleSubstancesClick = () => {
     setSearch({
-      queryStr: search.queryStr,
+      queryStr: "",
       filters: [],
       cellLinesTable: "ic50",
       complexTable: "compounds",
@@ -28,7 +27,7 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
       title: "",
       imgId: "",
     });
-    navigate({ to: "/substances", search: { page: 1, title: reference.title } });
+    navigate({ to: "/substances", search: { page: 1, title: String(reference.id) } });
   };
 
   const handleCellLinesClick = () => {
@@ -42,7 +41,7 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
       title: "",
       imgId: "",
     });
-    navigate({ to: "/cell-lines", search: { page: 1, title: reference.title } });
+    navigate({ to: "/cell-lines", search: { page: 1, title: String(reference.id) } });
   };
 
   return (

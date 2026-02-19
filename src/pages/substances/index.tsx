@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
-
+import { useCallback, useEffect } from "react";
 import {
   FilterDialog,
   FullscreenImageDialog,
@@ -19,12 +18,9 @@ export const SubstancesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, title, ceillineName } = useSearch({
-    from: "/search/substances",
-  });
+  const { page, title, ceillineName, queryStr } = useSearch({ from: "/search/substances", });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
-  const canFetch = useRef(true);
   const loading = useStore((s) => s.loading);
   const setLoading = useStore((s) => s.setLoading);
   const substances = useStore((s) => s.substances);
@@ -32,10 +28,7 @@ export const SubstancesPage = () => {
   const totalPages = useStore((s) => s.totalPages);
   const setTotalPages = useStore((s) => s.setTotalPages);
   const setTotalRecords = useStore((s) => s.setTotalRecords);
-  const currentPage = useMemo(() => {
-    canFetch.current = true;
-    return Number(page);
-  }, [page]);
+  const currentPage = Number(page);
 
   const getSubstances = useCallback(async () => {
     try {
@@ -45,9 +38,10 @@ export const SubstancesPage = () => {
         "https://stage-api.mb-finder.org/api/v2/get-substances",
         {
           ...search,
+          queryStr,
           currentPage,
-          title,
-          ...(ceillineName ? { filterInnerQuery: { ceillineName } } : {}),
+          paper_id: title,
+          ceil_line_name: ceillineName,
         },
       );
       setSubstances(data.data);
@@ -58,33 +52,21 @@ export const SubstancesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [
-    search,
-    currentPage,
-    title,
-    ceillineName,
-    setLoading,
-    setSubstances,
-    setTotalPages,
-    setTotalRecords,
-  ]);
+  }, [search, currentPage, title, ceillineName, queryStr]);
 
   useEffect(() => {
-    if (canFetch.current) {
-      canFetch.current = false;
-      void getSubstances();
-    }
-  }, [getSubstances]);
+    void getSubstances();
+  }, [page, title, ceillineName, queryStr]);
 
   return (
     <div className="flex flex-col gap-5">
       <div
         className={cn(
           "flex",
-          title || ceillineName ? "justify-between" : "justify-end lg:hidden",
+          queryStr || title || ceillineName ? "justify-between" : "justify-end lg:hidden",
         )}
       >
-        {(title || ceillineName) && (
+        {(queryStr || title || ceillineName) && (
           <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
             <Icon name={mdiChevronLeft} color="current" large />
             Back

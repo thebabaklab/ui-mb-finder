@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
-
 import {
   BioDataCard,
   BioDataCardSkeleton,
@@ -59,18 +58,11 @@ export const BioDataPage = () => {
     search,
     currentPage,
     cellId,
-    setLoading,
-    setBioDatas,
-    setTotalPages,
-    setTotalRecords,
   ]);
 
   useEffect(() => {
-    if (canFetch.current) {
-      canFetch.current = false;
-      void getCellLinesBioData();
-    }
-  }, [getCellLinesBioData]);
+    void getCellLinesBioData();
+  }, [page, cellId]);
 
   return (
     <div className="flex flex-col gap-5">

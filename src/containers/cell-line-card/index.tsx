@@ -1,9 +1,7 @@
 import type { FC } from "react";
-
-// import { mdiAtom, mdiFileDocumentOutline, mdiFlask } from "@mdi/js";
 import { useStore } from "@store";
 import { useNavigate } from "@tanstack/react-router";
-import { ENUM_SEARCH_FIELD_TYPE, type TCellLine } from "@types";
+import { type TCellLine } from "@types";
 import { Button } from "@ui-kit";
 import biodataIcon from "@assets/img/biodata-icon.svg";
 import substanceIcon from "@assets/img/substances-icon.svg";
@@ -16,12 +14,11 @@ interface CellLineCardProps {
 
 export const CellLineCard: FC<CellLineCardProps> = ({ cellLine, index }) => {
   const navigate = useNavigate();
-  const search = useStore((s) => s.search);
   const setSearch = useStore((s) => s.setSearch);
 
   const handleSubstancesClick = () => {
     setSearch({
-      queryStr: search.queryStr,
+      queryStr: "",
       filters: [],
       cellLinesTable: "ic50",
       complexTable: "compounds",
@@ -35,11 +32,8 @@ export const CellLineCard: FC<CellLineCardProps> = ({ cellLine, index }) => {
 
   const handleReferencesClick = () => {
     setSearch({
-      // queryStr: search.queryStr,
       queryStr: "",
-      filters: [
-        { filterType: ENUM_SEARCH_FIELD_TYPE.CellLines, filterValue: cellLine.name }
-      ],
+      filters: [],
       cellLinesTable: "ic50",
       complexTable: "compounds",
       compoundId: "",
@@ -62,19 +56,16 @@ export const CellLineCard: FC<CellLineCardProps> = ({ cellLine, index }) => {
 
       <div className="flex flex-wrap gap-3 p-6">
         <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleSubstancesClick}>
-          {/* <Icon name={mdiFlask} color="current" dense /> */}
           <img className="w-[22px]" src={substanceIcon} aria-hidden="true" />
           Substances ({cellLine.substancesCount})
         </Button>
 
         <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleReferencesClick}>
-          {/* <Icon name={mdiFileDocumentOutline} color="current" dense /> */}
           <img className="w-[20px]" src={referenceIcon} aria-hidden="true" />
           References ({cellLine.referenceCount})
         </Button>
 
         <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleBioDataClick}>
-          {/* <Icon name={mdiAtom} color="current" dense /> */}
           <img className="w-[25px]" src={biodataIcon} aria-hidden="true" />
           View Bio Data ({cellLine.bioDataCount})
         </Button>

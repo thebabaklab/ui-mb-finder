@@ -10,6 +10,7 @@ export const referencesRoute = createRoute({
     page: z.number().optional(),
     queryStr: z.string().optional(),
     imgId: z.string().optional(),
+    ceillineName: z.string().optional(),
     author: z.string().optional(),
     pyearStart: z.number().optional(),
     pyearEnd: z.number().optional(),

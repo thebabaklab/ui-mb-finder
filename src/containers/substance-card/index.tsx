@@ -34,7 +34,6 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
 
   const handleReferencesClick = () => {
     setSearch({
-      // queryStr: search.queryStr,
       queryStr: "",
       filters: [],
       cellLinesTable: "ic50",
@@ -49,7 +48,6 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
 
   const handleCellLinesClick = () => {
     setSearch({
-      // queryStr: search.queryStr,
       queryStr: "",
       filters: [],
       cellLinesTable: "ic50",

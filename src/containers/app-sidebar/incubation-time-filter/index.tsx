@@ -1,83 +1,34 @@
 import { type ChangeEvent, type FC, useEffect, useState } from "react";
-
-import { useStore } from "@store";
-import { ENUM_SEARCH_FIELD_TYPE, type TFilterItem } from "@types";
 import { Button, Checkbox, TextField } from "@ui-kit";
-
 import { SearchFilter } from "../../search-filter";
 
 interface IncubationTimeFilterProps {
-  onSubmit: () => void;
+  inititalOtherValue?: string;
+  initialSelectedValues?: number[];
+  onSubmit: (incuTime?: number[], incuOther?: string) => void;
 }
 
-export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ onSubmit }) => {
-  const search = useStore((s) => s.search);
-  const setSearch = useStore((s) => s.setSearch);
-  const [initialValuesSet, setInitialValuesSet] = useState(false);
+export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOtherValue, initialSelectedValues, onSubmit }) => {
+  // const [initialValuesSet, setInitialValuesSet] = useState<number[]>([]);
+  // const p
   const [incubationTime, setIncubationTime] = useState<("all" | number)[]>([]);
   const [otherValue, setOtherValue] = useState("");
 
   const handleChange = (value: ("all" | number)[]) => {
-    const newFilters: TFilterItem[] = search.filters.filter(
-      (f) => f.filterType !== ENUM_SEARCH_FIELD_TYPE.IncubationTime
-    );
-
-    if (value.length) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime,
-        filterValue: [...value.filter((f) => f !== "all"), otherValue],
-      });
-    } else if (otherValue) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime,
-        filterValue: [otherValue],
-      });
-    }
-
-    setSearch({ ...search, filters: newFilters });
     setIncubationTime(value);
   };
 
   const handleOtherValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newFilters: TFilterItem[] = search.filters.filter(
-      (f) => f.filterType !== ENUM_SEARCH_FIELD_TYPE.IncubationTime
-    );
-
-    if (e.target.value) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime,
-        filterValue: [...incubationTime.filter((f) => typeof f !== "string"), e.target.value],
-      });
-    } else if (incubationTime.length) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime,
-        filterValue: [...incubationTime.filter((f) => typeof f !== "string")],
-      });
-    }
-
-    setSearch({ ...search, filters: newFilters });
     setOtherValue(e.target.value);
   };
 
   useEffect(() => {
-    if (!initialValuesSet) {
-      setInitialValuesSet(true);
-
-      const searchedIncubationTime = search.filters.find((f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.IncubationTime);
-
-      if (searchedIncubationTime) {
-        if (Array.isArray(searchedIncubationTime.filterValue)) {
-          const searchedOtherValue = searchedIncubationTime.filterValue.find((f) => typeof f === "string");
-
-          if (searchedOtherValue) setOtherValue(searchedOtherValue);
-
-          const filterValue = searchedIncubationTime.filterValue.filter((f) => typeof f !== "string");
-
-          setIncubationTime([...(filterValue.length === 5 ? ["all"] : []), ...filterValue] as ("all" | number)[]);
-        }
-      }
-    }
-  }, [initialValuesSet, search.filters]);
+    if (initialSelectedValues?.length === 5)
+      setIncubationTime(["all", ...initialSelectedValues]);
+    else
+      setIncubationTime(initialSelectedValues ?? []);
+    setOtherValue(inititalOtherValue ?? "");
+  }, [inititalOtherValue, initialSelectedValues]);
 
   return (
     <SearchFilter defaultOpen={!!incubationTime.length} name="Incubation Time">
@@ -151,7 +102,7 @@ export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ onSubmit }
         onChange={handleOtherValueChange}
       />
 
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => onSubmit([...incubationTime.filter(v => v !== "all")] as number[], otherValue)}>
         Apply
       </Button>
     </SearchFilter>

@@ -7,7 +7,7 @@ import { DoiFilter } from "../doi-filter";
 import { ClinicalDrugFilter } from "../clinical-drug-filter";
 
 export const ReferencesSidebar = () => {
-  const { page, imgId, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({
+  const { imgId, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({
     from: "/search/references",
   });
   const navigate = useNavigate()

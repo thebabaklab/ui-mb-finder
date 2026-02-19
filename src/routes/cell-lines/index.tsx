@@ -11,5 +11,9 @@ export const cellLinesRoute = createRoute({
     queryStr: z.string().optional(),
     imgId: z.string().optional(),
     title: z.string().optional(),
+    incuTime: z.array(z.number()).optional(),
+    incuOther: z.string().optional(),
+    icStart: z.number().optional(),
+    icEnd: z.number().optional(),
   }),
 }).lazy(() => import("./cell-lines.lazy").then((d) => d.Route));

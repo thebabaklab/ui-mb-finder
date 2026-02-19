@@ -1,62 +1,37 @@
-import { useCallback, useMemo } from "react";
-
-import { useStore } from "@store";
-import { useSearch } from "@tanstack/react-router";
-import axios from "axios";
-
-import { CellLinesFilter } from "../cell-lines-filter";
-import { Ic50RangeFilter } from "../ic50-range-filter";
+import { useCallback } from "react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { IncubationTimeFilter } from "../incubation-time-filter";
 
 export const CellLinesSidebar = () => {
-  const { page, title, imgId } = useSearch({ from: "/search/cell-lines" });
-  const search = useStore((s) => s.search);
-  const setLoading = useStore((s) => s.setLoading);
-  const setCellLines = useStore((s) => s.setCellLines);
-  const setTotalPages = useStore((s) => s.setTotalPages);
-  const setTotalRecords = useStore((s) => s.setTotalRecords);
-  const currentPage = useMemo(() => Number(page), [page]);
+  const { imgId, incuTime, incuOther, icStart, icEnd } = useSearch({ from: "/search/cell-lines" });
+  const navigate = useNavigate();
 
-  const getItems = useCallback(async () => {
-    try {
-      setLoading(true);
+  const getItems = useCallback((newFilters: Partial<{
+    incuTime: number[];
+    incuOther: string;
+    icStart: number;
+    icEnd: number;
+  }>) => {
+    console.log(icStart);
+    console.log(icEnd);
 
-      const { data } = await axios.post(
-        `https://stage-api.mb-finder.org/api/v2/get-cell-lines`,
-        {
-          ...search,
-          currentPage,
-          ...(title ? { title } : {}),
-          ...(imgId ? { imgId } : {}),
-        },
-      );
-
-      setCellLines(data.data);
-      setTotalPages(data.meta.last_page);
-      setTotalRecords(data.meta.total);
-    } catch (err) {
-      console.error("Error", err);
-    } finally {
-      setLoading(false);
-    }
+    navigate({
+      to: "/cell-lines", search: (prev) => ({
+        ...prev,
+        page: 1,
+        ...newFilters,
+      })
+    });
   }, [
-    search,
-    currentPage,
-    title,
     imgId,
-    setLoading,
-    setCellLines,
-    setTotalPages,
-    setTotalRecords,
+    navigate
   ]);
 
   return (
     <div className="flex flex-col p-4 gap-4">
-      <CellLinesFilter onSubmit={getItems} />
+      <IncubationTimeFilter inititalOtherValue={incuOther} initialSelectedValues={incuTime} onSubmit={(value_time, value_other) => getItems({ incuTime: value_time, incuOther: value_other })} />
 
-      <IncubationTimeFilter onSubmit={getItems} />
-
-      <Ic50RangeFilter onSubmit={getItems} />
+      {/* <Ic50RangeFilter onSubmit={getItems} /> */}
     </div>
   );
 };

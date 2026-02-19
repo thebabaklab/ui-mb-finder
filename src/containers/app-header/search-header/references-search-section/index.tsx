@@ -6,7 +6,7 @@ import { SubstanceDrawer } from "../../../substance-drawer";
 import { ENUM_SEARCH_FIELD_TYPE, type TTabValue } from "@types";
 
 export const ReferencesSearchSection = () => {
-  const { page, imgId, queryStr, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({
+  const { queryStr } = useSearch({
     from: "/search/references",
   });
   const search = useStore((s) => s.search);
@@ -17,15 +17,12 @@ export const ReferencesSearchSection = () => {
 
   const getItems = useCallback((_queryStr: any) => {
     navigate({
-      to: "/references", search: (prev) => ({
-        ...prev,
+      to: "/references", search: {
         page: 1,
-        imgId: imgId,
         queryStr: _queryStr,
-      })
+      }
     });
   }, [
-    imgId,
     queryStr,
     navigate
   ]);

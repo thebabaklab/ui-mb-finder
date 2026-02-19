@@ -1,59 +1,30 @@
-import { useCallback, useMemo, useState } from "react";
-
+import { useCallback, useState } from "react";
 import { useStore } from "@store";
 import { useNavigate, useSearch } from "@tanstack/react-router";
-import axios from "axios";
-
 import { SearchSection } from "../../../search-section";
 import { ENUM_SEARCH_FIELD_TYPE, type TTabValue } from "@types";
 import { SubstanceDrawer } from "../../../substance-drawer";
 
 export const SubstancesSearchSection = () => {
-  const { page, title, ceillineName } = useSearch({
+  const { queryStr } = useSearch({
     from: "/search/substances",
   });
   const search = useStore((s) => s.search);
-  const setLoading = useStore((s) => s.setLoading);
   const setSearch = useStore((s) => s.setSearch);
-  const setSubstances = useStore((s) => s.setSubstances);
-  const setTotalPages = useStore((s) => s.setTotalPages);
-  const setTotalRecords = useStore((s) => s.setTotalRecords);
-  const currentPage = useMemo(() => Number(page), [page]);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selectedTab] = useState<TTabValue>("substances");
 
-  const getItems = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const { data } = await axios.post(
-        `https://stage-api.mb-finder.org/api/v2/get-substances`,
-        {
-          ...search,
-          currentPage,
-          ...(title ? { title } : {}),
-          ...(ceillineName ? { filterInnerQuery: { ceillineName } } : {}),
-        },
-      );
-
-      setSubstances(data.data);
-      setTotalPages(data.meta.last_page);
-      setTotalRecords(data.meta.total);
-    } catch (err) {
-      console.error("Error", err);
-    } finally {
-      setLoading(false);
-    }
+  const getItems = useCallback((_queryStr: any) => {
+    navigate({
+      to: "/substances", search: {
+        page: 1,
+        queryStr: _queryStr,
+      }
+    });
   }, [
-    search,
-    currentPage,
-    title,
-    ceillineName,
-    setLoading,
-    setSubstances,
-    setTotalPages,
-    setTotalRecords,
+    queryStr,
+    navigate,
   ]);
 
   const handleDrawerSubmit = (smiles: string) => {
@@ -72,8 +43,8 @@ export const SubstancesSearchSection = () => {
       navigate({ to: "/references", search: { page: 1 } });
   };
 
-  const handleSearch = () => {
-    getItems();
+  const handleSearch = (_queryStr: any) => {
+    getItems(_queryStr);
   };
 
   return (
@@ -83,8 +54,8 @@ export const SubstancesSearchSection = () => {
         hasSearchField={false}
         onDrawerClick={() => setOpen(true)}
         className="w-full md:w-[936px] max-w-2xl"
-        onChange={(queryStr) => setSearch({ ...search, queryStr })}
-        onSearch={handleSearch}
+        initialValue={queryStr}
+        onSearch={(value: any) => handleSearch(value)}
       />
 
       <SubstanceDrawer

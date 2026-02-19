@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from "react";
-
 import { FilterDialog, NoDataFound, PaginationSection, ReferenceCard, ReferenceCardSkeleton } from "@containers";
 import { mdiChevronLeft, mdiFilterOutline } from "@mdi/js";
 import { useStore } from "@store";
@@ -13,7 +12,7 @@ export const ReferencesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, imgId, queryStr, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({ from: "/search/references" });
+  const { page, imgId, ceillineName, queryStr, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({ from: "/search/references" });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
@@ -65,6 +64,7 @@ export const ReferencesPage = () => {
         queryStr,
         currentPage,
         imgId,
+        ceil_line_name: ceillineName,
         filters,
       });
       setReferences(data.data);
@@ -75,16 +75,16 @@ export const ReferencesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, imgId, queryStr, author, pyearStart, pyearEnd, doi, cliDrug]);
+  }, [search, currentPage, imgId, ceillineName, queryStr, author, pyearStart, pyearEnd, doi, cliDrug]);
 
   useEffect(() => {
     void getReferences();
-  }, [page, queryStr, imgId, author, pyearStart, pyearEnd, doi, cliDrug]);
+  }, [page, queryStr, imgId, ceillineName, author, pyearStart, pyearEnd, doi, cliDrug]);
 
   return (
     <div className="flex flex-col gap-5">
-      <div className={cn("flex", imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug ? "justify-between" : "justify-end lg:hidden")}>
-        {(imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug) && (
+      <div className={cn("flex", ceillineName || imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug ? "justify-between" : "justify-end lg:hidden")}>
+        {(ceillineName || imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug) && (
           <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
             <Icon name={mdiChevronLeft} color="current" large />
             Back
