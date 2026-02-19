@@ -1,5 +1,4 @@
 import { type FC, useState } from "react";
-
 import { mdiFullscreen, mdiMinus } from "@mdi/js";
 import { useStore } from "@store";
 import { useNavigate } from "@tanstack/react-router";
@@ -18,7 +17,6 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
   const navigate = useNavigate();
   const setSelectedImage = useStore((s) => s.setSelectedImage);
   const setDialogs = useStore((s) => s.setDialogs);
-  const search = useStore((s) => s.search);
   const setSearch = useStore((s) => s.setSearch);
   const [showSmiles, setShowSmiles] = useState(false);
 

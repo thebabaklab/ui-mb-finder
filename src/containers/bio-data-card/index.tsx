@@ -1,5 +1,4 @@
 import type { FC } from "react";
-
 import { mdiFullscreen } from "@mdi/js";
 import { useStore } from "@store";
 import type { TBioData } from "@types";
@@ -42,8 +41,6 @@ export const BioDataCard: FC<BioDataCardProps> = ({ bioData, index }) => {
 
         <div className="flex flex-col gap-5">
           <h3 className="flex items-start gap-2">
-            {/* <Icon name={mdiFileDocumentOutline} color="state-warning-foreground" className="mt-1" /> */}
-
             <a
               href={`https://www.doi.org/${bioData.compounds.doi}`}
               target="_blank"
@@ -52,9 +49,6 @@ export const BioDataCard: FC<BioDataCardProps> = ({ bioData, index }) => {
               {bioData.compounds.title}
             </a>
           </h3>
-
-          {/* <div className="px-1"> */}
-          {/* </div> */}
         </div>
       </div>
       <div className="px-6 pb-6">

@@ -9,7 +9,7 @@ import { IncubationTimeFilter } from "../incubation-time-filter";
 
 export const BioDataSidebar = () => {
   const { cellId } = useParams({ from: "/search/cell-lines/bio-data/$cellId" });
-  const { page, title, imgId } = useSearch({
+  const { page } = useSearch({
     from: "/search/cell-lines/bio-data/$cellId",
   });
   const search = useStore((s) => s.search);
@@ -28,8 +28,8 @@ export const BioDataSidebar = () => {
         {
           ...search,
           currentPage,
-          ...(title ? { title } : {}),
-          ...(imgId ? { imgId } : {}),
+          // ...(title ? { title } : {}),
+          // ...(imgId ? { imgId } : {}),
           ...(cellId ? { cellId } : {}),
         },
       );
@@ -45,8 +45,8 @@ export const BioDataSidebar = () => {
   }, [
     search,
     currentPage,
-    title,
-    imgId,
+    // title,
+    // imgId,
     cellId,
     setLoading,
     setBioDatas,
