@@ -103,12 +103,10 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
 
           <div className="flex flex-col gap-3 md:flex-row">
             <Button variant={"transparent"} size="small" className="text-primary text-base font-light" onClick={handleCellLinesClick}>
-              {/* <Icon name={mdiMolecule} color="current" dense /> */}
               <img className="w-[20px]" src={celllineIcon} aria-hidden="true" />
               Cell Lines ({substance.ceilLineCount})
             </Button>
             <Button variant={"transparent"} size="small" className="text-primary text-base font-light" onClick={handleReferencesClick}>
-              {/* <Icon name={mdiFileDocumentOutline} color="current" dense /> */}
               <img className="w-[20px]" src={referenceIcon} aria-hidden="true" />
               References ({substance.referenceCount})
             </Button>

@@ -9,6 +9,7 @@ export const substancesRoute = createRoute({
   validateSearch: z.object({
     page: z.number().optional(),
     title: z.string().optional(),
+    queryStr: z.string().optional(),
     ceillineName: z.string().optional(),
   }),
 }).lazy(() => import("./substances.lazy").then((d) => d.Route));

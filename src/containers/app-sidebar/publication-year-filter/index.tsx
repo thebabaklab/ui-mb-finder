@@ -1,56 +1,21 @@
-import { type ChangeEvent, type FC, useEffect, useState } from "react";
-
-import { useStore } from "@store";
-import { ENUM_SEARCH_FIELD_TYPE, type TFilterItem } from "@types";
+import { type FC, useEffect, useState } from "react";
 import { Button, TextField } from "@ui-kit";
-
 import { SearchFilter } from "../../search-filter";
 
 interface PublicationYearFilterProps {
-  onSubmit: () => void;
+  start_initialValue?: number,
+  end_initialValue?: number,
+  onSubmit: (value_years: object) => void;
 }
 
-export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ onSubmit }) => {
-  const search = useStore((s) => s.search);
-  const setSearch = useStore((s) => s.setSearch);
-  const [startYear, setStartYear] = useState("");
-  const [endYear, setEndYear] = useState("");
-
-  const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) => {
-    const publicationYear = search.filters.find((f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.PublicationYear);
-    const newFilters: TFilterItem[] = search.filters.filter(
-      (f) => f.filterType !== ENUM_SEARCH_FIELD_TYPE.PublicationYear
-    );
-    const newFilterValue = {
-      startYear: name === "startYear" ? value : publicationYear?.filterValue.startYear,
-      endYear: name === "endYear" ? value : publicationYear?.filterValue.endYear,
-    };
-
-    if (newFilterValue.startYear || newFilterValue.endYear) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.PublicationYear,
-        filterValue: newFilterValue,
-      });
-    }
-
-    setSearch({ ...search, filters: newFilters });
-    if (name === "startYear")
-      setStartYear(value);
-    else
-      setEndYear(value);
-  };
+export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, onSubmit }) => {
+  const [startYear, setStartYear] = useState(0);
+  const [endYear, setEndYear] = useState(0);
 
   useEffect(() => {
-    const searchedPublicationYear = search.filters.find((f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.PublicationYear);
-    if (searchedPublicationYear) {
-      const { startYear, endYear } = searchedPublicationYear.filterValue;
-      if (typeof startYear !== "undefined") setStartYear(startYear);
-      if (typeof endYear !== "undefined") setEndYear(endYear);
-    } else {
-      setStartYear("");
-      setEndYear("");
-    }
-  }, [search.filters]);
+    setStartYear(start_initialValue ?? 0);
+    setEndYear(end_initialValue ?? 0);
+  }, [start_initialValue, end_initialValue]);
 
   return (
     <SearchFilter name="Publication Year">
@@ -68,7 +33,7 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ onSubmit
             className="text-platinum-silver"
             hideDetails
             dense
-            onChange={handleChange}
+            onChange={e => setStartYear(Number(e.target.value))}
           />
 
           <TextField
@@ -81,12 +46,25 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ onSubmit
             className="text-platinum-silver"
             hideDetails
             dense
-            onChange={handleChange}
+            onChange={e => setEndYear(Number(e.target.value))}
           />
         </div>
       </div>
 
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => {
+        const filters: Partial<{
+          pyearStart: number;
+          pyearEnd: number;
+        }> = {}
+
+        if (startYear)
+          filters.pyearStart = startYear;
+        if (endYear)
+          filters.pyearEnd = endYear;
+
+        onSubmit(filters)
+
+      }}>
         Apply
       </Button>
     </SearchFilter>

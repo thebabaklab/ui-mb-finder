@@ -48,6 +48,18 @@ export const ClinicalDrug: FC<ClinicalDrugProps> = ({ value, onChange, direction
           }
         />
       </div>
+
+      <div className={cn(direction === "horizontal" && "w-1/3 sm:w-auto")}>
+        <Checkbox
+          reversed={true}
+          label="Transplantin"
+          justifyType="justify-between"
+          checked={value.includes("Transplantin")}
+          onCheckedChange={(checked) =>
+            onChange(checked ? [...value, "Transplantin"] : value.filter((s) => s !== "Transplantin"))
+          }
+        />
+      </div>
     </div>
   );
 };

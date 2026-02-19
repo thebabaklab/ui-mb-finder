@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect } from "react";
 
 import { FilterDialog, NoDataFound, PaginationSection, ReferenceCard, ReferenceCardSkeleton } from "@containers";
 import { mdiChevronLeft, mdiFilterOutline } from "@mdi/js";
@@ -13,11 +13,9 @@ export const ReferencesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  // const { page, imgId, ceillineName } = useSearch({ from: "/search/references" });
-  const { page, imgId, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({ from: "/search/references" });
+  const { page, imgId, queryStr, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({ from: "/search/references" });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
-  // const canFetch = useRef(true);
   const loading = useStore((s) => s.loading);
   const setLoading = useStore((s) => s.setLoading);
   const references = useStore((s) => s.references);
@@ -25,27 +23,49 @@ export const ReferencesPage = () => {
   const totalPages = useStore((s) => s.totalPages);
   const setTotalPages = useStore((s) => s.setTotalPages);
   const setTotalRecords = useStore((s) => s.setTotalRecords);
-  // const currentPage = useMemo(() => {
-  //   canFetch.current = true;
-  //   return Number(page);
-  // }, [page]);
   const currentPage = Number(page);
 
   const getReferences = useCallback(async () => {
     try {
       setLoading(true);
+      const filters = [];
+      const dateFilter: Partial<{
+        startYear: number;
+        endYear: number;
+      }> = {}
+
+      if (author)
+        filters.push({
+          filterType: ENUM_SEARCH_FIELD_TYPE.Author, filterValue: author
+        });
+
+      if (pyearStart || pyearEnd) {
+        if (pyearStart)
+          dateFilter.startYear = pyearStart;
+        if (pyearEnd)
+          dateFilter.endYear = pyearEnd;
+
+        filters.push({
+          filterType: ENUM_SEARCH_FIELD_TYPE.PublicationYear, filterValue: dateFilter
+        })
+      }
+
+      if (doi)
+        filters.push({
+          filterType: ENUM_SEARCH_FIELD_TYPE.Doi, filterValue: doi
+        });
+
+      if (cliDrug?.length)
+        filters.push({
+          filterType: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug, filterValue: cliDrug
+        });
 
       const { data } = await axios.post("https://stage-api.mb-finder.org/api/v2/get-references", {
         ...search,
+        queryStr,
         currentPage,
         imgId,
-        filters: [
-          { filterType: ENUM_SEARCH_FIELD_TYPE.Author, filterValue: author },
-          //   { filterType: ENUM_SEARCH_FIELD_TYPE.PublicationYear, filterValue: { startYear: pyearStart, endYear: pyearEnd } },
-          //   { filterType: ENUM_SEARCH_FIELD_TYPE.Doi, filterValue: doi },
-          //   { filterType: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug, filterValue: cliDrug }
-        ],
-        // ...(ceillineName ? { filterInnerQuery: { ceillineName } } : {}),
+        filters,
       });
       setReferences(data.data);
       setTotalPages(data.meta.last_page);
@@ -55,20 +75,16 @@ export const ReferencesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, imgId, author]);
-  // }, [search, currentPage, imgId, author, pyearStart, pyearEnd, doi, cliDrug, setLoading, setReferences, setTotalPages, setTotalRecords]);
+  }, [search, currentPage, imgId, queryStr, author, pyearStart, pyearEnd, doi, cliDrug]);
 
   useEffect(() => {
-    // if (canFetch.current) {
-    // canFetch.current = false;
     void getReferences();
-    // }
-  }, [page, imgId, author, pyearStart, pyearEnd, doi, cliDrug]);
+  }, [page, queryStr, imgId, author, pyearStart, pyearEnd, doi, cliDrug]);
 
   return (
     <div className="flex flex-col gap-5">
-      <div className={cn("flex", imgId || author || pyearStart || pyearEnd || doi || cliDrug ? "justify-between" : "justify-end lg:hidden")}>
-        {(imgId || author || pyearStart || pyearEnd || doi || cliDrug) && (
+      <div className={cn("flex", imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug ? "justify-between" : "justify-end lg:hidden")}>
+        {(imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug) && (
           <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
             <Icon name={mdiChevronLeft} color="current" large />
             Back

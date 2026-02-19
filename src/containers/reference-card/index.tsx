@@ -1,14 +1,11 @@
 import type { FC } from "react";
-
 import { useStore } from "@store";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import type { TReference } from "@types";
 import { Button } from "@ui-kit";
-
 import { CollapsibleContent } from "./collapsible-content";
 import substanceIcon from "@assets/img/substances-icon.svg";
 import celllineIcon from "@assets/img/cell_lines-icon.svg";
-
 
 interface ReferenceCardProps {
   reference: TReference;
@@ -36,7 +33,7 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
 
   const handleCellLinesClick = () => {
     setSearch({
-      queryStr: search.queryStr,
+      queryStr: "",
       filters: [],
       cellLinesTable: "ic50",
       complexTable: "compounds",
@@ -86,12 +83,10 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
 
         <div className="flex flex-col justify-end gap-3 sm:flex-row">
           <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleSubstancesClick}>
-            {/* <Icon name={mdiFlask} color="current" dense /> */}
             <img className="w-[22px]" src={substanceIcon} aria-hidden="true" />
             Substances ({reference.substancesCount})
           </Button>
           <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleCellLinesClick}>
-            {/* <Icon name={mdiMolecule} color="current" dense /> */}
             <img className="w-[22px]" src={celllineIcon} aria-hidden="true" />
             Cell Lines ({reference.ceilLinesCount})
           </Button>

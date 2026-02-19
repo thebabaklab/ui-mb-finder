@@ -10,7 +10,7 @@ import {
   TabsSection,
 } from "@containers";
 import { useStore } from "@store";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ENUM_SEARCH_FIELD_TYPE,
   type TFilterItem,
@@ -32,6 +32,7 @@ import tamaraPhoto from "@assets/img/tamara.svg";
 
 export const MainPage = () => {
   const navigate = useNavigate();
+  const { queryStr } = useSearch({ strict: false });
   const [open, setOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState<TTabValue>("substances");
   const search = useStore((s) => s.search);
@@ -77,53 +78,53 @@ export const MainPage = () => {
     });
     setOpen(false);
     if (selectedTab === "substances")
-      navigate({ to: "/substances", search: { page: 1 } });
+      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr } });
     else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1 } });
+      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr } });
     else if (selectedTab === "references")
-      navigate({ to: "/references", search: { page: 1 } });
+      navigate({ to: "/references", search: { page: 1, queryStr: queryStr } });
   };
 
-  const handleSearch = () => {
+  const handleSearch = (queryStr: any) => {
     const filters: TFilterItem[] = [];
 
-    searchFields.forEach((field) => {
-      if (field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber) {
-        filters.push({
-          filterType: field.type,
-          filterValue: field.casRegistryNumber || "",
-        });
-      } else if (field.type === ENUM_SEARCH_FIELD_TYPE.IncubationTime) {
-        filters.push({
-          filterType: field.type,
-          filterValue: [
-            ...field.incubationTime.filter((t) => t !== "all"),
-            field.otherValue,
-          ],
-        });
-      } else if (field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug) {
-        filters.push({
-          filterType: field.type,
-          filterValue: field.clinicalDrug,
-        });
-      } else if (field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight) {
-        filters.push({
-          filterType: field.type,
-          filterValue: {
-            startWeight: field.startWeight,
-            endWeight: field.endWeight,
-          },
-        });
-      }
-    });
+    // searchFields.forEach((field) => {
+    //   if (field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber) {
+    //     filters.push({
+    //       filterType: field.type,
+    //       filterValue: field.casRegistryNumber || "",
+    //     });
+    //   } else if (field.type === ENUM_SEARCH_FIELD_TYPE.IncubationTime) {
+    //     filters.push({
+    //       filterType: field.type,
+    //       filterValue: [
+    //         ...field.incubationTime.filter((t) => t !== "all"),
+    //         field.otherValue,
+    //       ],
+    //     });
+    //   } else if (field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug) {
+    //     filters.push({
+    //       filterType: field.type,
+    //       filterValue: field.clinicalDrug,
+    //     });
+    //   } else if (field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight) {
+    //     filters.push({
+    //       filterType: field.type,
+    //       filterValue: {
+    //         startWeight: field.startWeight,
+    //         endWeight: field.endWeight,
+    //       },
+    //     });
+    //   }
+    // });
 
     setSearch({ ...search, filters });
     if (selectedTab === "substances")
-      navigate({ to: "/substances", search: { page: 1 } });
+      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr } });
     else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1 } });
+      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr } });
     else if (selectedTab === "references")
-      navigate({ to: "/references", search: { page: 1 } });
+      navigate({ to: "/references", search: { page: 1, queryStr: queryStr } });
   };
 
   return (
@@ -147,8 +148,7 @@ export const MainPage = () => {
                 search={search}
                 hasSearchField={hasSearchField}
                 onDrawerClick={() => setOpen(true)}
-                onChange={(queryStr) => setSearch({ ...search, queryStr })}
-                onSearch={handleSearch}
+                onSearch={(value: any) => handleSearch(value)}
               />
 
               <SubstanceDrawer
@@ -285,7 +285,7 @@ export const MainPage = () => {
 
               <p className="text-white text-center font-light leading-5">
                 <b className="font-bold">Daniil Rusanov</b><br />
-                Project Lead<br/>
+                Project Lead<br />
                 PhD(c) / Chemist
               </p>
             </article>

@@ -1,30 +1,31 @@
-import type { FC } from "react";
+import { useEffect, useState, type FC } from "react";
 
 import { mdiHexagonOutline, mdiMagnify } from "@mdi/js";
-// import { useLocation } from "@tanstack/react-router";
 import type { TSearch } from "@types";
 import { Button, Icon, TextField } from "@ui-kit";
 import { cn } from "@utils";
 
 interface SearchSectionProps {
   search: TSearch;
+  initialValue?: string;
   hasSearchField: boolean;
   className?: string;
   onDrawerClick?: () => void;
-  onChange: (queryStr: string) => void;
-  onSearch: () => void;
+  onChange?: (queryStr: string) => void;
+  onSearch: (queryStr?: string) => void;
 }
 
 export const SearchSection: FC<SearchSectionProps> = ({
-  search,
+  initialValue,
   hasSearchField,
   className,
   onDrawerClick,
-  onChange,
   onSearch,
 }) => {
-  // const location = useLocation();
-  // const pathname = location.pathname;
+  const [queryStr, setQueryStr] = useState(initialValue ?? "");
+  useEffect(() => {
+    setQueryStr(initialValue ?? "");
+  }, [initialValue]);
 
   return (
     <div className={cn("flex items-center w-full gap-2", className)}>
@@ -33,17 +34,15 @@ export const SearchSection: FC<SearchSectionProps> = ({
         onSubmit={(e) => {
           e.preventDefault();
 
-          if (search.queryStr)
-            onSearch();
+          if (queryStr)
+            onSearch(queryStr || undefined);
         }}
       >
         <TextField
-          value={search.queryStr}
-          // placeholder="Search by Keyword, CAS Number, SMILES, Authors, DOI"
+          value={queryStr}
           className="search-bar text-base placeholder:font-semibold"
           clearable
           hideDetails
-          // full_p={pathname === "/" ? false : true}
           appendInner={
 
             <Button
@@ -61,14 +60,14 @@ export const SearchSection: FC<SearchSectionProps> = ({
             </Button>
 
           }
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => setQueryStr(e.target.value)}
         />
       </form>
       <button
         type="submit"
         className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-r-xl text-secondary disabled:cursor-not-allowed"
-        disabled={!search.queryStr && !hasSearchField}
-        onClick={onSearch}
+        disabled={!queryStr && !hasSearchField}
+        onClick={() => onSearch(queryStr || undefined)}
       >
         <Icon name={mdiMagnify} className="search-icon" color="current" search />
       </button>

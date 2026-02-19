@@ -8,8 +8,8 @@ export const referencesRoute = createRoute({
   path: "/references",
   validateSearch: z.object({
     page: z.number().optional(),
+    queryStr: z.string().optional(),
     imgId: z.string().optional(),
-    // ceillineName: z.string().optional(),
     author: z.string().optional(),
     pyearStart: z.number().optional(),
     pyearEnd: z.number().optional(),

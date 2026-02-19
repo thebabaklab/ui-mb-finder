@@ -1,50 +1,30 @@
 import { type FC, useEffect, useState } from "react";
-
-import { useStore } from "@store";
-import { ENUM_SEARCH_FIELD_TYPE, type TClinicalDrug, type TFilterItem } from "@types";
+import { type TClinicalDrug } from "@types";
 import { Button } from "@ui-kit";
-
 import { ClinicalDrug } from "../../advanced-search-field/clinical-drug";
 import { SearchFilter } from "../../search-filter";
 
 interface ClinicalDrugFilterProps {
-  onSubmit: () => void;
+  initialValue?: string[] | TClinicalDrug[];
+  onSubmit: (cliDrug?: object) => void;
 }
 
-export const ClinicalDrugFilter: FC<ClinicalDrugFilterProps> = ({ onSubmit }) => {
-  const search = useStore((s) => s.search);
-  const setSearch = useStore((s) => s.setSearch);
+export const ClinicalDrugFilter: FC<ClinicalDrugFilterProps> = ({ initialValue, onSubmit }) => {
   const [clinicalDrug, setClinicalDrug] = useState<TClinicalDrug[]>([]);
 
   const handleChange = (value: TClinicalDrug[]) => {
-    const newFilters: TFilterItem[] = search.filters.filter(
-      (f) => f.filterType !== ENUM_SEARCH_FIELD_TYPE.ClinicalDrug
-    );
-
-    if (value.length) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug,
-        filterValue: value,
-      });
-    }
-
-    setSearch({ ...search, filters: newFilters });
+    setClinicalDrug(value);
   };
 
   useEffect(() => {
-    const searchedClinicalDrug = search.filters.find((f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug);
-    if (searchedClinicalDrug) {
-      setClinicalDrug(searchedClinicalDrug.filterValue);
-    } else {
-      setClinicalDrug([]);
-    }
-  }, [search.filters]);
+    setClinicalDrug(initialValue as TClinicalDrug[] ?? []);
+  }, [initialValue]);
 
   return (
     <SearchFilter defaultOpen={!!clinicalDrug.length} name="Clinical Drug">
       <ClinicalDrug value={clinicalDrug} onChange={handleChange} direction="vertical" />
 
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => onSubmit(clinicalDrug ?? [])}>
         Apply
       </Button>
     </SearchFilter>

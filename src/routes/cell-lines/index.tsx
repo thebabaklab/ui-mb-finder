@@ -8,6 +8,7 @@ export const cellLinesRoute = createRoute({
   path: "/cell-lines",
   validateSearch: z.object({
     page: z.number().optional(),
+    queryStr: z.string().optional(),
     imgId: z.string().optional(),
     title: z.string().optional(),
   }),

@@ -1,6 +1,6 @@
 import { ENUM_SEARCH_FIELD_TYPE } from "./enums";
 
-export type TClinicalDrug = "Cisplatin" | "Carboplatin" | "Oxaliplatin";
+export type TClinicalDrug = "Cisplatin" | "Carboplatin" | "Oxaliplatin" | "Transplantin";
 
 export type TSearchField =
   | { type: "" }

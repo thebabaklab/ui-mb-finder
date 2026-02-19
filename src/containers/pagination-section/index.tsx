@@ -31,13 +31,13 @@ export const PaginationSection: FC<PaginationSectionProps> = ({
     () =>
       xs
         ? totalPagesCount.slice(
-            currentPage > 2 ? currentPage - 1 : 0,
-            currentPage > 2 ? currentPage : 3,
-          )
+          currentPage > 2 ? currentPage - 1 : 0,
+          currentPage > 2 ? currentPage : 3,
+        )
         : totalPagesCount.slice(
-            currentPage > 3 ? currentPage - 3 : 0,
-            currentPage > 3 ? currentPage + 2 : 5,
-          ),
+          currentPage > 3 ? currentPage - 3 : 0,
+          currentPage > 3 ? currentPage + 2 : 5,
+        ),
     [xs, currentPage, totalPagesCount],
   );
   const showFirstPage = useMemo(
@@ -56,7 +56,7 @@ export const PaginationSection: FC<PaginationSectionProps> = ({
       xs
         ? totalPagesCount.length > 3 && currentPage < totalPagesCount.length
         : totalPagesCount.length > 5 &&
-          currentPage < totalPagesCount.length - 2,
+        currentPage < totalPagesCount.length - 2,
     [xs, currentPage, totalPagesCount.length],
   );
   const showLastPageEllipsis = useMemo(
@@ -64,9 +64,13 @@ export const PaginationSection: FC<PaginationSectionProps> = ({
       xs
         ? totalPagesCount.length > 3 && currentPage < totalPagesCount.length
         : totalPagesCount.length > 5 &&
-          currentPage < totalPagesCount.length - 2,
+        currentPage < totalPagesCount.length - 2,
     [xs, currentPage, totalPagesCount.length],
   );
+
+  const goToPage = (page: number) => {
+    navigate({ to: pathname, search: (prev) => ({ ...prev, page: page, }) });
+  };
 
   useEffect(() => {
     if (!currentPage || currentPage < 1) {
@@ -79,7 +83,7 @@ export const PaginationSection: FC<PaginationSectionProps> = ({
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={`${pathname}?page=${currentPage - 1}`}
+            onClick={(e) => { e.preventDefault(); goToPage(currentPage - 1) }}
             className={cn(
               currentPage === 1 && "pointer-events-none opacity-50",
             )}
@@ -87,7 +91,9 @@ export const PaginationSection: FC<PaginationSectionProps> = ({
         </PaginationItem>
         {showFirstPage && (
           <PaginationItem>
-            <PaginationLink href={`${pathname}?page=1`}>1</PaginationLink>
+            <PaginationLink
+              onClick={(e) => { e.preventDefault(); goToPage(1) }}
+            >1</PaginationLink>
           </PaginationItem>
         )}
         {showFirstPageEllipsis && (
@@ -98,7 +104,7 @@ export const PaginationSection: FC<PaginationSectionProps> = ({
         {pagesCount.map((page) => (
           <PaginationItem key={page}>
             <PaginationLink
-              href={`${pathname}?page=${page}`}
+              onClick={(e) => { e.preventDefault(); goToPage(page) }}
               isActive={currentPage === page}
             >
               {page}
@@ -112,17 +118,19 @@ export const PaginationSection: FC<PaginationSectionProps> = ({
         )}
         {showLastPage && (
           <PaginationItem>
-            <PaginationLink href={`${pathname}?page=${totalPagesCount.length}`}>
+            <PaginationLink
+              onClick={(e) => { e.preventDefault(); goToPage(totalPagesCount.length) }}
+            >
               {totalPagesCount.length}
             </PaginationLink>
           </PaginationItem>
         )}
         <PaginationItem>
           <PaginationNext
-            href={`${pathname}?page=${currentPage + 1}`}
+            onClick={(e) => { e.preventDefault(); goToPage(currentPage + 1) }}
             className={cn(
               currentPage === totalPagesCount.length &&
-                "pointer-events-none opacity-50",
+              "pointer-events-none opacity-50",
             )}
           />
         </PaginationItem>
