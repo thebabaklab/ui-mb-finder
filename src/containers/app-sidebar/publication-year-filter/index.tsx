@@ -1,22 +1,17 @@
-import { type FC, useEffect, useState } from "react";
-import { Button, TextField } from "@ui-kit";
+import { type FC } from "react";
+import { TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
 
 interface PublicationYearFilterProps {
   start_initialValue?: number,
   end_initialValue?: number,
-  onSubmit: (value_years: object) => void;
+  onChange: (value: {
+    pyearStart?: number;
+    pyearEnd?: number;
+  }) => void;
 }
 
-export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, onSubmit }) => {
-  const [startYear, setStartYear] = useState(0);
-  const [endYear, setEndYear] = useState(0);
-
-  useEffect(() => {
-    setStartYear(start_initialValue ?? 0);
-    setEndYear(end_initialValue ?? 0);
-  }, [start_initialValue, end_initialValue]);
-
+export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, onChange }) => {
   return (
     <SearchFilter name="Publication Year">
       <div className="flex flex-col gap-2">
@@ -24,7 +19,7 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_in
 
         <div className="flex flex-col items-center gap-4">
           <TextField
-            value={startYear}
+            value={start_initialValue}
             name="startYear"
             placeholder=""
             type="number"
@@ -33,11 +28,18 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_in
             className="text-platinum-silver"
             hideDetails
             dense
-            onChange={e => setStartYear(Number(e.target.value))}
+            onChange={(e) =>
+              onChange({
+                pyearEnd: end_initialValue,
+                pyearStart: e.target.value
+                  ? Number(e.target.value)
+                  : undefined,
+              })
+            }
           />
 
           <TextField
-            value={endYear}
+            value={end_initialValue}
             name="endYear"
             placeholder=""
             type="number"
@@ -46,27 +48,17 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_in
             className="text-platinum-silver"
             hideDetails
             dense
-            onChange={e => setEndYear(Number(e.target.value))}
+            onChange={(e) =>
+              onChange({
+                pyearStart: start_initialValue,
+                pyearEnd: e.target.value
+                  ? Number(e.target.value)
+                  : undefined,
+              })
+            }
           />
         </div>
       </div>
-
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => {
-        const filters: Partial<{
-          pyearStart: number;
-          pyearEnd: number;
-        }> = {}
-
-        if (startYear)
-          filters.pyearStart = startYear;
-        if (endYear)
-          filters.pyearEnd = endYear;
-
-        onSubmit(filters)
-
-      }}>
-        Apply
-      </Button>
     </SearchFilter>
   );
 };

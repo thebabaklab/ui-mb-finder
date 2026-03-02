@@ -1,32 +1,16 @@
-import { type FC, useEffect, useState } from "react";
-import { type TClinicalDrug } from "@types";
-import { Button } from "@ui-kit";
+import { type FC } from "react";
 import { ClinicalDrug } from "../../advanced-search-field/clinical-drug";
 import { SearchFilter } from "../../search-filter";
 
 interface ClinicalDrugFilterProps {
-  initialValue?: string[] | TClinicalDrug[];
-  onSubmit: (cliDrug?: object) => void;
+  initialValue: string[];
+  onChange: (cliDrug?: string[]) => void;
 }
 
-export const ClinicalDrugFilter: FC<ClinicalDrugFilterProps> = ({ initialValue, onSubmit }) => {
-  const [clinicalDrug, setClinicalDrug] = useState<TClinicalDrug[]>([]);
-
-  const handleChange = (value: TClinicalDrug[]) => {
-    setClinicalDrug(value);
-  };
-
-  useEffect(() => {
-    setClinicalDrug(initialValue as TClinicalDrug[] ?? []);
-  }, [initialValue]);
-
+export const ClinicalDrugFilter: FC<ClinicalDrugFilterProps> = ({ initialValue, onChange }) => {
   return (
-    <SearchFilter defaultOpen={!!clinicalDrug.length} name="Clinical Drug">
-      <ClinicalDrug value={clinicalDrug} onChange={handleChange} direction="vertical" />
-
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => onSubmit(clinicalDrug ?? [])}>
-        Apply
-      </Button>
+    <SearchFilter defaultOpen={!!initialValue.length} name="Clinical Drug">
+      <ClinicalDrug value={initialValue} onChange={onChange} direction="vertical" />
     </SearchFilter>
   );
 };

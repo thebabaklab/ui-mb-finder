@@ -1,12 +1,10 @@
 import type { FC } from "react";
-
-import type { TClinicalDrug } from "@types";
 import { Checkbox } from "@ui-kit";
 import { cn } from "@utils";
 
 interface ClinicalDrugProps {
-  value: TClinicalDrug[];
-  onChange: (value: TClinicalDrug[]) => void;
+  value: string[];
+  onChange: (value: string[]) => void;
   direction?: "horizontal" | "vertical";
 }
 
