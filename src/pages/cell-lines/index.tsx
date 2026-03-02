@@ -77,8 +77,8 @@ export const CellLinesPage = () => {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className={cn("flex", queryStr || imgId || title ? "justify-between" : "justify-end lg:hidden")}>
-        {(queryStr || imgId || title) && (
+      <div className={cn("flex", queryStr || imgId || title || incuTime || incuOther || icStart || icEnd ? "justify-between" : "justify-end lg:hidden")}>
+        {(queryStr || imgId || title || incuTime || incuOther || icStart || icEnd) && (
           <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
             <Icon name={mdiChevronLeft} color="current" large />
             Back

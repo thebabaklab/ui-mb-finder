@@ -12,13 +12,14 @@ import { useStore } from "@store";
 import { useParams, useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import axios from "axios";
+import { ENUM_SEARCH_FIELD_TYPE } from "@types";
 
 export const BioDataPage = () => {
   const {
     history: { back },
   } = useRouter();
   const { cellId } = useParams({ from: "/search/cell-lines/bio-data/$cellId" });
-  const { page } = useSearch({ from: "/search/cell-lines/bio-data/$cellId" });
+  const { page, incuTime, incuOther, icStart, icEnd } = useSearch({ from: "/search/cell-lines/bio-data/$cellId" });
   const search = useStore((s) => s.search);
   const canFetch = useRef(true);
   const loading = useStore((s) => s.loading);
@@ -37,6 +38,31 @@ export const BioDataPage = () => {
   const getCellLinesBioData = useCallback(async () => {
     try {
       setLoading(true);
+      const filters = [];
+      const icFilter: Partial<{
+        startIC50: number;
+        endIC50: number;
+      }> = {}
+
+      if (incuTime?.length || incuOther) {
+        if (incuOther)
+          incuTime?.push(Number(incuOther));
+
+        filters.push({
+          filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime, filterValue: [...incuTime as number[]]
+        });
+      }
+
+      if (icStart || icEnd) {
+        if (icStart)
+          icFilter.startIC50 = icStart;
+        if (icEnd)
+          icFilter.endIC50 = icEnd;
+
+        filters.push({
+          filterType: ENUM_SEARCH_FIELD_TYPE.IC50Range, filterValue: icFilter
+        })
+      }
 
       const { data } = await axios.post(
         "https://stage-api.mb-finder.org/api/v2/get-ceil-line-bio-data",
@@ -44,6 +70,7 @@ export const BioDataPage = () => {
           ...search,
           currentPage,
           cellId,
+          filters
         },
       );
       setBioDatas(data.data);
@@ -54,15 +81,11 @@ export const BioDataPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [
-    search,
-    currentPage,
-    cellId,
-  ]);
+  }, [search, currentPage, cellId, incuTime, incuOther, icStart, icEnd]);
 
   useEffect(() => {
     void getCellLinesBioData();
-  }, [page, cellId]);
+  }, [page, cellId, incuTime, incuOther, icStart, icEnd]);
 
   return (
     <div className="flex flex-col gap-5">

@@ -9,5 +9,9 @@ export const bioDataRoute = createRoute({
   validateSearch: z.object({
     page: z.number().optional(),
     queryStr: z.string().optional(),
+    incuTime: z.array(z.number()).optional(),
+    incuOther: z.string().optional(),
+    icStart: z.number().optional(),
+    icEnd: z.number().optional(),
   }),
 }).lazy(() => import("./bio-data.lazy").then((d) => d.Route));
