@@ -1,55 +1,21 @@
-import { type ChangeEvent, type FC, useEffect, useState } from "react";
-
-import { useStore } from "@store";
-import { ENUM_SEARCH_FIELD_TYPE, type TFilterItem } from "@types";
+import { type FC, useEffect, useState } from "react";
 import { Button, TextField } from "@ui-kit";
-
 import { SearchFilter } from "../../search-filter";
 
 interface Ic50RangeFilterProps {
-  onSubmit: () => void;
+  initialIcStart?: number;
+  initialIcEnd?: number;
+  onSubmit: (icStart?: number, icEnd?: number) => void;
 }
 
-export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ onSubmit }) => {
-  const search = useStore((s) => s.search);
-  const setSearch = useStore((s) => s.setSearch);
-  const [startIC50, setStartIC50] = useState("");
-  const [endIC50, setEndIC50] = useState("");
-
-  const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) => {
-    const ic50Range = search.filters.find((f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.IC50Range);
-    const newFilters: TFilterItem[] = search.filters.filter((f) => f.filterType !== ENUM_SEARCH_FIELD_TYPE.IC50Range);
-    const newFilterValue = {
-      startIC50: name === "startIC50" ? value : ic50Range?.filterValue.startIC50,
-      endIC50: name === "endIC50" ? value : ic50Range?.filterValue.endIC50,
-    };
-
-    if (newFilterValue.startIC50 || newFilterValue.endIC50) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.IC50Range,
-        filterValue: newFilterValue,
-      });
-    }
-
-    setSearch({ ...search, filters: newFilters });
-
-    if (name === "startIC50")
-      setStartIC50(value);
-    else
-      setEndIC50(value);
-  };
+export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, initialIcEnd, onSubmit }) => {
+  const [startIC50, setStartIC50] = useState(String(initialIcStart ?? ""));
+  const [endIC50, setEndIC50] = useState(String(initialIcEnd ?? ""));
 
   useEffect(() => {
-    const searchedIc50Range = search.filters.find((f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.IC50Range);
-    if (searchedIc50Range) {
-      const { startIC50, endIC50 } = searchedIc50Range.filterValue;
-      if (typeof startIC50 !== "undefined") setStartIC50(startIC50);
-      if (typeof endIC50 !== "undefined") setEndIC50(endIC50);
-    } else {
-      setStartIC50("");
-      setEndIC50("");
-    }
-  }, [search.filters]);
+    setStartIC50(String(initialIcStart ?? ""));
+    setEndIC50(String(initialIcEnd ?? ""));
+  }, [initialIcStart, initialIcEnd]);
 
   return (
     <SearchFilter
@@ -73,7 +39,7 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ onSubmit }) => {
             type="number"
             hideDetails
             dense
-            onChange={handleChange}
+            onChange={e => setStartIC50(e.target.value)}
           />
 
           <TextField
@@ -86,12 +52,12 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ onSubmit }) => {
             type="number"
             hideDetails
             dense
-            onChange={handleChange}
+            onChange={e => setEndIC50(e.target.value)}
           />
         </div>
       </div>
 
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => onSubmit(startIC50 ? Number(startIC50) : undefined, endIC50 ? Number(endIC50) : undefined)}>
         Apply
       </Button>
     </SearchFilter>

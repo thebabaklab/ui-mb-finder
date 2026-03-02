@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { IncubationTimeFilter } from "../incubation-time-filter";
+import { Ic50RangeFilter } from "../ic50-range-filter";
 
 export const CellLinesSidebar = () => {
   const { imgId, incuTime, incuOther, icStart, icEnd } = useSearch({ from: "/search/cell-lines" });
@@ -12,9 +13,6 @@ export const CellLinesSidebar = () => {
     icStart: number;
     icEnd: number;
   }>) => {
-    console.log(icStart);
-    console.log(icEnd);
-
     navigate({
       to: "/cell-lines", search: (prev) => ({
         ...prev,
@@ -31,7 +29,7 @@ export const CellLinesSidebar = () => {
     <div className="flex flex-col p-4 gap-4">
       <IncubationTimeFilter inititalOtherValue={incuOther} initialSelectedValues={incuTime} onSubmit={(value_time, value_other) => getItems({ incuTime: value_time, incuOther: value_other })} />
 
-      {/* <Ic50RangeFilter onSubmit={getItems} /> */}
+      <Ic50RangeFilter initialIcStart={icStart} initialIcEnd={icEnd} onSubmit={(value_icStart, value_icEnd) => getItems({ icStart: value_icStart, icEnd: value_icEnd })} />
     </div>
   );
 };

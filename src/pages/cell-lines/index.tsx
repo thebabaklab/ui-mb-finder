@@ -12,7 +12,7 @@ export const CellLinesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, imgId, queryStr, title, incuTime, incuOther } = useSearch({ from: "/search/cell-lines" });
+  const { page, imgId, queryStr, title, incuTime, incuOther, icStart, icEnd } = useSearch({ from: "/search/cell-lines" });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
@@ -28,10 +28,10 @@ export const CellLinesPage = () => {
     try {
       setLoading(true);
       const filters = [];
-      // const dateFilter: Partial<{
-      //   startYear: number;
-      //   endYear: number;
-      // }> = {}
+      const icFilter: Partial<{
+        startIC50: number;
+        endIC50: number;
+      }> = {}
 
       if (incuTime?.length || incuOther) {
         if (incuOther)
@@ -40,6 +40,17 @@ export const CellLinesPage = () => {
         filters.push({
           filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime, filterValue: [...incuTime as number[]]
         });
+      }
+
+      if (icStart || icEnd) {
+        if (icStart)
+          icFilter.startIC50 = icStart;
+        if (icEnd)
+          icFilter.endIC50 = icEnd;
+
+        filters.push({
+          filterType: ENUM_SEARCH_FIELD_TYPE.IC50Range, filterValue: icFilter
+        })
       }
 
       const { data } = await axios.post("https://stage-api.mb-finder.org/api/v2/get-cell-lines", {
@@ -58,11 +69,11 @@ export const CellLinesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, imgId, title, queryStr, incuTime, incuOther]);
+  }, [search, currentPage, imgId, title, queryStr, incuTime, incuOther, icStart, icEnd]);
 
   useEffect(() => {
     void getCellLines();
-  }, [page, queryStr, imgId, title, incuTime, incuOther]);
+  }, [page, queryStr, imgId, title, incuTime, incuOther, icStart, icEnd]);
 
   return (
     <div className="flex flex-col gap-5">
