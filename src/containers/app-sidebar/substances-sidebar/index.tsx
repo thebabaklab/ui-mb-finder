@@ -1,9 +1,5 @@
-import { useCallback, useMemo } from "react";
-
-import { useStore } from "@store";
-import { useSearch } from "@tanstack/react-router";
-import axios from "axios";
-
+import { useCallback } from "react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { CasRegistryNumberFilter } from "../cas-registry-number-filter";
 import { ClinicalDrugFilter } from "../clinical-drug-filter";
 import { IncubationTimeFilter } from "../incubation-time-filter";
@@ -11,46 +7,38 @@ import { MolecularWeightFilter } from "../molecular-weight-filter";
 import { SmilesFilter } from "../smiles-filter";
 
 export const SubstancesSidebar = () => {
-  const { page, title, ceillineName } = useSearch({ from: "/search/substances" });
-  const search = useStore((s) => s.search);
-  const setLoading = useStore((s) => s.setLoading);
-  const setSubstances = useStore((s) => s.setSubstances);
-  const setTotalPages = useStore((s) => s.setTotalPages);
-  const setTotalRecords = useStore((s) => s.setTotalRecords);
-  const currentPage = useMemo(() => Number(page), [page]);
+  const { title, ceillineName, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd } = useSearch({ from: "/search/substances" });
+  const navigate = useNavigate();
 
-  const getItems = useCallback(async () => {
-    try {
-      setLoading(true);
-
-      const { data } = await axios.post(`https://stage-api.mb-finder.org/api/v2/get-substances`, {
-        ...search,
-        currentPage,
-        ...(title ? { title } : {}),
-        ...(ceillineName ? { ceillineName } : {}),
-      });
-
-      setSubstances(data.data);
-      setTotalPages(data.meta.last_page);
-      setTotalRecords(data.meta.total);
-    } catch (err) {
-      console.error("Error", err);
-    } finally {
-      setLoading(false);
-    }
-  }, [search, currentPage, title, ceillineName, setLoading, setSubstances, setTotalPages, setTotalRecords]);
+  const getItems = useCallback((newFilters: Partial<{
+    smiles: string;
+    cliDrug: string[];
+    cas: string;
+    incuTime: number[];
+    incuOther: string;
+    weightStart: number;
+    weightEnd: number;
+  }>) => {
+    navigate({
+      to: "/substances", search: (prev) => ({
+        ...prev,
+        page: 1,
+        ...newFilters,
+      })
+    });
+  }, [title, ceillineName, navigate]);
 
   return (
     <div className="flex flex-col p-4 gap-4">
-      <SmilesFilter onSubmit={getItems} />
+      <SmilesFilter initialValue={smiles} onSubmit={(value) => getItems({ smiles: value })} />
 
-      <ClinicalDrugFilter onSubmit={getItems} />
+      <ClinicalDrugFilter initialValue={cliDrug} onSubmit={(value) => getItems({ cliDrug: value as string[] })} />
 
-      <CasRegistryNumberFilter onSubmit={getItems} />
+      <CasRegistryNumberFilter initialValue={cas} onSubmit={(value) => getItems({ cas: value })} />
 
-      <IncubationTimeFilter onSubmit={getItems} />
+      <IncubationTimeFilter inititalOtherValue={incuOther} initialSelectedValues={incuTime} onSubmit={(value_time, value_other) => getItems({ incuTime: value_time, incuOther: value_other })} />
 
-      <MolecularWeightFilter onSubmit={getItems} />
+      <MolecularWeightFilter initialweightStart={weightStart} initialweightEnd={weightEnd} onSubmit={(value_wStart, value_wEnd) => getItems({ weightStart: value_wStart, weightEnd: value_wEnd })} />
     </div>
   );
 };

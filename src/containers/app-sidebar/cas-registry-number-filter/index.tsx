@@ -1,46 +1,18 @@
-import { type ChangeEvent, type FC, useEffect, useState } from "react";
-
-import { useStore } from "@store";
-import { ENUM_SEARCH_FIELD_TYPE, type TFilterItem } from "@types";
+import { type FC, useEffect, useState } from "react";
 import { Button, TextField } from "@ui-kit";
-
 import { SearchFilter } from "../../search-filter";
 
 interface CasRegistryNumberFilterProps {
-  onSubmit: () => void;
+  initialValue?: string;
+  onSubmit: (cas?: string) => void;
 }
 
-export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ onSubmit }) => {
-  const search = useStore((s) => s.search);
-  const setSearch = useStore((s) => s.setSearch);
-  const [casRegistryNumber, setCasRegistryNumber] = useState("");
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newFilters: TFilterItem[] = search.filters.filter(
-      (f) => f.filterType !== ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber
-    );
-
-    if (e.target.value) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber,
-        filterValue: e.target.value,
-      });
-    }
-
-    setSearch({ ...search, filters: newFilters });
-    setCasRegistryNumber(e.target.value);
-  };
+export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ initialValue, onSubmit }) => {
+  const [casRegistryNumber, setCasRegistryNumber] = useState(initialValue ?? "");
 
   useEffect(() => {
-    const searchedCasRegistryNumber = search.filters.find(
-      (f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber
-    );
-    if (searchedCasRegistryNumber) {
-      setCasRegistryNumber(searchedCasRegistryNumber.filterValue);
-    } else {
-      setCasRegistryNumber("");
-    }
-  }, [search.filters]);
+    setCasRegistryNumber(initialValue ?? "");
+  }, [initialValue]);
 
   return (
     <SearchFilter defaultOpen={!!casRegistryNumber} name="CAS Registry Number">
@@ -52,10 +24,10 @@ export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ onSu
         bg_color="bg-gunmetal"
         hideDetails
         dense
-        onChange={handleChange}
+        onChange={e => setCasRegistryNumber(e.target.value)}
       />
 
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => onSubmit(casRegistryNumber || undefined)}>
         Search
       </Button>
     </SearchFilter>

@@ -1,56 +1,21 @@
-import { type ChangeEvent, type FC, useEffect, useState } from "react";
-
-import { useStore } from "@store";
-import { ENUM_SEARCH_FIELD_TYPE, type TFilterItem } from "@types";
+import { type FC, useEffect, useState } from "react";
 import { Button, TextField } from "@ui-kit";
-
 import { SearchFilter } from "../../search-filter";
 
 interface MolecularWeightFilterProps {
-  onSubmit: () => void;
+  initialweightStart?: number;
+  initialweightEnd?: number;
+  onSubmit: (weightStart?: number, weightEnd?: number) => void;
 }
 
-export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ onSubmit }) => {
-  const search = useStore((s) => s.search);
-  const setSearch = useStore((s) => s.setSearch);
-  const [startWeight, setStartWeight] = useState("");
-  const [endWeight, setEndWeight] = useState("");
-
-  const handleChange = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) => {
-    const molecularWeight = search.filters.find((f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.MolecularWeight);
-    const newFilters: TFilterItem[] = search.filters.filter(
-      (f) => f.filterType !== ENUM_SEARCH_FIELD_TYPE.MolecularWeight
-    );
-    const newFilterValue = {
-      startWeight: name === "startWeight" ? value : molecularWeight?.filterValue.startWeight,
-      endWeight: name === "endWeight" ? value : molecularWeight?.filterValue.endWeight,
-    };
-
-    if (newFilterValue.startWeight || newFilterValue.endWeight) {
-      newFilters.push({
-        filterType: ENUM_SEARCH_FIELD_TYPE.MolecularWeight,
-        filterValue: newFilterValue,
-      });
-    }
-
-    setSearch({ ...search, filters: newFilters });
-    if (name === "startWeight")
-      setStartWeight(value);
-    else
-      setEndWeight(value);
-  };
+export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ initialweightStart, initialweightEnd, onSubmit }) => {
+  const [startWeight, setStartWeight] = useState(String(initialweightStart ?? ""));
+  const [endWeight, setEndWeight] = useState(String(initialweightEnd ?? ""));
 
   useEffect(() => {
-    const searchedMolecularWeight = search.filters.find((f) => f.filterType === ENUM_SEARCH_FIELD_TYPE.MolecularWeight);
-    if (searchedMolecularWeight) {
-      const { startWeight, endWeight } = searchedMolecularWeight.filterValue;
-      if (typeof startWeight !== "undefined") setStartWeight(startWeight);
-      if (typeof endWeight !== "undefined") setEndWeight(endWeight);
-    } else {
-      setStartWeight("");
-      setEndWeight("");
-    }
-  }, [search.filters]);
+    setStartWeight(String(initialweightStart ?? ""));
+    setEndWeight(String(initialweightEnd ?? ""));
+  }, [initialweightStart, initialweightEnd]);
 
   return (
     <SearchFilter defaultOpen={!!startWeight || !!endWeight} name="Molecular Weight">
@@ -68,7 +33,7 @@ export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ onSubmit
             type="number"
             hideDetails
             dense
-            onChange={handleChange}
+            onChange={e => setStartWeight(e.target.value)}
           />
 
           <TextField
@@ -81,12 +46,12 @@ export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ onSubmit
             type="number"
             hideDetails
             dense
-            onChange={handleChange}
+            onChange={e => setEndWeight(e.target.value)}
           />
         </div>
       </div>
 
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={onSubmit}>
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => onSubmit(startWeight ? Number(startWeight) : undefined, endWeight ? Number(endWeight) : undefined)}>
         Apply
       </Button>
     </SearchFilter>
