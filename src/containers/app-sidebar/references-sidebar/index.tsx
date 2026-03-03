@@ -43,7 +43,7 @@ export const ReferencesSidebar = () => {
   return (
     <div className="flex flex-col p-4 gap-4">
       <Button variant={"back"} className="font-light text-base" size="small" onClick={applyFilters}>
-        Search
+        Apply
       </Button>
 
       <AuthorFilter initialValue={filters.author} onChange={(value) => setFilters((prev) => ({ ...prev, author: value }))} />

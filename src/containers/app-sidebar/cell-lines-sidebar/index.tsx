@@ -1,35 +1,47 @@
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { IncubationTimeFilter } from "../incubation-time-filter";
 import { Ic50RangeFilter } from "../ic50-range-filter";
+import { Button } from "@ui-kit";
 
 export const CellLinesSidebar = () => {
   const { imgId, incuTime, incuOther, icStart, icEnd } = useSearch({ from: "/search/cell-lines" });
   const navigate = useNavigate();
+  const [filters, setFilters] = useState({
+    incuTime: incuTime ?? [],
+    incuOther: incuOther,
+    icStart: icStart,
+    icEnd: icEnd,
+  });
 
-  const getItems = useCallback((newFilters: Partial<{
-    incuTime: number[];
-    incuOther: string;
-    icStart: number;
-    icEnd: number;
-  }>) => {
+  const applyFilters = () => {
     navigate({
       to: "/cell-lines", search: (prev) => ({
         ...prev,
         page: 1,
-        ...newFilters,
+        ...filters,
       })
     });
-  }, [
-    imgId,
-    navigate
-  ]);
+  }
+
+  useEffect(() => {
+    setFilters({
+      incuTime: incuTime ?? [],
+      incuOther: incuOther,
+      icStart: icStart ?? 0,
+      icEnd: icEnd ?? 0,
+    });
+  }, [imgId, incuTime, incuOther, icStart, icEnd]);
 
   return (
     <div className="flex flex-col p-4 gap-4">
-      <IncubationTimeFilter inititalOtherValue={incuOther} initialSelectedValues={incuTime} onSubmit={(value_time, value_other) => getItems({ incuTime: value_time, incuOther: value_other })} />
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={applyFilters}>
+        Apply
+      </Button>
 
-      <Ic50RangeFilter initialIcStart={icStart} initialIcEnd={icEnd} onSubmit={(value_icStart, value_icEnd) => getItems({ icStart: value_icStart, icEnd: value_icEnd })} />
+      <IncubationTimeFilter inititalOtherValue={filters.incuOther} initialSelectedValues={filters.incuTime} onChange={(values) => setFilters((prev) => ({ ...prev, incuTime: values }))} onOtherChange={(value) => setFilters((prev) => ({ ...prev, incuOther: value }))} />
+
+      <Ic50RangeFilter initialIcStart={filters.icStart} initialIcEnd={filters.icEnd} onChange={(values_ic) => setFilters((prev) => ({ ...prev, ...values_ic }))} />
     </div>
   );
 };
