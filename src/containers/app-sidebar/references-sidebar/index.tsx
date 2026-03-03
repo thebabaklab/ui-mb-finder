@@ -21,6 +21,10 @@ export const ReferencesSidebar = () => {
   });
 
   const applyFilters = () => {
+    if (!filters.author && filters.pyearStart === 0 && filters.pyearEnd === 0 && !filters.doi && filters.cliDrug.length === 0) {
+      return;
+    }
+
     navigate({
       to: "/references", search: (prev) => ({
         ...prev,

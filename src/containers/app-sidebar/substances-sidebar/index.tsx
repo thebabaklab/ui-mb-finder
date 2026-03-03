@@ -21,6 +21,10 @@ export const SubstancesSidebar = () => {
   });
 
   const applyFilters = () => {
+    if (!filters.smiles && filters.cliDrug.length === 0 && !filters.cas && filters.incuTime.length === 0 && !filters.incuOther && filters.weightStart === 0 && filters.weightEnd === 0) {
+      return;
+    }
+
     navigate({
       to: "/substances", search: (prev) => ({
         ...prev,

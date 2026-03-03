@@ -18,6 +18,10 @@ export const BioDataSidebar = () => {
   });
 
   const applyFilters = () => {
+    if (filters.icEnd === 0 && filters.icEnd === 0 && !filters.incuOther && filters.incuTime.length === 0) {
+      return;
+    }
+
     navigate({
       to: "/cell-lines/bio-data/$cellId", params: { cellId: cellId }, search: (prev) => ({
         ...prev,

@@ -15,6 +15,10 @@ export const CellLinesSidebar = () => {
   });
 
   const applyFilters = () => {
+    if (filters.icEnd === 0 && filters.icEnd === 0 && !filters.incuOther && filters.incuTime.length === 0) {
+      return;
+    }
+
     navigate({
       to: "/cell-lines", search: (prev) => ({
         ...prev,
