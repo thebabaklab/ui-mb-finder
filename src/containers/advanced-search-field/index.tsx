@@ -1,13 +1,14 @@
 import type { FC } from "react";
 
 import { mdiClose } from "@mdi/js";
-import { ENUM_SEARCH_FIELD_TYPE, type TClinicalDrug, type TSearchField } from "@types";
+// import { ENUM_SEARCH_FIELD_TYPE, type TClinicalDrug, type TSearchField } from "@types";
+import { ENUM_SEARCH_FIELD_TYPE, type TSearchField } from "@types";
 import { Button, Icon, Select } from "@ui-kit";
 import { cn } from "@utils";
 
 import { fieldTypes } from "./advanced-search-field.consts";
 import { CasRegistryNumber } from "./cas-registry-number";
-import { ClinicalDrug } from "./clinical-drug";
+// import { ClinicalDrug } from "./clinical-drug";
 import { IncubationTime } from "./incubation-time";
 import { MolecularWeight } from "./molecular-weight";
 
@@ -71,11 +72,11 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
     }
   };
 
-  const handleClinicalDrugChange = (clinicalDrug: TClinicalDrug[]) => {
-    if (field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug) {
-      onChange({ ...field, clinicalDrug });
-    }
-  };
+  // const handleClinicalDrugChange = (clinicalDrug: TClinicalDrug[]) => {
+  //   if (field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug) {
+  //     onChange({ ...field, clinicalDrug });
+  //   }
+  // };
 
   const handleMolecularWeightChange = (value: string, prop: "startWeight" | "endWeight") => {
     if (field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight) {
@@ -90,7 +91,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
         field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug
           ? "sm:flex-row sm:items-center"
           : field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber ||
-              field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight
+            field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight
             ? "md:flex-row md:items-center"
             : "lg:flex-row lg:items-center"
       )}
@@ -114,7 +115,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
             field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug
               ? "sm:hidden"
               : field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber ||
-                  field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight
+                field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight
                 ? "md:hidden"
                 : "lg:hidden"
           )}
@@ -142,9 +143,9 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
           onOtherValueChange={handleOtherValueChange}
         />
       )}
-      {field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug && (
-        <ClinicalDrug value={field.clinicalDrug} onChange={handleClinicalDrugChange} />
-      )}
+      {/* {field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug && (
+        // <ClinicalDrug value={field.clinicalDrug} onChange={handleClinicalDrugChange} />
+      )} */}
       {field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight && (
         <MolecularWeight
           logicalOperator={field.logicalOperator}
@@ -163,13 +164,13 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
           field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug
             ? "sm:inline-flex"
             : field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber ||
-                field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight
+              field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight
               ? "md:inline-flex"
               : "lg:inline-flex"
         )}
         onClick={onRemove}
       >
-        <Icon name={mdiClose} color="primary"/>
+        <Icon name={mdiClose} color="primary" />
       </Button>
     </div>
   );
