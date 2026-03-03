@@ -1,30 +1,25 @@
-import { type FC, useEffect, useState } from "react";
-import { Button, TextField } from "@ui-kit";
+import { type FC } from "react";
+import { TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
 
 interface MolecularWeightFilterProps {
   initialweightStart?: number;
   initialweightEnd?: number;
-  onSubmit: (weightStart?: number, weightEnd?: number) => void;
+  onChange: (value: {
+    weightStart?: number;
+    weightEnd?: number;
+  }) => void;
 }
 
-export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ initialweightStart, initialweightEnd, onSubmit }) => {
-  const [startWeight, setStartWeight] = useState(String(initialweightStart ?? ""));
-  const [endWeight, setEndWeight] = useState(String(initialweightEnd ?? ""));
-
-  useEffect(() => {
-    setStartWeight(String(initialweightStart ?? ""));
-    setEndWeight(String(initialweightEnd ?? ""));
-  }, [initialweightStart, initialweightEnd]);
-
+export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ initialweightStart, initialweightEnd, onChange }) => {
   return (
-    <SearchFilter defaultOpen={!!startWeight || !!endWeight} name="Molecular Weight">
+    <SearchFilter defaultOpen={!!initialweightStart || !!initialweightEnd} name="Molecular Weight">
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 
         <div className="flex flex-col items-center gap-4">
           <TextField
-            value={startWeight}
+            value={initialweightStart}
             name="startWeight"
             placeholder=""
             className="text-platinum-silver"
@@ -33,11 +28,16 @@ export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ initialw
             type="number"
             hideDetails
             dense
-            onChange={e => setStartWeight(e.target.value)}
+            onChange={e => onChange({
+              weightEnd: initialweightEnd,
+              weightStart: e.target.value
+                ? Number(e.target.value)
+                : undefined,
+            })}
           />
 
           <TextField
-            value={endWeight}
+            value={initialweightEnd}
             name="endWeight"
             placeholder=""
             className="text-platinum-silver"
@@ -46,14 +46,15 @@ export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ initialw
             type="number"
             hideDetails
             dense
-            onChange={e => setEndWeight(e.target.value)}
+            onChange={e => onChange({
+              weightStart: initialweightStart,
+              weightEnd: e.target.value
+                ? Number(e.target.value)
+                : undefined,
+            })}
           />
         </div>
       </div>
-
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => onSubmit(startWeight ? Number(startWeight) : undefined, endWeight ? Number(endWeight) : undefined)}>
-        Apply
-      </Button>
     </SearchFilter>
   );
 };

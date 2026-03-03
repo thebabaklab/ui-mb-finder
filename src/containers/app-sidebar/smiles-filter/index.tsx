@@ -1,26 +1,16 @@
-import { type FC, useEffect, useState } from "react";
-import { Button, TextField } from "@ui-kit";
+import { type FC } from "react";
+import { TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
 
 interface SmilesFilterFilterProps {
   initialValue?: string;
-  onSubmit: (smiles?: string) => void;
+  onChange: (smiles?: string) => void;
 }
 
-export const SmilesFilter: FC<SmilesFilterFilterProps> = ({ initialValue, onSubmit }) => {
-  const [smiles, setSmiles] = useState(initialValue ?? "");
-
-  useEffect(() => {
-    setSmiles(initialValue ?? "");
-  }, [initialValue]);
-
+export const SmilesFilter: FC<SmilesFilterFilterProps> = ({ initialValue, onChange }) => {
   return (
-    <SearchFilter defaultOpen={!!smiles} name="SMILES">
-      <TextField className="text-platinum-silver" value={smiles} full_p={true} bg_color="bg-gunmetal" placeholder="" hideDetails dense onChange={e => setSmiles(e.target.value)} />
-
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={() => onSubmit(smiles || undefined)}>
-        Search
-      </Button>
+    <SearchFilter defaultOpen={!!initialValue} name="SMILES">
+      <TextField className="text-platinum-silver" value={initialValue ?? ""} full_p={true} bg_color="bg-gunmetal" placeholder="" hideDetails dense onChange={e => onChange(e.target.value || undefined)} />
     </SearchFilter>
   );
 };

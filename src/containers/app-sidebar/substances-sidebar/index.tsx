@@ -1,44 +1,62 @@
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { CasRegistryNumberFilter } from "../cas-registry-number-filter";
 import { ClinicalDrugFilter } from "../clinical-drug-filter";
 import { IncubationTimeFilter } from "../incubation-time-filter";
 import { MolecularWeightFilter } from "../molecular-weight-filter";
 import { SmilesFilter } from "../smiles-filter";
+import { Button } from "@ui-kit";
 
 export const SubstancesSidebar = () => {
   const { title, ceillineName, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd } = useSearch({ from: "/search/substances" });
   const navigate = useNavigate();
+  const [filters, setFilters] = useState({
+    smiles: smiles,
+    cliDrug: cliDrug ?? [],
+    cas: cas,
+    incuTime: incuTime ?? [],
+    incuOther: incuOther,
+    weightStart: weightStart,
+    weightEnd: weightEnd
+  });
 
-  const getItems = useCallback((newFilters: Partial<{
-    smiles: string;
-    cliDrug: string[];
-    cas: string;
-    incuTime: number[];
-    incuOther: string;
-    weightStart: number;
-    weightEnd: number;
-  }>) => {
+  const applyFilters = () => {
     navigate({
       to: "/substances", search: (prev) => ({
         ...prev,
         page: 1,
-        ...newFilters,
+        ...filters,
       })
     });
-  }, [title, ceillineName, navigate]);
+  }
+
+  useEffect(() => {
+    setFilters({
+      smiles: smiles,
+      cliDrug: cliDrug ?? [],
+      cas: cas,
+      incuTime: incuTime ?? [],
+      incuOther: incuOther,
+      weightStart: weightStart ?? 0,
+      weightEnd: weightEnd ?? 0
+    });
+  }, [title, ceillineName, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd]);
 
   return (
     <div className="flex flex-col p-4 gap-4">
-      <SmilesFilter initialValue={smiles} onSubmit={(value) => getItems({ smiles: value })} />
+      <Button variant={"back"} className="font-light text-base" size="small" onClick={applyFilters}>
+        Apply
+      </Button>
 
-      <ClinicalDrugFilter initialValue={cliDrug} onSubmit={(value) => getItems({ cliDrug: value as string[] })} />
+      <SmilesFilter initialValue={filters.smiles} onChange={(value) => setFilters((prev) => ({ ...prev, smiles: value }))} />
 
-      <CasRegistryNumberFilter initialValue={cas} onSubmit={(value) => getItems({ cas: value })} />
+      <ClinicalDrugFilter initialValue={filters.cliDrug} onChange={(value) => setFilters((prev) => ({ ...prev, cliDrug: value as string[] }))} />
 
-      <IncubationTimeFilter inititalOtherValue={incuOther} initialSelectedValues={incuTime} onSubmit={(value_time, value_other) => getItems({ incuTime: value_time, incuOther: value_other })} />
+      <CasRegistryNumberFilter initialValue={filters.cas} onChange={(value) => setFilters((prev) => ({ ...prev, cas: value }))} />
 
-      <MolecularWeightFilter initialweightStart={weightStart} initialweightEnd={weightEnd} onSubmit={(value_wStart, value_wEnd) => getItems({ weightStart: value_wStart, weightEnd: value_wEnd })} />
+      <IncubationTimeFilter inititalOtherValue={filters.incuOther} initialSelectedValues={filters.incuTime} onChange={(values) => setFilters((prev) => ({ ...prev, incuTime: values }))} onOtherChange={(value) => setFilters((prev) => ({ ...prev, incuOther: value }))} />
+
+      <MolecularWeightFilter initialweightStart={filters.weightStart} initialweightEnd={filters.weightEnd} onChange={(values_weight) => setFilters((prev) => ({ ...prev, ...values_weight }))} />
     </div>
   );
 };
