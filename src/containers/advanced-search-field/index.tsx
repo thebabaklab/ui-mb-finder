@@ -8,15 +8,20 @@ import { IncubationTime } from "./incubation-time";
 import { MolecularWeight } from "./molecular-weight";
 import { ClinicalDrug } from "./clinical-drug";
 import { Smiles } from "./smiles";
+import { IC50Range } from "./ic50-range";
+import { Author } from "./author";
+import { PublicationYear } from "./publication-year";
+import { Doi } from "./doi";
 
 interface AdvancedSearchFieldProps {
+  index: number;
   field: TSearchField;
   onChange: (value: TSearchField) => void;
   onRemove: () => void;
   items: { [key: string]: string | number }[];
 }
 
-export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onChange, onRemove, items }) => {
+export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field, onChange, onRemove, items }) => {
   const handleTypeChange = (type: string) => {
     switch (type) {
       case ENUM_SEARCH_FIELD_TYPE.Smiles:
@@ -126,6 +131,26 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
       onChange({ ...field, values: { ...field.values, [prop]: Number(value ?? 0) } });
   };
 
+  const handleIC50Change = (value: string, prop: "icStart" | "icEnd") => {
+    if (field.type === ENUM_SEARCH_FIELD_TYPE.IC50Range)
+      onChange({ ...field, values: { ...field.values, [prop]: Number(value ?? 0) } });
+  };
+
+  const handleAuthorChange = (author: string) => {
+    if (field.type === ENUM_SEARCH_FIELD_TYPE.Author)
+      onChange({ ...field, values: { author: author } });
+  };
+
+  const handlePublicationYearChange = (value: string, prop: "pyearStart" | "pyearEnd") => {
+    if (field.type === ENUM_SEARCH_FIELD_TYPE.PublicationYear)
+      onChange({ ...field, values: { ...field.values, [prop]: Number(value ?? 0) } });
+  };
+
+  const handleDoiChange = (doi: string) => {
+    if (field.type === ENUM_SEARCH_FIELD_TYPE.Doi)
+      onChange({ ...field, values: { doi: doi } });
+  };
+
   return (
     <div
       className={cn(
@@ -169,30 +194,37 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.Smiles && (
         <Smiles
+          index={index}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.smiles}
           onChange={handleSmilesChange}
         />
       )}
+
       {field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug && (
         <ClinicalDrug
+          index={index}
           value={field.values.cliDrug}
-          // logicalOperator={field.logicalOperator ?? ""}
-          // onLogicalOperatorChange={handleLogicalOperatorChange}
+          logicalOperator={field.logicalOperator ?? ""}
+          onLogicalOperatorChange={handleLogicalOperatorChange}
           onChange={handleClinicalDrugChange}
         />
       )}
+
       {field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber && (
         <CasRegistryNumber
+          index={index}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.cas}
           onChange={handleCasRegistryNumberChange}
         />
       )}
+
       {field.type === ENUM_SEARCH_FIELD_TYPE.IncubationTime && (
         <IncubationTime
+          index={index}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.incuTime}
@@ -201,13 +233,57 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ field, onCha
           onOtherValueChange={handleOtherValueChange}
         />
       )}
+
       {field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight && (
         <MolecularWeight
+          index={index}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           startWeight={String(field.values.weightStart ?? "")}
           endWeight={String(field.values.weightEnd ?? "")}
           onChange={handleMolecularWeightChange}
+        />
+      )}
+
+      {field.type === ENUM_SEARCH_FIELD_TYPE.IC50Range && (
+        <IC50Range
+          index={index}
+          logicalOperator={field.logicalOperator ?? ""}
+          onLogicalOperatorChange={handleLogicalOperatorChange}
+          icStart={String(field.values.icStart ?? "")}
+          icEnd={String(field.values.icEnd ?? "")}
+          onChange={handleIC50Change}
+        />
+      )}
+
+      {field.type === ENUM_SEARCH_FIELD_TYPE.Author && (
+        <Author
+          index={index}
+          logicalOperator={field.logicalOperator ?? ""}
+          onLogicalOperatorChange={handleLogicalOperatorChange}
+          value={field.values.author}
+          onChange={handleAuthorChange}
+        />
+      )}
+
+      {field.type === ENUM_SEARCH_FIELD_TYPE.PublicationYear && (
+        <PublicationYear
+          index={index}
+          logicalOperator={field.logicalOperator ?? ""}
+          onLogicalOperatorChange={handleLogicalOperatorChange}
+          pyearStart={String(field.values.pyearStart ?? "")}
+          pyearEnd={String(field.values.pyearEnd ?? "")}
+          onChange={handlePublicationYearChange}
+        />
+      )}
+
+      {field.type === ENUM_SEARCH_FIELD_TYPE.Doi && (
+        <Doi
+          index={index}
+          logicalOperator={field.logicalOperator ?? ""}
+          onLogicalOperatorChange={handleLogicalOperatorChange}
+          value={field.values.doi}
+          onChange={handleDoiChange}
         />
       )}
 

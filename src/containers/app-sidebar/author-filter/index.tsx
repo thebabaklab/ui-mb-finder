@@ -10,7 +10,7 @@ interface AuthorFilterProps {
 
 export const AuthorFilter: FC<AuthorFilterProps> = ({ initialValue, onChange }) => {
   return (
-    <SearchFilter name="Authors">
+    <SearchFilter defaultOpen={!!initialValue} name="Authors">
       <TextField className="text-platinum-silver" bg_color="bg-gunmetal" full_p={true} value={initialValue ?? ""} placeholder="" hideDetails dense onChange={e => onChange(e.target.value || undefined)} />
     </SearchFilter>
   );

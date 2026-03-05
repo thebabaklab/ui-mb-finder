@@ -3,25 +3,25 @@ import { TextField } from "@ui-kit";
 import { LogicalOperatorSelect } from "../logical-operator-select";
 import { cn } from "@utils";
 
-interface MolecularWeightProps {
+interface PublicationYearProps {
   index: number;
   logicalOperator: string;
   onLogicalOperatorChange: (value: string) => void;
-  startWeight: string;
-  endWeight: string;
-  onChange: (value: string, prop: "weightStart" | "weightEnd") => void;
+  pyearStart: string;
+  pyearEnd: string;
+  onChange: (value: string, prop: "pyearStart" | "pyearEnd") => void;
 }
 
-export const MolecularWeight: FC<MolecularWeightProps> = ({
+export const PublicationYear: FC<PublicationYearProps> = ({
   index,
   logicalOperator,
   onLogicalOperatorChange,
-  startWeight,
-  endWeight,
+  pyearStart,
+  pyearEnd,
   onChange,
 }) => {
   return (
-    <div className={cn("flex gap-5 md:gap-22 lg:grow", index > 0 ? "justify-between" : "justify-end")}>
+    <div className={cn("flex gap-5 md:gap-22 justify-between lg:grow", index > 0 ? "justify-between" : "justify-end")}>
       {index > 0 && (
         <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
       )}
@@ -32,7 +32,7 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
         <div className="flex items-center gap-5 md:gap-10">
           <div className="w-[calc(50%_-_0.25rem)]">
             <TextField
-              value={startWeight}
+              value={pyearStart}
               type="number"
               hideDetails
               placeholder="From:"
@@ -42,13 +42,13 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
                   From:
                 </div>
               }
-              onChange={(e) => onChange(e.target.value, "weightStart")}
+              onChange={(e) => onChange(e.target.value, "pyearStart")}
             />
           </div>
 
           <div className="w-[calc(50%_-_0.25rem)]">
             <TextField
-              value={endWeight}
+              value={pyearEnd}
               type="number"
               hideDetails
               placeholder="To:"
@@ -58,7 +58,7 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
                   To:
                 </div>
               }
-              onChange={(e) => onChange(e.target.value, "weightEnd")}
+              onChange={(e) => onChange(e.target.value, "pyearEnd")}
             />
           </div>
         </div>

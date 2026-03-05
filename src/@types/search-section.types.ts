@@ -1,4 +1,4 @@
-import type { TClinicalDrug } from "./advanced-search-field.types";
+// import type { TClinicalDrug } from "./advanced-search-field.types";
 import { ENUM_SEARCH_FIELD_TYPE } from "./enums";
 
 export type TFilterItem =
@@ -14,10 +14,10 @@ export type TFilterItem =
       filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime;
       filterValue: (string | number)[];
     }
-  | {
-      filterType: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug;
-      filterValue: TClinicalDrug[];
-    }
+  // | {
+  //     filterType: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug;
+  //     filterValue: TClinicalDrug[];
+  //   }
   | {
       filterType: ENUM_SEARCH_FIELD_TYPE.MolecularWeight;
       filterValue: { startWeight?: string; endWeight?: string };

@@ -21,10 +21,9 @@ export const fieldTypes = {
 };
 
 export const logicalOperators = [
-  { name: "...", id: ENUM_LOGICAL_OPERATOR.NoValue },
-  { name: "And", id: ENUM_LOGICAL_OPERATOR.And },
-  { name: "Not", id: ENUM_LOGICAL_OPERATOR.Not },
-  { name: "Or", id: ENUM_LOGICAL_OPERATOR.Or },
+  { name: "AND", id: ENUM_LOGICAL_OPERATOR.And },
+  // { name: "Not", id: ENUM_LOGICAL_OPERATOR.Not },
+  { name: "OR", id: ENUM_LOGICAL_OPERATOR.Or },
 ];
 
 export const emptySearchField = {

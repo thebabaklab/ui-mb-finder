@@ -14,6 +14,7 @@ interface Ic50RangeFilterProps {
 export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, initialIcEnd, onChange }) => {
   return (
     <SearchFilter
+      defaultOpen={!!initialIcStart || !!initialIcEnd}
       name={
         <span>
           IC<span className="align-sub text-xs">50</span> μM

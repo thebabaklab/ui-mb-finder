@@ -12,8 +12,7 @@ export enum ENUM_SEARCH_FIELD_TYPE {
 }
 
 export enum ENUM_LOGICAL_OPERATOR {
-  NoValue = "NoValue",
-  And = "And",
-  Not = "Not",
-  Or = "Or",
+  And = "AND",
+  // Not = "NOT",
+  Or = "OR",
 }

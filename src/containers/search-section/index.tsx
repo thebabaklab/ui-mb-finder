@@ -1,7 +1,5 @@
 import { useEffect, useState, type FC } from "react";
-
 import { mdiHexagonOutline, mdiMagnify } from "@mdi/js";
-import type { TSearch } from "@types";
 import { Button, Icon, TextField } from "@ui-kit";
 import { cn } from "@utils";
 

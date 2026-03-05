@@ -12,9 +12,13 @@ export const referencesRoute = createRoute({
     imgId: z.string().optional(),
     ceillineName: z.string().optional(),
     author: z.string().optional(),
+    author_op: z.string().optional(),
     pyearStart: z.number().optional(),
     pyearEnd: z.number().optional(),
+    pyear_op: z.string().optional(),
     doi: z.string().optional(),
-    cliDrug: z.array(z.string()).optional()
+    doi_op: z.string().optional(),
+    cliDrug: z.array(z.string()).optional(),
+    cliDrug_op: z.string().optional(),
   }),
 }).lazy(() => import("./references.lazy").then((d) => d.Route));

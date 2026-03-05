@@ -30,7 +30,7 @@ export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOt
   };
 
   return (
-    <SearchFilter defaultOpen={!!initialSelectedValues.length} name="Incubation Time">
+    <SearchFilter defaultOpen={!!initialSelectedValues.length || !!inititalOtherValue} name="Incubation Time">
       <div className="flex justify-between">
         <div className="w-1/3">
           <Checkbox

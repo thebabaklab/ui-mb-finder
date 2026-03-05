@@ -11,7 +11,9 @@ export const bioDataRoute = createRoute({
     queryStr: z.string().optional(),
     incuTime: z.array(z.number()).optional(),
     incuOther: z.string().optional(),
+    incuTime_op: z.string().optional(),
     icStart: z.number().optional(),
     icEnd: z.number().optional(),
+    ic_op: z.string().optional(),
   }),
 }).lazy(() => import("./bio-data.lazy").then((d) => d.Route));

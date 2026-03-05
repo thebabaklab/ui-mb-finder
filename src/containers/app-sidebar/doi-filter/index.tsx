@@ -9,7 +9,7 @@ interface DoiFilterProps {
 
 export const DoiFilter: FC<DoiFilterProps> = ({ initialValue, onChange }) => {
   return (
-    <SearchFilter name="DOI">
+    <SearchFilter defaultOpen={!!initialValue} name="DOI">
       <TextField className="text-platinum-silver" bg_color="bg-gunmetal" full_p={true} value={initialValue ?? ""} placeholder="" hideDetails dense onChange={e => onChange(e.target.value || undefined)} />
     </SearchFilter>
   );

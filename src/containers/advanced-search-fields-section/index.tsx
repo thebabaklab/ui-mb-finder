@@ -25,17 +25,23 @@ export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> =
       {searchFields.map((field, i) => (
         <AdvancedSearchField
           key={i}
+          index={i}
           field={field}
           onChange={(field) => onChange(field, i)}
           onRemove={() => onRemove(i)}
-          items={fieldTypes[activeTab]}
+          items={fieldTypes[activeTab].filter(
+            (fieldType) =>
+              fieldType.id === field.type || !searchFields.some(f => f.type === fieldType.id)
+          )}
         />
       ))}
 
-      <Button className="gap-2 w-[330px] bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={onAdd}>
-        Add Advanced Search Field
-        <Icon name={mdiPlus} className="bg-secondary rounded-full" color="current" add_sf />
-      </Button>
+      {searchFields.length !== fieldTypes[activeTab].length && (
+        <Button className="gap-2 w-[330px] bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={onAdd}>
+          Add Advanced Search Field
+          <Icon name={mdiPlus} className="bg-secondary rounded-full" color="current" add_sf />
+        </Button>
+      )}
     </section>
   );
 };

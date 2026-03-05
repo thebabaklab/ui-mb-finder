@@ -3,6 +3,7 @@ import { TextField } from "@ui-kit";
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface CasRegistryNumberProps {
+  index: number;
   logicalOperator: string;
   onLogicalOperatorChange: (value: string) => void;
   value: string;
@@ -10,6 +11,7 @@ interface CasRegistryNumberProps {
 }
 
 export const CasRegistryNumber: FC<CasRegistryNumberProps> = ({
+  index,
   logicalOperator,
   onLogicalOperatorChange,
   value,
@@ -17,7 +19,9 @@ export const CasRegistryNumber: FC<CasRegistryNumberProps> = ({
 }) => {
   return (
     <div className="flex grow gap-5">
-      {/* <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} /> */}
+      {index > 0 && (
+        <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+      )}
 
       <div className="grow">
         <TextField

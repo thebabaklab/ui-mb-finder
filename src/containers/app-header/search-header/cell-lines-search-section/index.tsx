@@ -48,7 +48,6 @@ export const CellLinesSearchSection = () => {
   return (
     <>
       <SearchSection
-        search={search}
         hasSearchField={false}
         onDrawerClick={() => setOpen(true)}
         className="w-full md:w-[936px] max-w-2xl"

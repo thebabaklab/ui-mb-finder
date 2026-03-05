@@ -42,11 +42,19 @@ export const MainPage = () => {
         (field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber &&
           field.values.cas) ||
         (field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug &&
-          field.values.cliDrug) ||
+          field.values.cliDrug.length) ||
         (field.type === ENUM_SEARCH_FIELD_TYPE.IncubationTime &&
           (field.values.incuTime.length || field.values.incuOther)) ||
         (field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight &&
-          (field.values.weightStart || field.values.weightEnd)),
+          (field.values.weightStart || field.values.weightEnd)) ||
+        (field.type === ENUM_SEARCH_FIELD_TYPE.IC50Range &&
+          (field.values.icStart || field.values.icEnd)) ||
+        (field.type === ENUM_SEARCH_FIELD_TYPE.Author &&
+          (field.values.author)) ||
+        (field.type === ENUM_SEARCH_FIELD_TYPE.PublicationYear &&
+          (field.values.pyearStart || field.values.pyearEnd)) ||
+        (field.type === ENUM_SEARCH_FIELD_TYPE.Doi &&
+          (field.values.doi)),
     );
   }, [advancedFields]);
 
@@ -66,6 +74,87 @@ export const MainPage = () => {
     setAdvancedFields(newSearchFields);
   };
 
+  const handleFilters = () => {
+    const filters: Record<string, any> = {};
+
+    advancedFields.forEach((field) => {
+      switch (field.type) {
+        case ENUM_SEARCH_FIELD_TYPE.Smiles:
+          if (field.values.smiles) {
+            filters.smiles = field.values.smiles;
+            filters.smiles_op = field.logicalOperator;
+          }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.ClinicalDrug:
+          if (field.values.cliDrug.length) {
+            filters.cliDrug = field.values.cliDrug;
+            filters.cliDrug_op = field.logicalOperator;
+          }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber:
+          if (field.values.cas) {
+            filters.cas = field.values.cas;
+            filters.cas_op = field.logicalOperator;
+          }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.IncubationTime:
+          if (field.values.incuTime.length) {
+            filters.incuTime = field.values.incuTime;
+            filters.incuTime_op = field.logicalOperator;
+          }
+          if (field.values.incuOther) {
+            filters.incuOther = field.values.incuOther;
+            filters.incuTime_op = field.logicalOperator;
+          }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.MolecularWeight:
+          if (field.values.weightStart) {
+            filters.weightStart = field.values.weightStart;
+            filters.weight_op = field.logicalOperator;
+          }
+          if (field.values.weightEnd) {
+            filters.weightEnd = field.values.weightEnd;
+            filters.weight_op = field.logicalOperator;
+          }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.IC50Range:
+          if (field.values.icStart) {
+            filters.icStart = field.values.icStart;
+            filters.ic_op = field.logicalOperator;
+          }
+          if (field.values.icEnd) {
+            filters.icEnd = field.values.icEnd;
+            filters.ic_op = field.logicalOperator;
+          }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.Author:
+          if (field.values.author) {
+            filters.author = field.values.author;
+            filters.author_op = field.logicalOperator;
+          }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.PublicationYear:
+          if (field.values.pyearStart) {
+            filters.pyearStart = field.values.pyearStart;
+            filters.pyear_op = field.logicalOperator;
+          }
+          if (field.values.pyearEnd) {
+            filters.pyearEnd = field.values.pyearEnd;
+            filters.pyear_op = field.logicalOperator;
+          }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.Doi:
+          if (field.values.doi) {
+            filters.doi = field.values.doi;
+            filters.doi_op = field.logicalOperator;
+          }
+          break;
+      }
+    });
+
+    return filters;
+  }
+
   const handleDrawerSubmit = (smiles: string) => {
     // setSearch({
     //   ...search,
@@ -73,41 +162,28 @@ export const MainPage = () => {
     //     { filterType: ENUM_SEARCH_FIELD_TYPE.Smiles, filterValue: smiles },
     //   ],
     // });
+    const filters = handleFilters();
+    filters.smiles = smiles;
+    filters.smiles_op = undefined;
+
     setOpen(false);
     if (selectedTab === "substances")
-      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr } });
+      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, ...filters } });
     else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr } });
+      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, ...filters } });
     else if (selectedTab === "references")
-      navigate({ to: "/references", search: { page: 1, queryStr: queryStr } });
+      navigate({ to: "/references", search: { page: 1, queryStr: queryStr, ...filters } });
   };
 
   const handleSearch = (queryStr: any) => {
-    const filters: Record<string, any> = {};
-
-    advancedFields.forEach((field) => {
-      if (field.type === ENUM_SEARCH_FIELD_TYPE.Smiles)
-        filters.smiles = field.values.smiles;
-      if (field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug)
-        filters.cliDrug = field.values.cliDrug;
-      if (field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber)
-        filters.cas = field.values.cas;
-      if (field.type === ENUM_SEARCH_FIELD_TYPE.IncubationTime) {
-        filters.incuTime = field.values.incuTime;
-        filters.incuOther = field.values.incuOther;
-      }
-      if (field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight) {
-        filters.weightStart = field.values.weightStart;
-        filters.weightEnd = field.values.weightEnd;
-      }
-    });
+    const filters = handleFilters();
 
     if (selectedTab === "substances")
       navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, ...filters } });
     else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr } });
+      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, ...filters } });
     else if (selectedTab === "references")
-      navigate({ to: "/references", search: { page: 1, queryStr: queryStr } });
+      navigate({ to: "/references", search: { page: 1, queryStr: queryStr, ...filters } });
   };
 
   return (

@@ -13,7 +13,7 @@ interface PublicationYearFilterProps {
 
 export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, onChange }) => {
   return (
-    <SearchFilter name="Publication Year">
+    <SearchFilter defaultOpen={!!start_initialValue || !!end_initialValue} name="Publication Year">
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 

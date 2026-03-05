@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { TextField } from "@ui-kit";
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
-interface SmilesProps {
+interface AuthorProps {
     index: number;
     logicalOperator: string;
     onLogicalOperatorChange: (value: string) => void;
@@ -10,7 +10,7 @@ interface SmilesProps {
     onChange: (value: string) => void;
 }
 
-export const Smiles: FC<SmilesProps> = ({
+export const Author: FC<AuthorProps> = ({
     index,
     logicalOperator,
     onLogicalOperatorChange,
@@ -22,16 +22,15 @@ export const Smiles: FC<SmilesProps> = ({
             {index > 0 && (
                 <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
             )}
-
             <div className="grow">
                 <TextField
                     value={value}
-                    placeholder="SMILES:"
+                    placeholder="Authors:"
                     hideDetails
                     full_p={true}
                     prependInner={
                         <div className="text-gunmetal font-light mr-3 hidden items-center gap-3 text-sm whitespace-nowrap">
-                            SMILES
+                            Authors
                         </div>
                     }
                     onChange={(e) => onChange(e.target.value)}
