@@ -1,8 +1,5 @@
 import type { FC } from "react";
-
-// import { mdiMinus } from "@mdi/js";
 import { TextField } from "@ui-kit";
-
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface MolecularWeightProps {
@@ -10,7 +7,7 @@ interface MolecularWeightProps {
   onLogicalOperatorChange: (value: string) => void;
   startWeight: string;
   endWeight: string;
-  onChange: (value: string, prop: "startWeight" | "endWeight") => void;
+  onChange: (value: string, prop: "weightStart" | "weightEnd") => void;
 }
 
 export const MolecularWeight: FC<MolecularWeightProps> = ({
@@ -22,7 +19,7 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
 }) => {
   return (
     <div className="flex gap-5 md:gap-22 justify-between lg:grow">
-      <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+      {/* <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} /> */}
 
       <div className="flex gap-5">
         <div className="hidden items-center sm:flex font-light text-platinum-silver">Range:</div>
@@ -40,11 +37,9 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
                   From:
                 </div>
               }
-              onChange={(e) => onChange(e.target.value, "startWeight")}
+              onChange={(e) => onChange(e.target.value, "weightStart")}
             />
           </div>
-
-          {/* <Icon name={mdiMinus} dense /> */}
 
           <div className="w-[calc(50%_-_0.25rem)]">
             <TextField
@@ -58,7 +53,7 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
                   To:
                 </div>
               }
-              onChange={(e) => onChange(e.target.value, "endWeight")}
+              onChange={(e) => onChange(e.target.value, "weightEnd")}
             />
           </div>
         </div>

@@ -1,16 +1,16 @@
 import type { FC } from "react";
-
 import { mdiPlus } from "@mdi/js";
-import type { TSearchField } from "@types";
+import type { TSearchField, TTabValue } from "@types";
 import { Button, Icon } from "@ui-kit";
-
 import { AdvancedSearchField } from "../advanced-search-field";
+import { fieldTypes } from "../advanced-search-field/advanced-search-field.consts";
 
 interface AdvancedSearchFieldsSectionProps {
   searchFields: TSearchField[];
   onAdd: () => void;
   onRemove: (index: number) => void;
   onChange: (field: TSearchField, index: number) => void;
+  activeTab: TTabValue;
 }
 
 export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> = ({
@@ -18,6 +18,7 @@ export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> =
   onAdd,
   onRemove,
   onChange,
+  activeTab
 }) => {
   return (
     <section className="flex w-full flex-col items-center gap-10">
@@ -27,6 +28,7 @@ export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> =
           field={field}
           onChange={(field) => onChange(field, i)}
           onRemove={() => onRemove(i)}
+          items={fieldTypes[activeTab]}
         />
       ))}
 

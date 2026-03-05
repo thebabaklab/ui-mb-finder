@@ -6,7 +6,6 @@ import { Button, Icon, TextField } from "@ui-kit";
 import { cn } from "@utils";
 
 interface SearchSectionProps {
-  search: TSearch;
   initialValue?: string;
   hasSearchField: boolean;
   className?: string;

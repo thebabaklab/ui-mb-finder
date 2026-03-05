@@ -24,7 +24,7 @@ export const ClinicalDrug: FC<ClinicalDrugProps> = ({ value, onChange, direction
       </div>
 
       <div className={cn(direction === "horizontal" && "w-1/3 sm:w-auto")}>
-        <Checkbox
+        <Checkbox 
           reversed={true}
           label="Carboplatin"
           justifyType="justify-between"

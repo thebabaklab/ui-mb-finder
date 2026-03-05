@@ -1,7 +1,5 @@
 import type { FC } from "react";
-
 import { Checkbox, TextField } from "@ui-kit";
-
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface IncubationTimeProps {
@@ -24,7 +22,7 @@ export const IncubationTime: FC<IncubationTimeProps> = ({
   return (
     <div className="flex grow flex-col justify-between gap-5 md:flex-row md:items-center">
       <div className="flex gap-5">
-        <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+        {/* <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} /> */}
 
         <div className="grow md:hidden">
           <TextField
@@ -43,7 +41,7 @@ export const IncubationTime: FC<IncubationTimeProps> = ({
           <div className="w-[100px] sm:w-1/3">
             <Checkbox
               label="All"
-              checked={value.includes("all")}
+              checked={[24, 48, 72, 96, 120].every((n) => value.includes(n))}
               onCheckedChange={(checked) => onChange(checked ? ["all", 24, 48, 72, 96, 120] : [])}
             />
           </div>

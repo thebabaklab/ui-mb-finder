@@ -1,7 +1,5 @@
 import type { FC } from "react";
-
 import { TextField } from "@ui-kit";
-
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface CasRegistryNumberProps {
@@ -19,7 +17,7 @@ export const CasRegistryNumber: FC<CasRegistryNumberProps> = ({
 }) => {
   return (
     <div className="flex grow gap-5">
-      <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+      {/* <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} /> */}
 
       <div className="grow">
         <TextField
@@ -30,7 +28,6 @@ export const CasRegistryNumber: FC<CasRegistryNumberProps> = ({
           prependInner={
             <div className="text-gunmetal font-light mr-3 hidden items-center gap-3 text-sm whitespace-nowrap">
               CAS Registry Number:
-              {/* <div className="bg-foreground h-4 w-[1px]"></div> */}
             </div>
           }
           onChange={(e) => onChange(e.target.value)}
