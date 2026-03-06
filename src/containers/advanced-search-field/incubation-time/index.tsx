@@ -3,7 +3,7 @@ import { Checkbox, TextField } from "@ui-kit";
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface IncubationTimeProps {
-  index: number;
+  lastIndex: boolean;
   logicalOperator: string;
   onLogicalOperatorChange: (value: string) => void;
   value: ("all" | number)[];
@@ -13,7 +13,7 @@ interface IncubationTimeProps {
 }
 
 export const IncubationTime: FC<IncubationTimeProps> = ({
-  index,
+  lastIndex,
   logicalOperator,
   onLogicalOperatorChange,
   value,
@@ -24,7 +24,7 @@ export const IncubationTime: FC<IncubationTimeProps> = ({
   return (
     <div className="flex grow flex-col justify-between gap-5 md:flex-row md:items-center">
       <div className="flex gap-5">
-        {index > 0 && (
+        {!lastIndex && (
           <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
         )}
         

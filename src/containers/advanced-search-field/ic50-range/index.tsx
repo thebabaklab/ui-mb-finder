@@ -4,7 +4,7 @@ import { LogicalOperatorSelect } from "../logical-operator-select";
 import { cn } from "@utils";
 
 interface IC50RangeProps {
-  index: number;
+  lastIndex: boolean;
   logicalOperator: string;
   onLogicalOperatorChange: (value: string) => void;
   icStart: string;
@@ -13,7 +13,7 @@ interface IC50RangeProps {
 }
 
 export const IC50Range: FC<IC50RangeProps> = ({
-  index,
+  lastIndex,
   logicalOperator,
   onLogicalOperatorChange,
   icStart,
@@ -21,8 +21,8 @@ export const IC50Range: FC<IC50RangeProps> = ({
   onChange,
 }) => {
   return (
-    <div className={cn("flex gap-5 md:gap-22 justify-between lg:grow", index > 0 ? "justify-between" : "justify-end")}>
-      {index > 0 && (
+    <div className={cn("flex gap-5 md:gap-22 justify-between lg:grow", !lastIndex ? "justify-between" : "justify-end")}>
+      {!lastIndex && (
         <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
       )}
 

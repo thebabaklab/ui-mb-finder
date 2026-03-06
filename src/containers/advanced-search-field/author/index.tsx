@@ -3,7 +3,7 @@ import { TextField } from "@ui-kit";
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface AuthorProps {
-    index: number;
+    lastIndex: boolean;
     logicalOperator: string;
     onLogicalOperatorChange: (value: string) => void;
     value: string;
@@ -11,7 +11,7 @@ interface AuthorProps {
 }
 
 export const Author: FC<AuthorProps> = ({
-    index,
+    lastIndex,
     logicalOperator,
     onLogicalOperatorChange,
     value,
@@ -19,7 +19,7 @@ export const Author: FC<AuthorProps> = ({
 }) => {
     return (
         <div className="flex grow gap-5">
-            {index > 0 && (
+            {!lastIndex && (
                 <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
             )}
             <div className="grow">

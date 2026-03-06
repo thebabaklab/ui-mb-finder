@@ -4,7 +4,7 @@ import { LogicalOperatorSelect } from "../logical-operator-select";
 import { cn } from "@utils";
 
 interface MolecularWeightProps {
-  index: number;
+  lastIndex: boolean;
   logicalOperator: string;
   onLogicalOperatorChange: (value: string) => void;
   startWeight: string;
@@ -13,7 +13,7 @@ interface MolecularWeightProps {
 }
 
 export const MolecularWeight: FC<MolecularWeightProps> = ({
-  index,
+  lastIndex,
   logicalOperator,
   onLogicalOperatorChange,
   startWeight,
@@ -21,8 +21,8 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
   onChange,
 }) => {
   return (
-    <div className={cn("flex gap-5 md:gap-22 lg:grow", index > 0 ? "justify-between" : "justify-end")}>
-      {index > 0 && (
+    <div className={cn("flex gap-5 md:gap-22 lg:grow", !lastIndex ? "justify-between" : "justify-end")}>
+      {!lastIndex && (
         <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
       )}
       

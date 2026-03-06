@@ -25,7 +25,7 @@ export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> =
       {searchFields.map((field, i) => (
         <AdvancedSearchField
           key={i}
-          index={i}
+          lastIndex={i === searchFields.length - 1}
           field={field}
           onChange={(field) => onChange(field, i)}
           onRemove={() => onRemove(i)}

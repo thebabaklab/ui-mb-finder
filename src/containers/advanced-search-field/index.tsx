@@ -14,14 +14,14 @@ import { PublicationYear } from "./publication-year";
 import { Doi } from "./doi";
 
 interface AdvancedSearchFieldProps {
-  index: number;
+  lastIndex: boolean;
   field: TSearchField;
   onChange: (value: TSearchField) => void;
   onRemove: () => void;
   items: { [key: string]: string | number }[];
 }
 
-export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field, onChange, onRemove, items }) => {
+export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, field, onChange, onRemove, items }) => {
   const handleTypeChange = (type: string) => {
     switch (type) {
       case ENUM_SEARCH_FIELD_TYPE.Smiles:
@@ -194,7 +194,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.Smiles && (
         <Smiles
-          index={index}
+          lastIndex={lastIndex}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.smiles}
@@ -204,7 +204,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug && (
         <ClinicalDrug
-          index={index}
+          lastIndex={lastIndex}
           value={field.values.cliDrug}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
@@ -214,7 +214,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber && (
         <CasRegistryNumber
-          index={index}
+          lastIndex={lastIndex}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.cas}
@@ -224,7 +224,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.IncubationTime && (
         <IncubationTime
-          index={index}
+          lastIndex={lastIndex}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.incuTime}
@@ -236,7 +236,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight && (
         <MolecularWeight
-          index={index}
+          lastIndex={lastIndex}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           startWeight={String(field.values.weightStart ?? "")}
@@ -247,7 +247,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.IC50Range && (
         <IC50Range
-          index={index}
+          lastIndex={lastIndex}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           icStart={String(field.values.icStart ?? "")}
@@ -258,7 +258,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.Author && (
         <Author
-          index={index}
+          lastIndex={lastIndex}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.author}
@@ -268,7 +268,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.PublicationYear && (
         <PublicationYear
-          index={index}
+          lastIndex={lastIndex}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           pyearStart={String(field.values.pyearStart ?? "")}
@@ -279,7 +279,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ index, field
 
       {field.type === ENUM_SEARCH_FIELD_TYPE.Doi && (
         <Doi
-          index={index}
+          lastIndex={lastIndex}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.doi}
