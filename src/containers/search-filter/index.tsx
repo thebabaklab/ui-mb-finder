@@ -1,15 +1,16 @@
 import { type FC, type PropsWithChildren, type ReactNode, useEffect, useState } from "react";
 
-import { mdiChevronDown } from "@mdi/js";
+import { mdiChevronDown, mdiClose } from "@mdi/js";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, Icon } from "@ui-kit";
 import { cn } from "@utils";
 
 interface SearchFilterProps {
   name: string | ReactNode;
   defaultOpen?: boolean;
+  onRemove?: () => void;
 }
 
-export const SearchFilter: FC<PropsWithChildren<SearchFilterProps>> = ({ name, children, defaultOpen = false }) => {
+export const SearchFilter: FC<PropsWithChildren<SearchFilterProps>> = ({ name, children, defaultOpen = false, onRemove }) => {
   const [defaultOpened, setDefaultOpened] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -29,6 +30,15 @@ export const SearchFilter: FC<PropsWithChildren<SearchFilterProps>> = ({ name, c
           )}
         >
           <span className="font-light">{name}</span>
+
+          {onRemove && (
+            <Icon
+              name={mdiClose}
+              color="current"
+              className="absolute right-0"
+              onClick={onRemove}
+            />
+          )}
 
           <Icon
             name={mdiChevronDown}

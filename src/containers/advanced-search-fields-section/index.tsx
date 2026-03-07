@@ -11,6 +11,7 @@ interface AdvancedSearchFieldsSectionProps {
   onRemove: (index: number) => void;
   onChange: (field: TSearchField, index: number) => void;
   activeTab: TTabValue;
+  addVisible: boolean;
 }
 
 export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> = ({
@@ -18,7 +19,8 @@ export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> =
   onAdd,
   onRemove,
   onChange,
-  activeTab
+  activeTab,
+  addVisible
 }) => {
   return (
     <section className="flex w-full flex-col items-center gap-10">
@@ -29,14 +31,11 @@ export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> =
           field={field}
           onChange={(field) => onChange(field, i)}
           onRemove={() => onRemove(i)}
-          items={fieldTypes[activeTab].filter(
-            (fieldType) =>
-              fieldType.id === field.type || !searchFields.some(f => f.type === fieldType.id)
-          )}
+          items={fieldTypes[activeTab]}
         />
       ))}
 
-      {searchFields.length !== fieldTypes[activeTab].length && (
+      {addVisible && (
         <Button className="gap-2 w-[330px] bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={onAdd}>
           Add Advanced Search Field
           <Icon name={mdiPlus} className="bg-secondary rounded-full" color="current" add_sf />

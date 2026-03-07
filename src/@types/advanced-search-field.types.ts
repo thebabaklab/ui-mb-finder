@@ -2,6 +2,7 @@ import { ENUM_SEARCH_FIELD_TYPE } from "./enums";
 
 export type TSearchField =
   | { type: "" }
+  | { type: "error" }
   | {
     type: ENUM_SEARCH_FIELD_TYPE.Smiles;
     negate?: boolean;

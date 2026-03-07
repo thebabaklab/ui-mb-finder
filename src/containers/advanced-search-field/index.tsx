@@ -96,7 +96,7 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
   };
 
   const handleLogicalOperatorChange = (logicalOperator: string) => {
-    if (field.type !== "") {
+    if (field.type !== "" && field.type !== "error") {
       onChange({ ...field, logicalOperator });
     }
   };

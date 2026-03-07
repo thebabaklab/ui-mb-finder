@@ -1,19 +1,28 @@
 import { type FC } from "react";
 import { TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
+import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface MolecularWeightFilterProps {
   initialweightStart?: number;
   initialweightEnd?: number;
+  hasLogicOperator?: boolean;
+  logicalOperator?: string;
+  onRemove?: () => void;
+  onLogicalOperatorChange?: (value: string) => void;
   onChange: (value: {
     weightStart?: number;
     weightEnd?: number;
   }) => void;
 }
 
-export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ initialweightStart, initialweightEnd, onChange }) => {
+export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ initialweightStart, initialweightEnd, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
-    <SearchFilter defaultOpen={!!initialweightStart || !!initialweightEnd} name="Molecular Weight">
+    <SearchFilter defaultOpen={true} onRemove={onRemove} name="Molecular Weight">
+      {hasLogicOperator && (
+        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+      )}
+
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 

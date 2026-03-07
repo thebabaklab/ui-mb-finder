@@ -9,6 +9,9 @@ export const bioDataRoute = createRoute({
   validateSearch: z.object({
     page: z.number().optional(),
     queryStr: z.string().optional(),
+    // NEW FILTERS
+    filters: z.string().optional(),
+    // OLD FILTERS
     incuTime: z.array(z.number()).optional(),
     incuOther: z.string().optional(),
     incuTime_op: z.string().optional(),

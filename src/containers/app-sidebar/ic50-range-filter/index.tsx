@@ -1,17 +1,20 @@
 import { type FC } from "react";
 import { TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
+import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface Ic50RangeFilterProps {
   initialIcStart?: number;
   initialIcEnd?: number;
+  logicalOperator?: string;
+  onLogicalOperatorChange?: (value: string) => void;
   onChange: (value: {
     icStart?: number;
     icEnd?: number;
   }) => void;
 }
 
-export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, initialIcEnd, onChange }) => {
+export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, initialIcEnd, logicalOperator, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter
       defaultOpen={!!initialIcStart || !!initialIcEnd}
@@ -21,6 +24,8 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, init
         </span>
       }
     >
+      <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 

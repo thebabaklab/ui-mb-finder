@@ -1,17 +1,22 @@
 import { type ChangeEvent, type FC } from "react";
 import { Checkbox, TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
+import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 const OPTIONS = [24, 48, 72, 96, 120];
 
 interface IncubationTimeFilterProps {
   inititalOtherValue?: string;
   initialSelectedValues: number[];
+  hasLogicOperator?: boolean;
+  logicalOperator?: string;
+  onRemove?: () => void;
+  onLogicalOperatorChange?: (value: string) => void;
   onChange: (incuTime: number[]) => void;
   onOtherChange: (incuOther?: string) => void;
 }
 
-export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOtherValue, initialSelectedValues, onChange, onOtherChange }) => {
+export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOtherValue, initialSelectedValues, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange, onOtherChange }) => {
   const isAllSelected = OPTIONS.every((n) => initialSelectedValues.includes(n));
 
   const toggleValue = (num: number, checked: boolean) => {
@@ -30,7 +35,11 @@ export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOt
   };
 
   return (
-    <SearchFilter defaultOpen={!!initialSelectedValues.length || !!inititalOtherValue} name="Incubation Time">
+    <SearchFilter defaultOpen={true} onRemove={onRemove} name="Incubation Time">
+      {hasLogicOperator && (
+        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+      )}
+
       <div className="flex justify-between">
         <div className="w-1/3">
           <Checkbox

@@ -13,13 +13,80 @@ import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import { cn } from "@utils";
 import axios from "axios";
-import { ENUM_SEARCH_FIELD_TYPE } from "@types";
+import { type TSearchField } from "@types";
+
+export type TValidSearchField = Exclude<
+  TSearchField,
+  { type: "" } | { type: "error" }
+>;
+export type ApiFilter = {
+  filterType: string;
+  filterValue: any;
+}
+
+export type ApiGroup = {
+  operator: string;
+  conditions: (ApiFilter | ApiGroup)[];
+}
+
+export function isValidSearchField(filter: TSearchField): filter is TValidSearchField {
+  return filter.type !== "" && filter.type !== "error";
+}
+
+export function buildFilters(filters: TSearchField[]): any | null {
+  const validFilters = filters.filter(isValidSearchField);
+
+  if (!validFilters.length) return null;
+
+  let result = {};
+  let currentGroup: ApiGroup | null = null;
+
+  validFilters.forEach((filter, index) => {
+    const apiFilter: ApiFilter = {
+      filterType: filter.type,
+      filterValue: filter.values,
+    }
+
+    if (!currentGroup) {
+      currentGroup = {
+        operator: validFilters.length === 1 ? "AND" : filter.logicalOperator ?? "AND",
+        conditions: [apiFilter],
+      }
+
+      result = currentGroup;
+      return;
+    }
+
+    if (index === validFilters.length - 1) {
+      currentGroup.conditions.push(apiFilter);
+      return;
+    }
+
+    const prevOperator = validFilters[index - 1]?.logicalOperator;
+
+    if (filter.logicalOperator === prevOperator)
+      currentGroup.conditions.push(apiFilter);
+    else {
+      const prevGroup = currentGroup;
+
+      currentGroup = {
+        operator: filter.logicalOperator ?? "AND",
+        conditions: [apiFilter],
+      }
+
+      prevGroup.conditions.push(currentGroup);
+    }
+  })
+
+  return result;
+}
+
 
 export const SubstancesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, title, ceillineName, queryStr, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd } = useSearch({ from: "/search/substances", });
+  const { page, title, ceillineName, queryStr, filters: filtersString } = useSearch({ from: "/search/substances", });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
@@ -34,42 +101,10 @@ export const SubstancesPage = () => {
   const getSubstances = useCallback(async () => {
     try {
       setLoading(true);
-      const filters = [];
-      const weightFilter: Partial<{
-        startWeight: number;
-        endWeight: number;
-      }> = {}
+      let apiFilters = null;
 
-      if (smiles)
-        filters.push({ filterType: ENUM_SEARCH_FIELD_TYPE.Smiles, filterValue: smiles });
-
-      if (cliDrug?.length)
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug, filterValue: cliDrug
-        });
-
-      if (incuTime?.length || incuOther) {
-        if (incuOther)
-          incuTime?.push(Number(incuOther));
-
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime, filterValue: [...incuTime as number[]]
-        });
-      }
-
-      if (cas)
-        filters.push({ filterType: ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber, filterValue: cas });
-
-      if (weightStart || weightEnd) {
-        if (weightStart)
-          weightFilter.startWeight = weightStart;
-        if (weightEnd)
-          weightFilter.endWeight = weightEnd;
-
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.MolecularWeight, filterValue: weightFilter
-        })
-      }
+      if (filtersString)
+        apiFilters = buildFilters(JSON.parse(filtersString));
 
       const { data } = await axios.post(
         "https://stage-api.mb-finder.org/api/v2/get-substances",
@@ -79,7 +114,7 @@ export const SubstancesPage = () => {
           currentPage,
           paper_id: title,
           ceil_line_name: ceillineName,
-          filters
+          filters: apiFilters ? apiFilters : {},
         },
       );
       setSubstances(data.data);
@@ -90,26 +125,29 @@ export const SubstancesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, title, ceillineName, queryStr, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd]);
+  }, [search, currentPage, title, ceillineName, filtersString]);
+  // }, [search, currentPage, title, ceillineName, queryStr, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd]);
 
   useEffect(() => {
     void getSubstances();
-  }, [page, title, ceillineName, queryStr, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd]);
+  }, [page, title, ceillineName, queryStr, filtersString]);
+  // }, [page, title, ceillineName, queryStr, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd]);
 
   return (
     <div className="flex flex-col gap-5">
       <div
         className={cn(
           "flex",
-          queryStr || title || ceillineName || smiles || cliDrug || cas || incuTime || incuOther || weightStart || weightEnd ? "justify-between" : "justify-end lg:hidden",
+          // queryStr || title || ceillineName || smiles || cliDrug || cas || incuTime || incuOther || weightStart || weightEnd ? "justify-between" : "justify-end lg:hidden",
+          "justify-between",
         )}
       >
-        {(queryStr || title || ceillineName || smiles || cliDrug || cas || incuTime || incuOther || weightStart || weightEnd) && (
-          <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
-            <Icon name={mdiChevronLeft} color="current" large />
-            Back
-          </Button>
-        )}
+        {/* {(queryStr || title || ceillineName || smiles || cliDrug || cas || incuTime || incuOther || weightStart || weightEnd) && ( */}
+        <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
+          <Icon name={mdiChevronLeft} color="current" large />
+          Back
+        </Button>
+        {/* )} */}
 
         <Button variant="back" size="small" className="w-fit text-base font-light px-4 py-2 lg:hidden" onClick={() => setDialogs(["filter"])}>
           <Icon name={mdiFilterOutline} color="current" dense />

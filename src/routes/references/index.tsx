@@ -11,6 +11,9 @@ export const referencesRoute = createRoute({
     queryStr: z.string().optional(),
     imgId: z.string().optional(),
     ceillineName: z.string().optional(),
+    // NEW FILTERS
+    filters: z.string().optional(),
+    // OLD FILTERS
     author: z.string().optional(),
     author_op: z.string().optional(),
     pyearStart: z.number().optional(),

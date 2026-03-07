@@ -33,6 +33,7 @@ export const MainPage = () => {
   const [open, setOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState<TTabValue>("substances");
   const [advancedFields, setAdvancedFields] = useState<TSearchField[]>([]);
+  const [addVisible, setAddVisible] = useState(true);
 
   const hasSearchField = useMemo(() => {
     return advancedFields.some(
@@ -60,94 +61,76 @@ export const MainPage = () => {
 
   const addSearchField = () => {
     setAdvancedFields([...advancedFields, emptySearchField]);
+    setAddVisible(false);
   };
 
   const removeSearchField = (index: number) => {
     const newSearchFields = [...advancedFields];
     newSearchFields.splice(index, 1);
     setAdvancedFields(newSearchFields);
+
+    if (newSearchFields.length == 0 || newSearchFields[newSearchFields.length - 1].type !== "")
+      setAddVisible(true);
   };
 
   const handleSearchFieldsChange = (field: TSearchField, index: number) => {
     const newSearchFields = [...advancedFields];
     newSearchFields.splice(index, 1, field);
     setAdvancedFields(newSearchFields);
+
+    if (newSearchFields[newSearchFields.length - 1].type !== "")
+      setAddVisible(true);
   };
 
   const handleFilters = () => {
-    const filters: Record<string, any> = {};
+    const filters: TSearchField[] = [];
 
-    advancedFields.forEach((field) => {
+    advancedFields.forEach((field, index) => {
+
+      if (field.type !== "" && field.type !== "error") {
+        if (index !== advancedFields.length - 1 && !field.logicalOperator) {
+          filters.push({ type: "error" });
+        }
+
+        field.logicalOperator = index === advancedFields.length - 1 ? undefined : field.logicalOperator;
+      }
+
       switch (field.type) {
         case ENUM_SEARCH_FIELD_TYPE.Smiles:
-          if (field.values.smiles) {
-            filters.smiles = field.values.smiles;
-            filters.smiles_op = field.logicalOperator;
-          }
+          if (field.values.smiles)
+            filters.push(field);
           break;
         case ENUM_SEARCH_FIELD_TYPE.ClinicalDrug:
-          if (field.values.cliDrug.length) {
-            filters.cliDrug = field.values.cliDrug;
-            filters.cliDrug_op = field.logicalOperator;
-          }
+          if (field.values.cliDrug.length)
+            filters.push(field)
           break;
         case ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber:
-          if (field.values.cas) {
-            filters.cas = field.values.cas;
-            filters.cas_op = field.logicalOperator;
-          }
+          if (field.values.cas)
+            filters.push(field);
           break;
         case ENUM_SEARCH_FIELD_TYPE.IncubationTime:
-          if (field.values.incuTime.length) {
-            filters.incuTime = field.values.incuTime;
-            filters.incuTime_op = field.logicalOperator;
-          }
-          if (field.values.incuOther) {
-            filters.incuOther = field.values.incuOther;
-            filters.incuTime_op = field.logicalOperator;
-          }
+          if (field.values.incuTime.length || field.values.incuOther)
+            filters.push(field);
           break;
         case ENUM_SEARCH_FIELD_TYPE.MolecularWeight:
-          if (field.values.weightStart) {
-            filters.weightStart = field.values.weightStart;
-            filters.weight_op = field.logicalOperator;
-          }
-          if (field.values.weightEnd) {
-            filters.weightEnd = field.values.weightEnd;
-            filters.weight_op = field.logicalOperator;
-          }
+          if (field.values.weightStart || field.values.weightEnd)
+            filters.push(field);
           break;
         case ENUM_SEARCH_FIELD_TYPE.IC50Range:
-          if (field.values.icStart) {
-            filters.icStart = field.values.icStart;
-            filters.ic_op = field.logicalOperator;
-          }
-          if (field.values.icEnd) {
-            filters.icEnd = field.values.icEnd;
-            filters.ic_op = field.logicalOperator;
-          }
+          if (field.values.icStart || field.values.icEnd)
+            filters.push(field);
           break;
         case ENUM_SEARCH_FIELD_TYPE.Author:
-          if (field.values.author) {
-            filters.author = field.values.author;
-            filters.author_op = field.logicalOperator;
-          }
+          if (field.values.author)
+            filters.push(field);
           break;
         case ENUM_SEARCH_FIELD_TYPE.PublicationYear:
-          if (field.values.pyearStart) {
-            filters.pyearStart = field.values.pyearStart;
-            filters.pyear_op = field.logicalOperator;
-          }
-          if (field.values.pyearEnd) {
-            filters.pyearEnd = field.values.pyearEnd;
-            filters.pyear_op = field.logicalOperator;
-          }
+          if (field.values.pyearStart || field.values.pyearEnd)
+            filters.push(field);
           break;
         case ENUM_SEARCH_FIELD_TYPE.Doi:
-          if (field.values.doi) {
-            filters.doi = field.values.doi;
-            filters.doi_op = field.logicalOperator;
-          }
+          if (field.values.doi)
+            filters.push(field);
           break;
       }
     });
@@ -156,34 +139,38 @@ export const MainPage = () => {
   }
 
   const handleDrawerSubmit = (smiles: string) => {
-    // setSearch({
-    //   ...search,
-    //   filters: [
-    //     { filterType: ENUM_SEARCH_FIELD_TYPE.Smiles, filterValue: smiles },
-    //   ],
-    // });
     const filters = handleFilters();
-    filters.smiles = smiles;
-    filters.smiles_op = undefined;
+    filters.push({
+      type: ENUM_SEARCH_FIELD_TYPE.Smiles,
+      values: {
+        smiles: smiles
+      }
+    });
+
+    if (filters.some(field => field.type === "error"))
+      return window.alert('Logic operator must be specified for each Advanced Search Field.');
 
     setOpen(false);
     if (selectedTab === "substances")
-      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, ...filters } });
+      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
     else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, ...filters } });
+      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
     else if (selectedTab === "references")
-      navigate({ to: "/references", search: { page: 1, queryStr: queryStr, ...filters } });
+      navigate({ to: "/references", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
   };
 
   const handleSearch = (queryStr: any) => {
     const filters = handleFilters();
 
+    if (filters.some(field => field.type === "error"))
+      return window.alert('Logic operator must be specified for each Advanced Search Field.');
+
     if (selectedTab === "substances")
-      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, ...filters } });
+      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
     else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, ...filters } });
+      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
     else if (selectedTab === "references")
-      navigate({ to: "/references", search: { page: 1, queryStr: queryStr, ...filters } });
+      navigate({ to: "/references", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
   };
 
   return (
@@ -202,6 +189,7 @@ export const MainPage = () => {
                 selectedTab={selectedTab}
                 onChange={(value) => {
                   setAdvancedFields([]);
+                  setAddVisible(true);
                   setSelectedTab(value);
                 }}
               />
@@ -225,6 +213,7 @@ export const MainPage = () => {
               onRemove={removeSearchField}
               onChange={handleSearchFieldsChange}
               activeTab={selectedTab}
+              addVisible={addVisible}
             />
           </div>
         </section>

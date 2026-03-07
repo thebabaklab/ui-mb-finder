@@ -6,21 +6,29 @@ import { Button } from "@ui-kit";
 
 export const BioDataSidebar = () => {
   const { cellId } = useParams({ from: "/search/cell-lines/bio-data/$cellId" });
-  const { incuTime, incuOther, icStart, icEnd } = useSearch({
+  const { incuTime, incuOther, incuTime_op, icStart, icEnd, ic_op } = useSearch({
     from: "/search/cell-lines/bio-data/$cellId",
   });
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
     incuTime: incuTime ?? [],
     incuOther: incuOther,
+    incuTime_op: incuTime_op,
     icStart: icStart,
     icEnd: icEnd,
+    ic_op: ic_op,
   });
 
   const applyFilters = () => {
-    if (filters.icEnd === 0 && filters.icEnd === 0 && !filters.incuOther && filters.incuTime.length === 0) {
-      return;
-    }
+    // if (filters.icEnd === 0 && filters.icEnd === 0 && !filters.incuOther && filters.incuTime.length === 0) {
+    //   return;
+    // }
+
+    if (!filters.incuTime.length && !filters.incuOther)
+      filters.incuTime_op = undefined;
+
+    if (!filters.icStart && !filters.icEnd)
+      filters.ic_op = undefined;
 
     navigate({
       to: "/cell-lines/bio-data/$cellId", params: { cellId: cellId }, search: (prev) => ({
@@ -35,8 +43,10 @@ export const BioDataSidebar = () => {
     setFilters({
       incuTime: incuTime ?? [],
       incuOther: incuOther,
+      incuTime_op: incuTime_op,
       icStart: icStart ?? 0,
       icEnd: icEnd ?? 0,
+      ic_op: ic_op,
     });
   }, [cellId, incuTime, incuOther, icStart, icEnd]);
 
@@ -46,9 +56,9 @@ export const BioDataSidebar = () => {
         Apply
       </Button>
 
-      <IncubationTimeFilter inititalOtherValue={filters.incuOther} initialSelectedValues={filters.incuTime} onChange={(values) => setFilters((prev) => ({ ...prev, incuTime: values }))} onOtherChange={(value) => setFilters((prev) => ({ ...prev, incuOther: value }))} />
+      <IncubationTimeFilter inititalOtherValue={filters.incuOther} initialSelectedValues={filters.incuTime} logicalOperator={filters.incuTime_op} onChange={(values) => setFilters((prev) => ({ ...prev, incuTime: values }))} onOtherChange={(value) => setFilters((prev) => ({ ...prev, incuOther: value }))} onLogicalOperatorChange={(value) => setFilters((prev) => ({ ...prev, incuTime_op: value }))} />
 
-      <Ic50RangeFilter initialIcStart={filters.icStart} initialIcEnd={filters.icEnd} onChange={(values_ic) => setFilters((prev) => ({ ...prev, ...values_ic }))} />
+      <Ic50RangeFilter initialIcStart={filters.icStart} initialIcEnd={filters.icEnd} logicalOperator={filters.ic_op} onChange={(values_ic) => setFilters((prev) => ({ ...prev, ...values_ic }))} onLogicalOperatorChange={(value) => setFilters((prev) => ({ ...prev, ic_op: value }))} />
     </div>
   );
 };

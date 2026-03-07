@@ -11,6 +11,9 @@ export const cellLinesRoute = createRoute({
     queryStr: z.string().optional(),
     imgId: z.string().optional(),
     title: z.string().optional(),
+    // NEW FILTERS
+    filters: z.string().optional(),
+    // OLD FILTERS
     incuTime: z.array(z.number()).optional(),
     incuOther: z.string().optional(),
     incuTime_op: z.string().optional(),

@@ -1,19 +1,24 @@
 import { type FC } from "react";
 import { TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
+import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface PublicationYearFilterProps {
   start_initialValue?: number,
   end_initialValue?: number,
+  logicalOperator?: string;
+  onLogicalOperatorChange?: (value: string) => void;
   onChange: (value: {
     pyearStart?: number;
     pyearEnd?: number;
   }) => void;
 }
 
-export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, onChange }) => {
+export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, logicalOperator, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter defaultOpen={!!start_initialValue || !!end_initialValue} name="Publication Year">
+      <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 
