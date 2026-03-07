@@ -125,7 +125,7 @@ export const SubstancesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, title, ceillineName, filtersString]);
+  }, [search, currentPage, title, ceillineName, queryStr, filtersString]);
   // }, [search, currentPage, title, ceillineName, queryStr, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd]);
 
   useEffect(() => {
@@ -142,12 +142,10 @@ export const SubstancesPage = () => {
           "justify-between",
         )}
       >
-        {/* {(queryStr || title || ceillineName || smiles || cliDrug || cas || incuTime || incuOther || weightStart || weightEnd) && ( */}
         <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
           <Icon name={mdiChevronLeft} color="current" large />
           Back
         </Button>
-        {/* )} */}
 
         <Button variant="back" size="small" className="w-fit text-base font-light px-4 py-2 lg:hidden" onClick={() => setDialogs(["filter"])}>
           <Icon name={mdiFilterOutline} color="current" dense />

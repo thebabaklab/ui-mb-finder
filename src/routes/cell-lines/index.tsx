@@ -14,11 +14,11 @@ export const cellLinesRoute = createRoute({
     // NEW FILTERS
     filters: z.string().optional(),
     // OLD FILTERS
-    incuTime: z.array(z.number()).optional(),
-    incuOther: z.string().optional(),
-    incuTime_op: z.string().optional(),
-    icStart: z.number().optional(),
-    icEnd: z.number().optional(),
-    ic_op: z.string().optional(),
+    // incuTime: z.array(z.number()).optional(),
+    // incuOther: z.string().optional(),
+    // incuTime_op: z.string().optional(),
+    // icStart: z.number().optional(),
+    // icEnd: z.number().optional(),
+    // ic_op: z.string().optional(),
   }),
 }).lazy(() => import("./cell-lines.lazy").then((d) => d.Route));

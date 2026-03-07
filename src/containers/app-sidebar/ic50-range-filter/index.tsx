@@ -6,7 +6,9 @@ import { LogicalOperatorSelect } from "../../advanced-search-field/logical-opera
 interface Ic50RangeFilterProps {
   initialIcStart?: number;
   initialIcEnd?: number;
+  hasLogicOperator?: boolean;
   logicalOperator?: string;
+  onRemove?: () => void;
   onLogicalOperatorChange?: (value: string) => void;
   onChange: (value: {
     icStart?: number;
@@ -14,17 +16,20 @@ interface Ic50RangeFilterProps {
   }) => void;
 }
 
-export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, initialIcEnd, logicalOperator, onLogicalOperatorChange, onChange }) => {
+export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, initialIcEnd, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter
-      defaultOpen={!!initialIcStart || !!initialIcEnd}
+      defaultOpen={true}
+      onRemove={onRemove}
       name={
         <span>
           IC<span className="align-sub text-xs">50</span> μM
         </span>
       }
     >
-      <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+      {hasLogicOperator && (
+        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+      )}
 
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>

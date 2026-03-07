@@ -6,13 +6,13 @@ import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import { cn } from "@utils";
 import axios from "axios";
-import { ENUM_SEARCH_FIELD_TYPE } from "@types";
+import { buildFilters } from "../substances";
 
 export const CellLinesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, imgId, queryStr, title, incuTime, incuOther, icStart, icEnd } = useSearch({ from: "/search/cell-lines" });
+  const { page, imgId, queryStr, title, filters: filtersString } = useSearch({ from: "/search/cell-lines" });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
@@ -27,31 +27,10 @@ export const CellLinesPage = () => {
   const getCellLines = useCallback(async () => {
     try {
       setLoading(true);
-      const filters = [];
-      const icFilter: Partial<{
-        startIC50: number;
-        endIC50: number;
-      }> = {}
+      let apiFilters = null;
 
-      if (incuTime?.length || incuOther) {
-        if (incuOther)
-          incuTime?.push(Number(incuOther));
-
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.IncubationTime, filterValue: [...incuTime as number[]]
-        });
-      }
-
-      if (icStart || icEnd) {
-        if (icStart)
-          icFilter.startIC50 = icStart;
-        if (icEnd)
-          icFilter.endIC50 = icEnd;
-
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.IC50Range, filterValue: icFilter
-        })
-      }
+      if (filtersString)
+        apiFilters = buildFilters(JSON.parse(filtersString));
 
       const { data } = await axios.post("https://stage-api.mb-finder.org/api/v2/get-cell-lines", {
         ...search,
@@ -59,7 +38,7 @@ export const CellLinesPage = () => {
         currentPage,
         imgId,
         paper_id: title,
-        filters
+        filters: apiFilters ? apiFilters : {},
       });
       setCellLines(data.data);
       setTotalPages(data.meta.last_page);
@@ -69,21 +48,25 @@ export const CellLinesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, imgId, title, queryStr, incuTime, incuOther, icStart, icEnd]);
+  }, [search, currentPage, imgId, title, queryStr, filtersString]);
+  // }, [search, currentPage, imgId, title, queryStr, incuTime, incuOther, icStart, icEnd]);
 
   useEffect(() => {
     void getCellLines();
-  }, [page, queryStr, imgId, title, incuTime, incuOther, icStart, icEnd]);
+  }, [page, queryStr, imgId, title, filtersString]);
+  // }, [page, queryStr, imgId, title, incuTime, incuOther, icStart, icEnd]);
 
   return (
     <div className="flex flex-col gap-5">
-      <div className={cn("flex", queryStr || imgId || title || incuTime || incuOther || icStart || icEnd ? "justify-between" : "justify-end lg:hidden")}>
-        {(queryStr || imgId || title || incuTime || incuOther || icStart || icEnd) && (
-          <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
-            <Icon name={mdiChevronLeft} color="current" large />
-            Back
-          </Button>
-        )}
+      <div className={cn(
+        "flex",
+        // queryStr || imgId || title || incuTime || incuOther || icStart || icEnd ? "justify-between" : "justify-end lg:hidden",
+        "justify-between"
+      )}>
+        <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
+          <Icon name={mdiChevronLeft} color="current" large />
+          Back
+        </Button>
 
         <Button variant="back" size="small" className="w-fit text-base font-light px-4 py-2 lg:hidden" onClick={() => setDialogs(["filter"])}>
           <Icon name={mdiFilterOutline} color="current" dense />
