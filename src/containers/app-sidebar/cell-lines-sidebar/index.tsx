@@ -8,7 +8,7 @@ import { mdiPlus } from "@mdi/js";
 import { fieldTypes } from "../../advanced-search-field/advanced-search-field.consts";
 
 export const CellLinesSidebar = () => {
-  const { imgId, filters: filtersString } = useSearch({ from: "/search/cell-lines" });
+  const { title, imgId, filters: filtersString } = useSearch({ from: "/search/cell-lines" });
   const navigate = useNavigate();
   const parsedFilters: TSearchField[] = filtersString ? JSON.parse(filtersString) : [];
   const [filters, setFilters] = useState<TSearchField[]>(parsedFilters);
@@ -111,7 +111,7 @@ export const CellLinesSidebar = () => {
 
   useEffect(() => {
     setFilters(parsedFilters);
-  }, [imgId, filtersString]);
+  }, [title, imgId, filtersString]);
 
   return (
     <div className="flex flex-col p-4 gap-4">
