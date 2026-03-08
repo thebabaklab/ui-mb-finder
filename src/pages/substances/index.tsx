@@ -13,24 +13,48 @@ import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import { cn } from "@utils";
 import axios from "axios";
-import { type TSearchField } from "@types";
+import { ENUM_SEARCH_FIELD_TYPE, type TSearchField } from "@types";
 
-export type TValidSearchField = Exclude<
+type TValidSearchField = Exclude<
   TSearchField,
   { type: "" } | { type: "error" }
 >;
-export type ApiFilter = {
+
+type ApiFilter = {
   filterType: string;
   filterValue: any;
 }
 
-export type ApiGroup = {
+type ApiGroup = {
   operator: string;
   conditions: (ApiFilter | ApiGroup)[];
 }
 
-export function isValidSearchField(filter: TSearchField): filter is TValidSearchField {
+function isValidSearchField(filter: TSearchField): filter is TValidSearchField {
   return filter.type !== "" && filter.type !== "error";
+}
+
+const getFieldValues = (filter: TSearchField) => {
+  switch (filter.type) {
+    case ENUM_SEARCH_FIELD_TYPE.Author:
+      return filter.values.author;
+    case ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber:
+      return filter.values.cas;
+    case ENUM_SEARCH_FIELD_TYPE.Smiles:
+      return filter.values.smiles;
+    case ENUM_SEARCH_FIELD_TYPE.ClinicalDrug:
+      return filter.values.cliDrug;
+    case ENUM_SEARCH_FIELD_TYPE.Doi:
+      return filter.values.doi;
+    case ENUM_SEARCH_FIELD_TYPE.IC50Range:
+      return { "startIC50": filter.values.icStart, "endIC50": filter.values.icEnd };
+    case ENUM_SEARCH_FIELD_TYPE.IncubationTime:
+      return filter.values.incuOther ? [...filter.values.incuTime, Number(filter.values.incuOther)] : [...filter.values.incuTime];
+    case ENUM_SEARCH_FIELD_TYPE.MolecularWeight:
+      return { "startWeight": filter.values.weightStart, "endWeight": filter.values.weightEnd };
+    case ENUM_SEARCH_FIELD_TYPE.PublicationYear:
+      return { "startYear": filter.values.pyearStart, "endYear": filter.values.pyearEnd };
+  }
 }
 
 export function buildFilters(filters: TSearchField[]): any | null {
@@ -44,7 +68,7 @@ export function buildFilters(filters: TSearchField[]): any | null {
   validFilters.forEach((filter, index) => {
     const apiFilter: ApiFilter = {
       filterType: filter.type,
-      filterValue: filter.values,
+      filterValue: getFieldValues(filter),
     }
 
     if (!currentGroup) {
