@@ -6,13 +6,13 @@ import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import { cn } from "@utils";
 import axios from "axios";
-import { ENUM_SEARCH_FIELD_TYPE } from "@types";
+import { buildFilters } from "../substances";
 
 export const ReferencesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, imgId, ceillineName, queryStr, author, pyearStart, pyearEnd, doi, cliDrug } = useSearch({ from: "/search/references" });
+  const { page, imgId, ceillineName, queryStr, filters: filtersString } = useSearch({ from: "/search/references" });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
@@ -27,37 +27,10 @@ export const ReferencesPage = () => {
   const getReferences = useCallback(async () => {
     try {
       setLoading(true);
-      const filters = [];
-      const dateFilter: Partial<{
-        startYear: number;
-        endYear: number;
-      }> = {}
+      let apiFilters = null;
 
-      if (author)
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.Author, filterValue: author
-        });
-
-      if (pyearStart || pyearEnd) {
-        if (pyearStart)
-          dateFilter.startYear = pyearStart;
-        if (pyearEnd)
-          dateFilter.endYear = pyearEnd;
-
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.PublicationYear, filterValue: dateFilter
-        })
-      }
-
-      if (doi)
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.Doi, filterValue: doi
-        });
-
-      if (cliDrug?.length)
-        filters.push({
-          filterType: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug, filterValue: cliDrug
-        });
+      if (filtersString)
+        apiFilters = buildFilters(JSON.parse(filtersString));
 
       const { data } = await axios.post("https://stage-api.mb-finder.org/api/v2/get-references", {
         ...search,
@@ -65,7 +38,7 @@ export const ReferencesPage = () => {
         currentPage,
         imgId,
         ceil_line_name: ceillineName,
-        filters,
+        filters: apiFilters ? apiFilters : {},
       });
       setReferences(data.data);
       setTotalPages(data.meta.last_page);
@@ -75,21 +48,25 @@ export const ReferencesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, imgId, ceillineName, queryStr, author, pyearStart, pyearEnd, doi, cliDrug]);
+  }, [search, currentPage, imgId, ceillineName, queryStr, filtersString]);
+  // }, [search, currentPage, imgId, ceillineName, queryStr, author, pyearStart, pyearEnd, doi, cliDrug]);
 
   useEffect(() => {
     void getReferences();
-  }, [page, queryStr, imgId, ceillineName, author, pyearStart, pyearEnd, doi, cliDrug]);
+  }, [page, queryStr, imgId, ceillineName, filtersString]);
+  // }, [page, queryStr, imgId, ceillineName, author, pyearStart, pyearEnd, doi, cliDrug]);
 
   return (
     <div className="flex flex-col gap-5">
-      <div className={cn("flex", ceillineName || imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug ? "justify-between" : "justify-end lg:hidden")}>
-        {(ceillineName || imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug) && (
-          <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
-            <Icon name={mdiChevronLeft} color="current" large />
-            Back
-          </Button>
-        )}
+      <div className={cn(
+        "flex",
+        // ceillineName || imgId || queryStr || author || pyearStart || pyearEnd || doi || cliDrug ? "justify-between" : "justify-end lg:hidden"
+        "justify-between"
+      )}>
+        <Button variant="back" size="small" className="w-fit text-base font-light pl-2 pr-4 py-2" onClick={() => back()}>
+          <Icon name={mdiChevronLeft} color="current" large />
+          Back
+        </Button>
 
         <Button variant="back" size="small" className="w-fit text-base font-light px-4 py-2 lg:hidden" onClick={() => setDialogs(["filter"])}>
           <Icon name={mdiFilterOutline} color="current" dense />

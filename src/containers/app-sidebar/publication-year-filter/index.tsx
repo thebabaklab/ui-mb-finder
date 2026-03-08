@@ -4,9 +4,11 @@ import { SearchFilter } from "../../search-filter";
 import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface PublicationYearFilterProps {
-  start_initialValue?: number,
-  end_initialValue?: number,
+  start_initialValue?: number;
+  end_initialValue?: number;
+  hasLogicOperator?: boolean;
   logicalOperator?: string;
+  onRemove?: () => void;
   onLogicalOperatorChange?: (value: string) => void;
   onChange: (value: {
     pyearStart?: number;
@@ -14,10 +16,12 @@ interface PublicationYearFilterProps {
   }) => void;
 }
 
-export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, logicalOperator, onLogicalOperatorChange, onChange }) => {
+export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
-    <SearchFilter defaultOpen={!!start_initialValue || !!end_initialValue} name="Publication Year">
-      <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+    <SearchFilter defaultOpen={true} onRemove={onRemove} name="Publication Year">
+      {hasLogicOperator && (
+        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+      )}
 
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
