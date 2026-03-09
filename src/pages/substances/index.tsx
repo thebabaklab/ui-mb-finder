@@ -26,7 +26,8 @@ type ApiFilter = {
 }
 
 type ApiGroup = {
-  operator: string;
+  operator?: string;
+  negate?: boolean;
   conditions: (ApiFilter | ApiGroup)[];
 }
 
@@ -77,24 +78,43 @@ export function buildFilters(filters: TSearchField[]): any | null {
         conditions: [apiFilter],
       }
 
+      if (filter.negate)
+        currentGroup.negate = filter.negate;
+
       result = currentGroup;
       return;
     }
 
+    const prevOperator = validFilters[index - 1]?.logicalOperator;
+    const prevNegate = validFilters[index - 1]?.negate;
+
     if (index === validFilters.length - 1) {
+      if (filter.negate !== prevNegate) {
+        const prevGroup = currentGroup;
+
+        currentGroup = {
+          operator: prevOperator,
+          negate: filter.negate ?? false,
+          conditions: [apiFilter],
+        }
+
+        prevGroup.conditions.push(currentGroup);
+        return;
+      }
+
       currentGroup.conditions.push(apiFilter);
       return;
     }
 
-    const prevOperator = validFilters[index - 1]?.logicalOperator;
-
-    if (filter.logicalOperator === prevOperator)
+    if (filter.logicalOperator === prevOperator && filter.negate === prevNegate) {
       currentGroup.conditions.push(apiFilter);
+    }
     else {
       const prevGroup = currentGroup;
 
       currentGroup = {
         operator: filter.logicalOperator ?? "AND",
+        negate: filter.negate ?? false,
         conditions: [apiFilter],
       }
 

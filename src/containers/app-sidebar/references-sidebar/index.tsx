@@ -100,6 +100,11 @@ export const ReferencesSidebar = () => {
           break;
 
         case ENUM_SEARCH_FIELD_TYPE.PublicationYear:
+          if (filter.values?.pyearStart && filter.values?.pyearEnd && filter.values?.pyearStart > filter.values?.pyearEnd)
+            return {
+              valid: false,
+              message: "Publication Year filter requires the end value to be greater than start value"
+            }
           if (!filter.values?.pyearStart && !filter.values?.pyearEnd)
             return {
               valid: false,
