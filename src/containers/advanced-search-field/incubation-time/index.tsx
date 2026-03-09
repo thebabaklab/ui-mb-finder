@@ -22,12 +22,8 @@ export const IncubationTime: FC<IncubationTimeProps> = ({
   onOtherValueChange,
 }) => {
   return (
-    <div className="flex grow flex-col justify-between gap-5 md:flex-row md:items-center">
+    <div className="flex grow flex-col gap-5 md:flex-row md:items-center">
       <div className="flex gap-5">
-        {!lastIndex && (
-          <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
-        )}
-        
         <div className="grow md:hidden">
           <TextField
             value={otherValue}
@@ -94,7 +90,7 @@ export const IncubationTime: FC<IncubationTimeProps> = ({
         </div>
       </div>
 
-      <div className="hidden w-[115px] md:block">
+      <div className="hidden w-[115px] md:block mr-auto">
         <TextField
           value={otherValue}
           placeholder="Other Value"
@@ -104,6 +100,10 @@ export const IncubationTime: FC<IncubationTimeProps> = ({
           onChange={(e) => onOtherValueChange(e.target.value)}
         />
       </div>
+
+      {!lastIndex && (
+        <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+      )}
     </div>
   );
 };

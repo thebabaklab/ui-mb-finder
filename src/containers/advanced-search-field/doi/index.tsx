@@ -19,9 +19,6 @@ export const Doi: FC<DoiProps> = ({
 }) => {
     return (
         <div className="flex grow gap-5">
-            {!lastIndex && (
-                <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
-            )}
             <div className="grow">
                 <TextField
                     value={value}
@@ -36,6 +33,10 @@ export const Doi: FC<DoiProps> = ({
                     onChange={(e) => onChange(e.target.value)}
                 />
             </div>
+
+            {!lastIndex && (
+                <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+            )}
         </div>
     );
 };

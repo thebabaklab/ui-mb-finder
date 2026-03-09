@@ -15,10 +15,6 @@ interface CasRegistryNumberFilterProps {
 export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="CAS Registry Number">
-      {hasLogicOperator && (
-        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
-      )}
-
       <TextField
         value={initialValue ?? ""}
         placeholder=""
@@ -29,6 +25,10 @@ export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ init
         dense
         onChange={e => onChange(e.target.value || undefined)}
       />
+
+      {hasLogicOperator && (
+        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+      )}
     </SearchFilter>
   );
 };

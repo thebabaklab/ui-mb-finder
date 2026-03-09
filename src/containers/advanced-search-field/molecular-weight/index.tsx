@@ -22,10 +22,6 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
 }) => {
   return (
     <div className={cn("flex gap-5 md:gap-22 lg:grow", !lastIndex ? "justify-between" : "justify-end")}>
-      {!lastIndex && (
-        <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
-      )}
-      
       <div className="flex gap-5">
         <div className="hidden items-center sm:flex font-light text-platinum-silver">Range:</div>
 
@@ -63,6 +59,10 @@ export const MolecularWeight: FC<MolecularWeightProps> = ({
           </div>
         </div>
       </div>
+
+      {!lastIndex && (
+        <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+      )}
     </div>
   );
 };

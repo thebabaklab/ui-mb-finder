@@ -27,10 +27,6 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, init
         </span>
       }
     >
-      {hasLogicOperator && (
-        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
-      )}
-
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 
@@ -75,6 +71,10 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, init
           />
         </div>
       </div>
+
+      {hasLogicOperator && (
+        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+      )}
     </SearchFilter>
   );
 };

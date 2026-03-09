@@ -15,11 +15,11 @@ interface SmilesFilterFilterProps {
 export const SmilesFilter: FC<SmilesFilterFilterProps> = ({ initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="SMILES">
+      <TextField className="text-platinum-silver" value={initialValue ?? ""} full_p={true} bg_color="bg-gunmetal" placeholder="" hideDetails dense onChange={e => onChange(e.target.value || undefined)} />
+
       {hasLogicOperator && (
         <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
       )}
-
-      <TextField className="text-platinum-silver" value={initialValue ?? ""} full_p={true} bg_color="bg-gunmetal" placeholder="" hideDetails dense onChange={e => onChange(e.target.value || undefined)} />
     </SearchFilter>
   );
 };

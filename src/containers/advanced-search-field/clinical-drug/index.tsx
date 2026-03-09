@@ -15,10 +15,6 @@ interface ClinicalDrugProps {
 export const ClinicalDrug: FC<ClinicalDrugProps> = ({ lastIndex, value, onChange, direction = "horizontal", logicalOperator, onLogicalOperatorChange }) => {
   return (
     <div className="flex grow gap-5 items-center justify-between">
-      {!lastIndex && (
-        <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
-      )}
-
       <div className={cn("flex justify-between", direction === "vertical" ? "flex-col gap-3" : "gap-3 md:gap-[33px]", !lastIndex ? "" : "grow")}>
         <div className={cn(direction === "horizontal" && "w-1/3 sm:w-auto")}>
           <Checkbox
@@ -68,6 +64,10 @@ export const ClinicalDrug: FC<ClinicalDrugProps> = ({ lastIndex, value, onChange
           />
         </div>
       </div>
+
+      {!lastIndex && (
+        <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+      )}
     </div>
   );
 };

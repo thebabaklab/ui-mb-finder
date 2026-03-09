@@ -15,11 +15,11 @@ interface ClinicalDrugFilterProps {
 export const ClinicalDrugFilter: FC<ClinicalDrugFilterProps> = ({ initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="Clinical Drug">
+      <ClinicalDrug lastIndex={true} value={initialValue} onChange={onChange} direction="vertical" />
+
       {hasLogicOperator && (
         <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
       )}
-
-      <ClinicalDrug lastIndex={true} value={initialValue} onChange={onChange} direction="vertical" />
     </SearchFilter>
   );
 };

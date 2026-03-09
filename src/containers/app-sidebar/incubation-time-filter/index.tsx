@@ -36,10 +36,6 @@ export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOt
 
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="Incubation Time">
-      {hasLogicOperator && (
-        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
-      )}
-
       <div className="flex justify-between">
         <div className="w-1/3">
           <Checkbox
@@ -111,6 +107,10 @@ export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOt
         dense
         onChange={handleOtherChange}
       />
+
+      {hasLogicOperator && (
+        <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />
+      )}
     </SearchFilter>
   );
 };
