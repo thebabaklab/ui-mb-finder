@@ -26,14 +26,14 @@ export const SearchSection: FC<SearchSectionProps> = ({
 
   return (
     <div className={cn("flex items-center w-full gap-2", className)}>
-      <form
+      <div
         className="grow"
-        onSubmit={(e) => {
-          e.preventDefault();
+      // onSubmit={(e) => {
+      //   e.preventDefault();
 
-          if (queryStr)
-            onSearch(queryStr || undefined);
-        }}
+      //   if (queryStr)
+      //     onSearch(queryStr || undefined);
+      // }}
       >
         <TextField
           value={queryStr}
@@ -59,7 +59,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
           }
           onChange={(e) => setQueryStr(e.target.value)}
         />
-      </form>
+      </div>
       <button
         type="submit"
         className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-r-xl text-secondary disabled:cursor-not-allowed"

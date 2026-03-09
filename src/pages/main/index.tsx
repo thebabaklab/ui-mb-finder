@@ -179,7 +179,9 @@ export const MainPage = () => {
 
       <main className="max-w-[1284px] mx-auto px-8 lg:px-16 xl:px-8 pt-20">
         <section className="mb-30">
-          <div className="flex w-full flex-col items-center gap-5">
+          <form className="flex w-full flex-col items-center gap-5" onSubmit={(e) => {
+            e.preventDefault();
+          }}>
             <h1 className="max-w-2xl text-primary text-center section-title font-extrabold">
               Metal Based Drug Search Engine
             </h1>
@@ -215,7 +217,7 @@ export const MainPage = () => {
               activeTab={selectedTab}
               addVisible={addVisible}
             />
-          </div>
+          </form>
         </section>
 
         {/* Metal based drug finder info */}

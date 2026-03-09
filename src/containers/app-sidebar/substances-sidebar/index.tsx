@@ -165,8 +165,11 @@ export const SubstancesSidebar = () => {
   }, [title, ceillineName, filtersString]);
 
   return (
-    <div className="flex flex-col p-4 gap-4">
-      <Button variant={"back"} className="font-light text-base" size="small" onClick={applyFilters}>
+    <form className="flex flex-col p-4 gap-4" onSubmit={(e) => {
+      e.preventDefault();
+      applyFilters();
+    }}>
+      <Button variant={"back"} className="font-light text-base" size="small" type="submit">
         Apply
       </Button>
 
@@ -267,6 +270,6 @@ export const SubstancesSidebar = () => {
           <Icon name={mdiPlus} className="bg-secondary rounded-full" color="current" add_sf />
         </Button>
       )}
-    </div>
+    </form>
   );
 };
