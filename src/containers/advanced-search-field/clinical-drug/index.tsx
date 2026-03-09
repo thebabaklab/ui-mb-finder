@@ -5,6 +5,8 @@ import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface ClinicalDrugProps {
   lastIndex: boolean;
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   value: string[];
   onChange: (value: string[]) => void;
   direction?: "horizontal" | "vertical";
@@ -12,9 +14,11 @@ interface ClinicalDrugProps {
   onLogicalOperatorChange?: (value: string) => void;
 }
 
-export const ClinicalDrug: FC<ClinicalDrugProps> = ({ lastIndex, value, onChange, direction = "horizontal", logicalOperator, onLogicalOperatorChange }) => {
+export const ClinicalDrug: FC<ClinicalDrugProps> = ({ lastIndex, negate, onNegateChange, value, onChange, direction = "horizontal", logicalOperator, onLogicalOperatorChange }) => {
   return (
-    <div className="flex grow gap-5 items-center justify-between">
+    <div className="flex grow gap-5 md:gap-12 items-center justify-between">
+      <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
+
       <div className={cn("flex justify-between", direction === "vertical" ? "flex-col gap-3" : "gap-3 md:gap-[33px]", !lastIndex ? "" : "grow")}>
         <div className={cn(direction === "horizontal" && "w-1/3 sm:w-auto")}>
           <Checkbox

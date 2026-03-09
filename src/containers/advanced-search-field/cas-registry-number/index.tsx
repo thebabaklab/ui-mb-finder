@@ -1,9 +1,11 @@
 import type { FC } from "react";
-import { TextField } from "@ui-kit";
+import { Checkbox, TextField } from "@ui-kit";
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface CasRegistryNumberProps {
   lastIndex: boolean;
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   logicalOperator: string;
   onLogicalOperatorChange: (value: string) => void;
   value: string;
@@ -12,6 +14,8 @@ interface CasRegistryNumberProps {
 
 export const CasRegistryNumber: FC<CasRegistryNumberProps> = ({
   lastIndex,
+  negate,
+  onNegateChange,
   logicalOperator,
   onLogicalOperatorChange,
   value,
@@ -19,6 +23,8 @@ export const CasRegistryNumber: FC<CasRegistryNumberProps> = ({
 }) => {
   return (
     <div className="flex grow gap-5">
+      <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
+
       <div className="grow">
         <TextField
           value={value}

@@ -4,6 +4,8 @@ import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface IncubationTimeProps {
   lastIndex: boolean;
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   logicalOperator: string;
   onLogicalOperatorChange: (value: string) => void;
   value: ("all" | number)[];
@@ -14,6 +16,8 @@ interface IncubationTimeProps {
 
 export const IncubationTime: FC<IncubationTimeProps> = ({
   lastIndex,
+  negate,
+  onNegateChange,
   logicalOperator,
   onLogicalOperatorChange,
   value,
@@ -22,7 +26,9 @@ export const IncubationTime: FC<IncubationTimeProps> = ({
   onOtherValueChange,
 }) => {
   return (
-    <div className="flex grow flex-col gap-5 md:flex-row md:items-center">
+    <div className="flex grow flex-col gap-5 md:flex-row md:items-center md:justify-between">
+      <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
+
       <div className="flex gap-5">
         <div className="grow md:hidden">
           <TextField
@@ -90,7 +96,7 @@ export const IncubationTime: FC<IncubationTimeProps> = ({
         </div>
       </div>
 
-      <div className="hidden w-[115px] md:block mr-auto">
+      <div className="hidden w-[115px] md:block">
         <TextField
           value={otherValue}
           placeholder="Other Value"

@@ -1,9 +1,11 @@
 import type { FC } from "react";
-import { TextField } from "@ui-kit";
+import { Checkbox, TextField } from "@ui-kit";
 import { LogicalOperatorSelect } from "../logical-operator-select";
 
 interface AuthorProps {
     lastIndex: boolean;
+    negate: boolean;
+    onNegateChange: (value: boolean) => void;
     logicalOperator: string;
     onLogicalOperatorChange: (value: string) => void;
     value: string;
@@ -12,6 +14,8 @@ interface AuthorProps {
 
 export const Author: FC<AuthorProps> = ({
     lastIndex,
+    negate,
+    onNegateChange,
     logicalOperator,
     onLogicalOperatorChange,
     value,
@@ -19,6 +23,8 @@ export const Author: FC<AuthorProps> = ({
 }) => {
     return (
         <div className="flex grow gap-5">
+            <Checkbox label="NOT" className="mr-auto" checked={negate} onCheckedChange={onNegateChange} />
+
             <div className="grow">
                 <TextField
                     value={value}

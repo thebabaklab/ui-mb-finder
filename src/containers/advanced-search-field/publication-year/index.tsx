@@ -1,10 +1,12 @@
 import type { FC } from "react";
-import { TextField } from "@ui-kit";
+import { Checkbox, TextField } from "@ui-kit";
 import { LogicalOperatorSelect } from "../logical-operator-select";
 import { cn } from "@utils";
 
 interface PublicationYearProps {
   lastIndex: boolean;
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   logicalOperator: string;
   onLogicalOperatorChange: (value: string) => void;
   pyearStart: string;
@@ -14,6 +16,8 @@ interface PublicationYearProps {
 
 export const PublicationYear: FC<PublicationYearProps> = ({
   lastIndex,
+  negate,
+  onNegateChange,
   logicalOperator,
   onLogicalOperatorChange,
   pyearStart,
@@ -21,7 +25,9 @@ export const PublicationYear: FC<PublicationYearProps> = ({
   onChange,
 }) => {
   return (
-    <div className={cn("flex gap-5 md:gap-22 justify-between lg:grow", !lastIndex ? "justify-between" : "justify-end")}>
+    <div className={cn("flex gap-5 md:gap-22 justify-between lg:grow")}>
+      <Checkbox label="NOT" className="mr-auto" checked={negate} onCheckedChange={onNegateChange} />
+
       <div className="flex gap-5">
         <div className="hidden items-center sm:flex font-light text-platinum-silver">Range:</div>
 

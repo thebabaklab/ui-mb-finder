@@ -95,6 +95,12 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
     }
   };
 
+  const handleNegateChange = (negate: boolean) => {
+    if (field.type !== "" && field.type !== "error") {
+      onChange({ ...field, negate });
+    }
+  };
+
   const handleLogicalOperatorChange = (logicalOperator: string) => {
     if (field.type !== "" && field.type !== "error") {
       onChange({ ...field, logicalOperator });
@@ -195,6 +201,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.Smiles && (
         <Smiles
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.smiles}
@@ -205,6 +213,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.ClinicalDrug && (
         <ClinicalDrug
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           value={field.values.cliDrug}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
@@ -215,6 +225,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber && (
         <CasRegistryNumber
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.cas}
@@ -225,6 +237,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.IncubationTime && (
         <IncubationTime
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.incuTime}
@@ -237,6 +251,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.MolecularWeight && (
         <MolecularWeight
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           startWeight={String(field.values.weightStart ?? "")}
@@ -248,6 +264,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.IC50Range && (
         <IC50Range
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           icStart={String(field.values.icStart ?? "")}
@@ -259,6 +277,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.Author && (
         <Author
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.author}
@@ -269,6 +289,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.PublicationYear && (
         <PublicationYear
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           pyearStart={String(field.values.pyearStart ?? "")}
@@ -280,6 +302,8 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
       {field.type === ENUM_SEARCH_FIELD_TYPE.Doi && (
         <Doi
           lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
           logicalOperator={field.logicalOperator ?? ""}
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.doi}
