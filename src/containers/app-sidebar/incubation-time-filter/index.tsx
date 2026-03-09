@@ -6,6 +6,8 @@ import { LogicalOperatorSelect } from "../../advanced-search-field/logical-opera
 const OPTIONS = [24, 48, 72, 96, 120];
 
 interface IncubationTimeFilterProps {
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   inititalOtherValue?: string;
   initialSelectedValues: number[];
   hasLogicOperator?: boolean;
@@ -16,7 +18,7 @@ interface IncubationTimeFilterProps {
   onOtherChange: (incuOther?: string) => void;
 }
 
-export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOtherValue, initialSelectedValues, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange, onOtherChange }) => {
+export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ negate, onNegateChange, inititalOtherValue, initialSelectedValues, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange, onOtherChange }) => {
   const isAllSelected = OPTIONS.every((n) => initialSelectedValues.includes(n));
 
   const toggleValue = (num: number, checked: boolean) => {
@@ -36,6 +38,8 @@ export const IncubationTimeFilter: FC<IncubationTimeFilterProps> = ({ inititalOt
 
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="Incubation Time">
+      <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
+
       <div className="flex justify-between">
         <div className="w-1/3">
           <Checkbox

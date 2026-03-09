@@ -161,6 +161,8 @@ export const ReferencesSidebar = () => {
             return (
               <AuthorFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialValue={field.values.author}
                 logicalOperator={field.logicalOperator}
@@ -174,6 +176,8 @@ export const ReferencesSidebar = () => {
             return (
               <PublicationYearFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 start_initialValue={field.values.pyearStart ?? 0}
                 end_initialValue={field.values.pyearEnd ?? 0}
@@ -188,6 +192,8 @@ export const ReferencesSidebar = () => {
             return (
               <DoiFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialValue={field.values.doi}
                 logicalOperator={field.logicalOperator}
@@ -201,6 +207,8 @@ export const ReferencesSidebar = () => {
             return (
               <ClinicalDrugFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialValue={field.values.cliDrug}
                 logicalOperator={field.logicalOperator}

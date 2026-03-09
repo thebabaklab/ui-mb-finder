@@ -4,6 +4,8 @@ import { SearchFilter } from "../../search-filter";
 import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface ClinicalDrugFilterProps {
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   initialValue: string[];
   hasLogicOperator?: boolean;
   logicalOperator?: string;
@@ -12,10 +14,10 @@ interface ClinicalDrugFilterProps {
   onChange: (cliDrug?: string[]) => void;
 }
 
-export const ClinicalDrugFilter: FC<ClinicalDrugFilterProps> = ({ initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
+export const ClinicalDrugFilter: FC<ClinicalDrugFilterProps> = ({ negate, onNegateChange, initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="Clinical Drug">
-      <ClinicalDrug lastIndex={true} value={initialValue} onChange={onChange} direction="vertical" />
+      <ClinicalDrug negate={negate} onNegateChange={onNegateChange} lastIndex={true} value={initialValue} onChange={onChange} direction="vertical" />
 
       {hasLogicOperator && (
         <LogicalOperatorSelect parent="sidebar" value={logicalOperator ?? ""} onChange={onLogicalOperatorChange} />

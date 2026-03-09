@@ -128,6 +128,8 @@ export const BioDataSidebar = () => {
             return (
               <IncubationTimeFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialSelectedValues={field.values.incuTime}
                 inititalOtherValue={field.values.incuOther}
@@ -143,6 +145,8 @@ export const BioDataSidebar = () => {
             return (
               <Ic50RangeFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialIcStart={field.values.icStart ?? 0}
                 initialIcEnd={field.values.icEnd ?? 0}

@@ -1,9 +1,11 @@
 import { type FC } from "react";
-import { TextField } from "@ui-kit";
+import { Checkbox, TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
 import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface MolecularWeightFilterProps {
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   initialweightStart?: number;
   initialweightEnd?: number;
   hasLogicOperator?: boolean;
@@ -16,9 +18,11 @@ interface MolecularWeightFilterProps {
   }) => void;
 }
 
-export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ initialweightStart, initialweightEnd, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
+export const MolecularWeightFilter: FC<MolecularWeightFilterProps> = ({ negate, onNegateChange, initialweightStart, initialweightEnd, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="Molecular Weight">
+      <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
+
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 

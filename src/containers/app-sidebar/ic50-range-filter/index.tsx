@@ -1,9 +1,11 @@
 import { type FC } from "react";
-import { TextField } from "@ui-kit";
+import { Checkbox, TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
 import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface Ic50RangeFilterProps {
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   initialIcStart?: number;
   initialIcEnd?: number;
   hasLogicOperator?: boolean;
@@ -16,7 +18,7 @@ interface Ic50RangeFilterProps {
   }) => void;
 }
 
-export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, initialIcEnd, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
+export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ negate, onNegateChange, initialIcStart, initialIcEnd, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter
       defaultOpen={true}
@@ -27,6 +29,8 @@ export const Ic50RangeFilter: FC<Ic50RangeFilterProps> = ({ initialIcStart, init
         </span>
       }
     >
+      <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
+
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 

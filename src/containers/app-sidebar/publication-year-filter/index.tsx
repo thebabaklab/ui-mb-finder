@@ -1,9 +1,11 @@
 import { type FC } from "react";
-import { TextField } from "@ui-kit";
+import { Checkbox, TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
 import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface PublicationYearFilterProps {
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   start_initialValue?: number;
   end_initialValue?: number;
   hasLogicOperator?: boolean;
@@ -16,9 +18,11 @@ interface PublicationYearFilterProps {
   }) => void;
 }
 
-export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ start_initialValue, end_initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
+export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ negate, onNegateChange, start_initialValue, end_initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="Publication Year">
+      <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
+
       <div className="flex flex-col gap-2">
         <label className="text-platinum-silver cursor-pointer text-base font-light select-none">Range:</label>
 

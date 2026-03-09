@@ -16,10 +16,10 @@ interface ClinicalDrugProps {
 
 export const ClinicalDrug: FC<ClinicalDrugProps> = ({ lastIndex, negate, onNegateChange, value, onChange, direction = "horizontal", logicalOperator, onLogicalOperatorChange }) => {
   return (
-    <div className="flex grow gap-5 md:gap-12 items-center justify-between">
+    <div className={cn("flex grow gap-5 md:gap-12 items-center justify-between", direction === "vertical" ? "flex-col items-start md:gap-5" : "")}>
       <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
 
-      <div className={cn("flex justify-between", direction === "vertical" ? "flex-col gap-3" : "gap-3 md:gap-[33px]", !lastIndex ? "" : "grow")}>
+      <div className={cn("flex justify-between", direction === "vertical" ? "flex-col w-full gap-3" : "gap-3 md:gap-[33px]", !lastIndex ? "" : "grow")}>
         <div className={cn(direction === "horizontal" && "w-1/3 sm:w-auto")}>
           <Checkbox
             reversed={true}

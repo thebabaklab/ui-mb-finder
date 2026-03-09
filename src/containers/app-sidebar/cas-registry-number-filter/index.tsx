@@ -1,9 +1,11 @@
 import { type FC } from "react";
-import { TextField } from "@ui-kit";
+import { Checkbox, TextField } from "@ui-kit";
 import { SearchFilter } from "../../search-filter";
 import { LogicalOperatorSelect } from "../../advanced-search-field/logical-operator-select";
 
 interface CasRegistryNumberFilterProps {
+  negate: boolean;
+  onNegateChange: (value: boolean) => void;
   initialValue?: string;
   hasLogicOperator?: boolean;
   logicalOperator?: string;
@@ -12,9 +14,11 @@ interface CasRegistryNumberFilterProps {
   onChange: (cas?: string) => void;
 }
 
-export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
+export const CasRegistryNumberFilter: FC<CasRegistryNumberFilterProps> = ({ negate, onNegateChange, initialValue, hasLogicOperator, logicalOperator, onRemove, onLogicalOperatorChange, onChange }) => {
   return (
     <SearchFilter defaultOpen={true} onRemove={onRemove} name="CAS Registry Number">
+      <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
+
       <TextField
         value={initialValue ?? ""}
         placeholder=""

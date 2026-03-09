@@ -176,6 +176,8 @@ export const SubstancesSidebar = () => {
             return (
               <SmilesFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialValue={field.values.smiles}
                 logicalOperator={field.logicalOperator}
@@ -189,6 +191,8 @@ export const SubstancesSidebar = () => {
             return (
               <ClinicalDrugFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialValue={field.values.cliDrug}
                 logicalOperator={field.logicalOperator}
@@ -202,6 +206,8 @@ export const SubstancesSidebar = () => {
             return (
               <CasRegistryNumberFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialValue={field.values.cas}
                 logicalOperator={field.logicalOperator}
@@ -215,6 +221,8 @@ export const SubstancesSidebar = () => {
             return (
               <IncubationTimeFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialSelectedValues={field.values.incuTime}
                 inititalOtherValue={field.values.incuOther}
@@ -230,6 +238,8 @@ export const SubstancesSidebar = () => {
             return (
               <MolecularWeightFilter
                 key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
                 initialweightStart={field.values.weightStart ?? 0}
                 initialweightEnd={field.values.weightEnd ?? 0}
