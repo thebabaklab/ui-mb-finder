@@ -51,7 +51,7 @@ export const SearchHeader = () => {
   return (
     <header className="pt-30">
       <AppContainer className="flex flex-col gap-5 items-center">
-        <div className="flex flex-col items-center justify-between gap-5 max-w-2xl">
+        <div className="flex flex-col items-center justify-between gap-5 lg:max-w-5xl">
           <TabsSection
             selectedTab={
               pathname.includes("bio-data")
@@ -62,7 +62,7 @@ export const SearchHeader = () => {
           />
 
           {/* Streamlit app page */}
-          <Link to="/predict-activity" className="flex items-center text-white font-light mb-2">
+          <Link to="/predict-activity" className="flex items-center text-white font-light mb-2 block lg:hidden">
             <Icon name={mdiGestureTap} size={36} color="secondary" />
             Predict Activity
           </Link>

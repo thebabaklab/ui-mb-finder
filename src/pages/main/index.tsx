@@ -188,7 +188,7 @@ export const MainPage = () => {
               Metal Based Drug Search Engine
             </h1>
 
-            <div className="flex w-full max-w-2xl items-center flex-col gap-3 mb-5">
+            <div className="flex w-full lg:max-w-5xl items-center flex-col gap-3 mb-5">
               <TabsSection
                 selectedTab={selectedTab}
                 onChange={(value) => {
@@ -199,7 +199,7 @@ export const MainPage = () => {
               />
 
               {/* Streamlit app page */}
-              <Link to="/predict-activity" className="flex items-center text-white font-light mb-2">
+              <Link to="/predict-activity" className="flex items-center text-white font-light mb-2 block lg:hidden">
                 <Icon name={mdiGestureTap} size={36} color="secondary" />
                 Predict Activity
               </Link>

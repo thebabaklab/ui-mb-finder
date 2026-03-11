@@ -3,11 +3,13 @@ import type { FC } from "react";
 // import { mdiFileDocumentOutline, mdiFlask, mdiMolecule } from "@mdi/js";
 import { useStore } from "@store";
 import type { TTabValue } from "@types";
-import { Tabs, TabsList, TabsTrigger } from "@ui-kit";
+import { Icon, Tabs, TabsList, TabsTrigger } from "@ui-kit";
 import { cn } from "@utils";
 import substanceLogo from "@assets/img/substances-icon.svg";
 import cellLineLogo from "@assets/img/cell_lines-icon.svg";
 import referenceLogo from "@assets/img/references-icon.svg";
+import { Link } from "@tanstack/react-router";
+import { mdiGestureTap } from "@mdi/js";
 
 interface TabsSectionProps {
   selectedTab: TTabValue;
@@ -47,6 +49,11 @@ export const TabsSection: FC<TabsSectionProps> = ({ selectedTab = "substances", 
           <img src={referenceLogo} className="mr-2" />
           References
         </TabsTrigger>
+
+        <Link to="/predict-activity" className="flex items-center text-white font-light mb-2 hidden lg:block">
+          <Icon name={mdiGestureTap} size={36} color="secondary" />
+          Predict Activity
+        </Link>
       </TabsList>
 
       <div className="px-1">
