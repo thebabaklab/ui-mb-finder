@@ -1,5 +1,6 @@
 import { useStore } from "@store";
 import {
+  Link,
   useLocation,
   useMatches,
   useNavigate,
@@ -14,6 +15,8 @@ import { BioDataSearchSection } from "./bio-data-search-section";
 import { CellLinesSearchSection } from "./cell-lines-search-section";
 import { ReferencesSearchSection } from "./references-search-section";
 import { SubstancesSearchSection } from "./substances-search-section";
+import { Icon } from "@ui-kit";
+import { mdiGestureTap } from "@mdi/js";
 
 export const SearchHeader = () => {
   const navigate = useNavigate();
@@ -57,6 +60,12 @@ export const SearchHeader = () => {
             }
             onChange={handleTabChange}
           />
+
+          {/* Streamlit app page */}
+          <Link to="/predict-activity" className="flex items-center text-white font-light mb-2">
+            <Icon name={mdiGestureTap} size={36} color="secondary" />
+            Predict Activity
+          </Link>
 
           {isSubstances && <SubstancesSearchSection />}
 

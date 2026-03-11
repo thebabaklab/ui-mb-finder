@@ -9,7 +9,7 @@ import {
   SubstanceDrawer,
   TabsSection,
 } from "@containers";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ENUM_SEARCH_FIELD_TYPE,
   type TSearchField,
@@ -26,6 +26,8 @@ import maryanaPhoto from "@assets/img/maryana.svg";
 import bekirPhoto from "@assets/img/bekir.svg";
 import jackyPhoto from "@assets/img/jacky.svg";
 import tamaraPhoto from "@assets/img/tamara.svg";
+import { Icon } from "@ui-kit";
+import { mdiGestureTap } from "@mdi/js";
 
 export const MainPage = () => {
   const navigate = useNavigate();
@@ -195,6 +197,12 @@ export const MainPage = () => {
                   setSelectedTab(value);
                 }}
               />
+
+              {/* Streamlit app page */}
+              <Link to="/predict-activity" className="flex items-center text-white font-light mb-2">
+                <Icon name={mdiGestureTap} size={36} color="secondary" />
+                Predict Activity
+              </Link>
 
               <SearchSection
                 hasSearchField={hasSearchField}

@@ -9,11 +9,13 @@ import { searchRoute } from "./search";
 import { substancesRoute } from "./substances";
 import { aboutRoute } from "./about-us";
 import { contactRoute } from "./contact";
+import { predictRoute } from "./predict-activity";
 
 const routeTree = rootRoute.addChildren([
   mainRoute,
   aboutRoute,
   contactRoute,
+  predictRoute,
   searchRoute.addChildren([substancesRoute, cellLinesRoute, bioDataRoute, referencesRoute]),
 ]);
 

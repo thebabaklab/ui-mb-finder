@@ -35,7 +35,7 @@ export const SearchFilter: FC<PropsWithChildren<SearchFilterProps>> = ({ name, c
             <Icon
               name={mdiClose}
               color="current"
-              className="absolute right-0"
+              className="absolute right-12 md:right-0"
               onClick={onRemove}
             />
           )}
