@@ -52,7 +52,7 @@ export const SubstancesSearchSection = () => {
       <SearchSection
         hasSearchField={false}
         onDrawerClick={() => setOpen(true)}
-        className="w-full md:w-[936px] max-w-2xl"
+        className="w-full md:w-[936px] max-w-4xl"
         initialValue={queryStr}
         onSearch={(value: any) => handleSearch(value)}
       />

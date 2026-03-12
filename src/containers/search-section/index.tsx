@@ -25,7 +25,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
   }, [initialValue]);
 
   return (
-    <div className={cn("flex items-center w-full gap-2 max-w-2xl", className)}>
+    <div className={cn("flex items-center w-full gap-2 max-w-4xl", className)}>
       <div
         className="grow"
       // onSubmit={(e) => {
