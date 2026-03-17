@@ -15,8 +15,7 @@ import { BioDataSearchSection } from "./bio-data-search-section";
 import { CellLinesSearchSection } from "./cell-lines-search-section";
 import { ReferencesSearchSection } from "./references-search-section";
 import { SubstancesSearchSection } from "./substances-search-section";
-import { Icon } from "@ui-kit";
-import { mdiGestureTap } from "@mdi/js";
+import predictLogo from "@assets/img/predict-icon.svg";
 
 export const SearchHeader = () => {
   const navigate = useNavigate();
@@ -63,7 +62,7 @@ export const SearchHeader = () => {
 
           {/* Streamlit app page */}
           <Link to="/predict-activity" className="flex items-center text-white font-light mb-2 block lg:hidden">
-            <Icon name={mdiGestureTap} size={36} color="secondary" />
+            <img src={predictLogo} className="w-8 inline mr-2" />
             Predict Activity
           </Link>
 

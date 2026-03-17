@@ -26,8 +26,7 @@ import maryanaPhoto from "@assets/img/maryana.svg";
 import bekirPhoto from "@assets/img/bekir.svg";
 import jackyPhoto from "@assets/img/jacky.svg";
 import tamaraPhoto from "@assets/img/tamara.svg";
-import { Icon } from "@ui-kit";
-import { mdiGestureTap } from "@mdi/js";
+import predictLogo from "@assets/img/predict-icon.svg";
 
 export const MainPage = () => {
   const navigate = useNavigate();
@@ -200,7 +199,7 @@ export const MainPage = () => {
 
               {/* Streamlit app page */}
               <Link to="/predict-activity" className="flex items-center text-white font-light mb-2 block lg:hidden">
-                <Icon name={mdiGestureTap} size={36} color="secondary" />
+                <img src={predictLogo} className="w-8 inline mr-2" />
                 Predict Activity
               </Link>
 
