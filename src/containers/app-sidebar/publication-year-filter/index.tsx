@@ -36,7 +36,7 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ negate, 
             bg_color="bg-gunmetal"
             className="text-platinum-silver"
             hideDetails
-            dense
+            dense 
             onChange={(e) =>
               onChange({
                 pyearEnd: Number(end_initialValue),
