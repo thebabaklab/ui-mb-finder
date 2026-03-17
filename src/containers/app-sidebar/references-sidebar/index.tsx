@@ -187,8 +187,8 @@ export const ReferencesSidebar = () => {
                 negate={field.negate ?? false}
                 onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
                 hasLogicOperator={index !== filters.length - 1}
-                start_initialValue={field.values.pyearStart ?? 0}
-                end_initialValue={field.values.pyearEnd ?? 0}
+                start_initialValue={String(field.values.pyearStart) ?? ""}
+                end_initialValue={String(field.values.pyearEnd) ?? ""}
                 logicalOperator={field.logicalOperator}
                 onRemove={() => removeFilter(index)}
                 onChange={(value_years) => updateFilter(index, { ...field, values: { ...value_years } })}

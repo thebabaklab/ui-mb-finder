@@ -6,8 +6,8 @@ import { LogicalOperatorSelect } from "../../advanced-search-field/logical-opera
 interface PublicationYearFilterProps {
   negate: boolean;
   onNegateChange: (value: boolean) => void;
-  start_initialValue?: number;
-  end_initialValue?: number;
+  start_initialValue?: string;
+  end_initialValue?: string;
   hasLogicOperator?: boolean;
   logicalOperator?: string;
   onRemove?: () => void;
@@ -39,7 +39,7 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ negate, 
             dense
             onChange={(e) =>
               onChange({
-                pyearEnd: end_initialValue,
+                pyearEnd: Number(end_initialValue),
                 pyearStart: e.target.value
                   ? Number(e.target.value)
                   : undefined,
@@ -59,7 +59,7 @@ export const PublicationYearFilter: FC<PublicationYearFilterProps> = ({ negate, 
             dense
             onChange={(e) =>
               onChange({
-                pyearStart: start_initialValue,
+                pyearStart: Number(start_initialValue),
                 pyearEnd: e.target.value
                   ? Number(e.target.value)
                   : undefined,
