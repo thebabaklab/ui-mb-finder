@@ -26,6 +26,7 @@ import maryanaPhoto from "@assets/img/maryana.svg";
 import bekirPhoto from "@assets/img/bekir.svg";
 import jackyPhoto from "@assets/img/jacky.svg";
 import tamaraPhoto from "@assets/img/tamara.svg";
+import dmitryPhoto from "@assets/img/dmitry.svg";
 import predictLogo from "@assets/img/predict-icon.svg";
 
 export const MainPage = () => {
@@ -401,6 +402,15 @@ export const MainPage = () => {
               <p className="text-white text-center font-light leading-5">
                 <b className="font-bold">Tamara Petrovic</b><br />
                 PhD / Chemist
+              </p>
+            </article>
+
+            <article>
+              <img src={dmitryPhoto} alt="Dmitry Dolgov" className="w-[180px] mb-3" />
+
+              <p className="text-white text-center font-light leading-5">
+                <b className="font-bold">Dmitry Dolgov</b><br />
+                Research Assistant
               </p>
             </article>
           </div>
