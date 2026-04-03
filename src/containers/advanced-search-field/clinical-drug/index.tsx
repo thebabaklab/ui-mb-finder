@@ -19,7 +19,7 @@ export const ClinicalDrug: FC<ClinicalDrugProps> = ({ lastIndex, negate, onNegat
     <div className={cn("flex grow gap-5 md:gap-12 items-center justify-between", direction === "vertical" ? "flex-col items-start md:gap-5" : "")}>
       <Checkbox label="NOT" checked={negate} onCheckedChange={onNegateChange} />
 
-      <div className={cn("flex justify-between", direction === "vertical" ? "flex-col w-full gap-3" : "gap-3 md:gap-[33px]", !lastIndex ? "" : "grow")}>
+      <div className={cn("flex justify-between", direction === "vertical" ? "flex-col w-full gap-3" : "gap-3 md:gap-[33px]")}>
         <div className={cn(direction === "horizontal" && "w-1/3 sm:w-auto")}>
           <Checkbox
             reversed={true}
@@ -56,21 +56,12 @@ export const ClinicalDrug: FC<ClinicalDrugProps> = ({ lastIndex, negate, onNegat
           />
         </div>
 
-        <div className={cn(direction === "horizontal" && "w-1/3 sm:w-auto")}>
-          <Checkbox
-            reversed={true}
-            label="Transplantin"
-            justifyType="justify-between"
-            checked={value.includes("Transplantin")}
-            onCheckedChange={(checked) =>
-              onChange(checked ? [...value, "Transplantin"] : value.filter((s) => s !== "Transplantin"))
-            }
-          />
-        </div>
       </div>
 
-      {!lastIndex && (
+      {!lastIndex ? (
         <LogicalOperatorSelect value={logicalOperator} onChange={onLogicalOperatorChange} />
+      ) : (
+        <div className="w-[100px] min-w-[100px]" />
       )}
     </div>
   );
