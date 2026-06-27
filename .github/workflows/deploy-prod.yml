@@ -30,6 +30,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
+        env:
+          # Point the prod build at the prod backend. Staging/local fall back
+          # to stage-api via the default in src/utils/consts.
+          VITE_API_BASE_URL: https://api.mb-finder.org
         run: pnpm build
 
       - name: Deploy dist to VPS
