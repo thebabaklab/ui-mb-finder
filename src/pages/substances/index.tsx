@@ -11,7 +11,7 @@ import { mdiChevronLeft, mdiFilterOutline } from "@mdi/js";
 import { useStore } from "@store";
 import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
-import { cn } from "@utils";
+import { API_BASE_URL, cn } from "@utils";
 import axios from "axios";
 import { ENUM_SEARCH_FIELD_TYPE, type TSearchField } from "@types";
 
@@ -151,7 +151,7 @@ export const SubstancesPage = () => {
         apiFilters = buildFilters(JSON.parse(filtersString));
 
       const { data } = await axios.post(
-        "https://stage-api.mb-finder.org/api/v2/get-substances",
+        `${API_BASE_URL}/api/v2/get-substances`,
         {
           ...search,
           queryStr,
