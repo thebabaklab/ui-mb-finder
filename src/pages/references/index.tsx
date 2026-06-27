@@ -4,7 +4,7 @@ import { mdiChevronLeft, mdiFilterOutline } from "@mdi/js";
 import { useStore } from "@store";
 import { useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
-import { cn } from "@utils";
+import { API_BASE_URL, cn } from "@utils";
 import axios from "axios";
 import { buildFilters } from "../substances";
 
@@ -32,7 +32,7 @@ export const ReferencesPage = () => {
       if (filtersString)
         apiFilters = buildFilters(JSON.parse(filtersString));
 
-      const { data } = await axios.post("https://stage-api.mb-finder.org/api/v2/get-references", {
+      const { data } = await axios.post(`${API_BASE_URL}/api/v2/get-references`, {
         ...search,
         queryStr,
         currentPage,

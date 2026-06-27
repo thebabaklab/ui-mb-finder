@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "@tanstack/react-router";
 
 import newLogo from "@assets/img/app-logo.svg";
+import { API_BASE_URL } from "@utils";
 import axios from "axios";
 
 import { StatHexagon } from "../../stat-hexagon";
@@ -19,7 +20,7 @@ export const HomeHeader = () => {
   const getCounts = async () => {
     try {
       const { data } = await axios.get(
-        "https://stage-api.mb-finder.org/api/v2/get-count",
+        `${API_BASE_URL}/api/v2/get-count`,
       );
 
       setCounts(data);

@@ -9,6 +9,7 @@ import {
 } from "@containers";
 import { mdiChevronLeft, mdiFilterOutline } from "@mdi/js";
 import { useStore } from "@store";
+import { API_BASE_URL } from "@utils";
 import { useParams, useRouter, useSearch } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import axios from "axios";
@@ -45,7 +46,7 @@ export const BioDataPage = () => {
 
 
       const { data } = await axios.post(
-        "https://stage-api.mb-finder.org/api/v2/get-ceil-line-bio-data",
+        `${API_BASE_URL}/api/v2/get-ceil-line-bio-data`,
         {
           ...search,
           currentPage,
