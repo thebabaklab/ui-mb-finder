@@ -61,11 +61,11 @@ export const HomeHeader = () => {
       </nav>
 
       {pathname === '/' && (
-        <div className="relative lg:absolute top-8 lg:top-8 right-0 lg:right-8 flex min-w-[375px] justify-center gap-1 sm:min-w-0 lg:h-[240px] lg:w-[220px]">
+        <div className="relative lg:absolute top-8 lg:top-8 right-0 lg:right-8 flex flex-wrap min-w-[375px] justify-center gap-1 sm:min-w-0 lg:h-[600px] lg:w-[220px]">
           <StatHexagon
             value={counts.compoundsCount}
             name="Compounds"
-            className="bg-secondary border-secondary lg:absolute lg:top-1/2 lg:left-0 lg:-translate-y-1/2"
+            className="bg-secondary border-secondary lg:absolute lg:top-[60px] lg:left-0"
           />
 
           <StatHexagon
@@ -77,7 +77,29 @@ export const HomeHeader = () => {
           <StatHexagon
             value={counts.referenceCount}
             name="References"
-            className="bg-primary border-primary lg:absolute lg:right-0 lg:bottom-0"
+            className="bg-primary border-primary lg:absolute lg:top-[120px] lg:right-0"
+          />
+
+          <StatHexagon
+            value={33514}
+            name={
+              <>
+                IC<sub>50</sub> Values
+              </>
+            }
+            className="bg-[#C0C0C0] border-[#C0C0C0] lg:absolute lg:top-[180px] lg:left-0"
+          />
+
+          <StatHexagon
+            value={2673}
+            name="Cu Compounds"
+            className="bg-[#B87333] border-[#B87333] lg:absolute lg:top-[420px] lg:left-0"
+          />
+
+          <StatHexagon
+            value={3903}
+            name="Pt Compounds"
+            className="bg-[#C0C0C0] border-[#C0C0C0] lg:absolute lg:top-[480px] lg:right-0"
           />
         </div>
       )}

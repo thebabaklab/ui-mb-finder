@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { formatNumberWithK } from "@utils";
-
 export const useCountUp = (end: number, duration = 2000) => {
   const [value, setValue] = useState(0);
 
@@ -18,5 +16,5 @@ export const useCountUp = (end: number, duration = 2000) => {
     requestAnimationFrame(step);
   }, [end, duration]);
 
-  return formatNumberWithK(value);
+  return value.toLocaleString();
 };

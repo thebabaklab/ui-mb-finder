@@ -1,11 +1,11 @@
-import type { FC, PropsWithChildren } from "react";
+import type { FC, PropsWithChildren, ReactNode } from "react";
 
 import { useCountUp } from "@hooks";
 import clsx from "clsx";
 
 interface StatHexagonProps {
   value: number;
-  name: string;
+  name: ReactNode;
   className?: string;
 }
 

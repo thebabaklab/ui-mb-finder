@@ -27,6 +27,8 @@ import bekirPhoto from "@assets/img/bekir.svg";
 import jackyPhoto from "@assets/img/jacky.svg";
 import tamaraPhoto from "@assets/img/tamara.svg";
 import dmitryPhoto from "@assets/img/dmitry.svg";
+import placeholderPhoto from "@assets/img/placeholder-avatar.svg";
+import pavelPhoto from "@assets/img/pavel.jpg";
 import predictLogo from "@assets/img/predict-icon.svg";
 
 export const MainPage = () => {
@@ -410,6 +412,33 @@ export const MainPage = () => {
 
               <p className="text-white text-center font-light leading-5">
                 <b className="font-bold">Dmitry Dolgov</b><br />
+                Research Assistant
+              </p>
+            </article>
+
+            <article>
+              <img src={pavelPhoto} alt="Pavel Ivanov-Rostovtsev" className="w-[180px] h-[180px] object-cover rounded-full mb-3" />
+
+              <p className="text-white text-center font-light leading-5">
+                <b className="font-bold">Pavel Ivanov-Rostovtsev</b><br />
+                PhD(c) / Bioinformatician
+              </p>
+            </article>
+
+            <article>
+              <img src={placeholderPhoto} alt="Gerald D’Cruz" className="w-[180px] mb-3" />
+
+              <p className="text-white text-center font-light leading-5">
+                <b className="font-bold">Gerald D’Cruz</b><br />
+                Research Assistant
+              </p>
+            </article>
+
+            <article>
+              <img src={placeholderPhoto} alt="Dariia Aitkulova" className="w-[180px] mb-3" />
+
+              <p className="text-white text-center font-light leading-5">
+                <b className="font-bold">Dariia Aitkulova</b><br />
                 Research Assistant
               </p>
             </article>
