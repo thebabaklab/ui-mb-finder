@@ -29,6 +29,7 @@ import tamaraPhoto from "@assets/img/tamara.svg";
 import dmitryPhoto from "@assets/img/dmitry.svg";
 import placeholderPhoto from "@assets/img/placeholder-avatar.svg";
 import pavelPhoto from "@assets/img/pavel.jpg";
+import dariiaPhoto from "@assets/img/dariia.jpg";
 import predictLogo from "@assets/img/predict-icon.svg";
 
 export const MainPage = () => {
@@ -435,7 +436,7 @@ export const MainPage = () => {
             </article>
 
             <article>
-              <img src={placeholderPhoto} alt="Dariia Aitkulova" className="w-[180px] mb-3" />
+              <img src={dariiaPhoto} alt="Dariia Aitkulova" className="w-[180px] h-[180px] object-cover rounded-full mb-3" />
 
               <p className="text-white text-center font-light leading-5">
                 <b className="font-bold">Dariia Aitkulova</b><br />
