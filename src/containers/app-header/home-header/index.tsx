@@ -9,10 +9,16 @@ import { StatHexagon } from "../../stat-hexagon";
 import { Link } from "@tanstack/react-router";
 
 export const HomeHeader = () => {
-  const [counts, setCounts] = useState({
+  const [counts, setCounts] = useState<{
+    compoundsCount: number;
+    referenceCount: number;
+    cellsCount: number;
+    metalCounts?: Record<string, number>;
+  }>({
     compoundsCount: 0,
     referenceCount: 0,
     cellsCount: 0,
+    metalCounts: {},
   });
   const location = useLocation();
   const pathname = location.pathname;
@@ -88,19 +94,19 @@ export const HomeHeader = () => {
                 IC<sub>50</sub> Values
               </>
             }
-            className="bg-[#C0C0C0] border-[#C0C0C0] lg:absolute lg:top-[180px] lg:left-0"
+            className="bg-titanium-gray border-titanium-gray lg:absolute lg:top-[180px] lg:left-0"
           />
 
           <StatHexagon
-            value={2673}
+            value={counts.metalCounts?.Cu ?? 0}
             name="Cu Compounds"
             className="bg-[#B87333] border-[#B87333] lg:absolute lg:top-[420px] lg:left-0"
           />
 
           <StatHexagon
-            value={3903}
+            value={counts.metalCounts?.Pt ?? 0}
             name="Pt Compounds"
-            className="bg-[#C0C0C0] border-[#C0C0C0] lg:absolute lg:top-[480px] lg:right-0"
+            className="bg-titanium-gray border-titanium-gray lg:absolute lg:top-[480px] lg:right-0"
           />
         </div>
       )}
