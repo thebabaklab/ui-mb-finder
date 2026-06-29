@@ -23,7 +23,7 @@ export const AdvancedSearchFieldsSection: FC<AdvancedSearchFieldsSectionProps> =
   addVisible
 }) => {
   return (
-    <section className="flex w-full flex-col items-center gap-10">
+    <section className="flex w-full lg:max-w-5xl mx-auto flex-col items-center gap-10">
       {searchFields.map((field, i) => (
         <AdvancedSearchField
           key={i}
