@@ -27,9 +27,9 @@ import bekirPhoto from "@assets/img/bekir.svg";
 import jackyPhoto from "@assets/img/jacky.svg";
 import tamaraPhoto from "@assets/img/tamara.svg";
 import dmitryPhoto from "@assets/img/dmitry.svg";
-import placeholderPhoto from "@assets/img/placeholder-avatar.svg";
 import pavelPhoto from "@assets/img/pavel.jpg";
 import dariiaPhoto from "@assets/img/dariia.jpg";
+import geraldPhoto from "@assets/img/gerald.jpg";
 import predictLogo from "@assets/img/predict-icon.svg";
 
 export const MainPage = () => {
@@ -418,7 +418,11 @@ export const MainPage = () => {
             </article>
 
             <article>
-              <img src={pavelPhoto} alt="Pavel Ivanov-Rostovtsev" className="w-[180px] h-[180px] object-cover rounded-full mb-3" />
+              <div className="w-[180px] h-[180px] mb-3 rounded-full p-[8px] bg-gradient-to-br from-[#B87333] to-[#EABF14]">
+                <div className="w-full h-full rounded-full p-[6px] bg-gunmetal">
+                  <img src={pavelPhoto} alt="Pavel Ivanov-Rostovtsev" className="w-full h-full object-cover rounded-full" />
+                </div>
+              </div>
 
               <p className="text-white text-center font-light leading-5">
                 <b className="font-bold">Pavel Ivanov-Rostovtsev</b><br />
@@ -427,7 +431,11 @@ export const MainPage = () => {
             </article>
 
             <article>
-              <img src={placeholderPhoto} alt="Gerald D’Cruz" className="w-[180px] mb-3" />
+              <div className="w-[180px] h-[180px] mb-3 rounded-full p-[8px] bg-gradient-to-br from-[#2A3439] to-[#C0C0C0]">
+                <div className="w-full h-full rounded-full p-[6px] bg-gunmetal">
+                  <img src={geraldPhoto} alt="Gerald D’Cruz" className="w-full h-full object-cover rounded-full" />
+                </div>
+              </div>
 
               <p className="text-white text-center font-light leading-5">
                 <b className="font-bold">Gerald D’Cruz</b><br />
@@ -436,7 +444,11 @@ export const MainPage = () => {
             </article>
 
             <article>
-              <img src={dariiaPhoto} alt="Dariia Aitkulova" className="w-[180px] h-[180px] object-cover rounded-full mb-3" />
+              <div className="w-[180px] h-[180px] mb-3 rounded-full p-[8px] bg-[#878681]">
+                <div className="w-full h-full rounded-full p-[6px] bg-gunmetal">
+                  <img src={dariiaPhoto} alt="Dariia Aitkulova" className="w-full h-full object-cover rounded-full" />
+                </div>
+              </div>
 
               <p className="text-white text-center font-light leading-5">
                 <b className="font-bold">Dariia Aitkulova</b><br />
