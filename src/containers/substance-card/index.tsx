@@ -76,6 +76,10 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
 
           <div className="flex flex-col gap-2 text-white font-light">
             <div className="flex items-center gap-2">
+              <span className="text-primary font-bold">Name:</span>
+              {substance.name || <Icon name={mdiMinus} dense />}
+            </div>
+            <div className="flex items-center gap-2">
               <span className="text-primary font-bold">CAS:</span>
               {substance.casNumber || <Icon name={mdiMinus} dense />}
             </div>

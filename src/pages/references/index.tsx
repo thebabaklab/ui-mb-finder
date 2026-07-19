@@ -40,9 +40,9 @@ export const ReferencesPage = () => {
         ceil_line_name: ceillineName,
         filters: apiFilters ? apiFilters : {},
       });
-      setReferences(data.data);
-      setTotalPages(data.meta.last_page);
-      setTotalRecords(data.meta.total);
+      setReferences(Array.isArray(data?.data) ? data.data : []);
+      setTotalPages(data?.meta?.last_page ?? 1);
+      setTotalRecords(data?.meta?.total ?? 0);
     } catch (err) {
       console.error("Error", err);
     } finally {
