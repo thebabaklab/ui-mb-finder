@@ -58,6 +58,12 @@ export const SearchSection: FC<SearchSectionProps> = ({
 
           }
           onChange={(e) => setQueryStr(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              if (queryStr || hasSearchField) onSearch(queryStr || undefined);
+            }
+          }}
         />
       </div>
       <button

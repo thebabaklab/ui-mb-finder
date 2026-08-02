@@ -55,9 +55,9 @@ export const BioDataPage = () => {
           // filters
         },
       );
-      setBioDatas(data.data);
-      setTotalPages(data.meta.last_page);
-      setTotalRecords(data.meta.total);
+      setBioDatas(Array.isArray(data?.data) ? data.data : []);
+      setTotalPages(data?.meta?.last_page ?? 1);
+      setTotalRecords(data?.meta?.total ?? 0);
     } catch (err) {
       console.error("Error", err);
     } finally {

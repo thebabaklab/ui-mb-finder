@@ -161,9 +161,9 @@ export const SubstancesPage = () => {
           filters: apiFilters ? apiFilters : {},
         },
       );
-      setSubstances(data.data);
-      setTotalPages(data.meta.last_page);
-      setTotalRecords(data.meta.total);
+      setSubstances(Array.isArray(data?.data) ? data.data : []);
+      setTotalPages(data?.meta?.last_page ?? 1);
+      setTotalRecords(data?.meta?.total ?? 0);
     } catch (err) {
       console.error("Error", err);
     } finally {

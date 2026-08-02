@@ -13,11 +13,13 @@ export const HomeHeader = () => {
     compoundsCount: number;
     referenceCount: number;
     cellsCount: number;
+    ic50Count?: number;
     metalCounts?: Record<string, number>;
   }>({
     compoundsCount: 0,
     referenceCount: 0,
     cellsCount: 0,
+    ic50Count: 0,
     metalCounts: {},
   });
   const location = useLocation();
@@ -88,7 +90,7 @@ export const HomeHeader = () => {
           />
 
           <StatHexagon
-            value={33514}
+            value={counts.ic50Count ?? 0}
             name={
               <>
                 IC<sub>50</sub> Values
