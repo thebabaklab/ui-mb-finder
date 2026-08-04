@@ -72,21 +72,9 @@ export const HomeHeader = () => {
       {pathname === '/' && (
         <div className="relative lg:absolute top-8 lg:top-8 right-0 lg:right-8 flex flex-wrap min-w-[375px] justify-center gap-1 sm:min-w-0 lg:h-[600px] lg:w-[220px]">
           <StatHexagon
-            value={counts.compoundsCount}
-            name="Compounds"
-            className="bg-secondary border-secondary lg:absolute lg:top-[60px] lg:left-0"
-          />
-
-          <StatHexagon
             value={counts.cellsCount}
             name="Cell Lines"
             className="bg-titanium-gray border-titanium-gray lg:absolute lg:top-0 lg:right-0"
-          />
-
-          <StatHexagon
-            value={counts.referenceCount}
-            name="References"
-            className="bg-primary border-primary lg:absolute lg:top-[120px] lg:right-0"
           />
 
           <StatHexagon
@@ -96,19 +84,31 @@ export const HomeHeader = () => {
                 IC<sub>50</sub> Values
               </>
             }
-            className="bg-titanium-gray border-titanium-gray lg:absolute lg:top-[180px] lg:left-0"
+            className="bg-secondary border-secondary lg:absolute lg:top-[60px] lg:left-0"
+          />
+
+          <StatHexagon
+            value={counts.referenceCount}
+            name="References"
+            className="bg-primary border-primary lg:absolute lg:top-[120px] lg:right-0"
           />
 
           <StatHexagon
             value={counts.metalCounts?.Cu ?? 0}
             name="Cu Compounds"
-            className="bg-[#B87333] border-[#B87333] lg:absolute lg:top-[420px] lg:left-0"
+            className="bg-[#B87333] border-[#B87333] lg:absolute lg:top-[360px] lg:left-0"
           />
 
           <StatHexagon
             value={counts.metalCounts?.Pt ?? 0}
             name="Pt Compounds"
-            className="bg-titanium-gray border-titanium-gray lg:absolute lg:top-[480px] lg:right-0"
+            className="bg-titanium-gray border-titanium-gray lg:absolute lg:top-[420px] lg:right-0"
+          />
+
+          <StatHexagon
+            value={counts.metalCounts?.Au ?? 0}
+            name="Au Compounds"
+            className="bg-primary border-primary lg:absolute lg:top-[480px] lg:left-0"
           />
         </div>
       )}
