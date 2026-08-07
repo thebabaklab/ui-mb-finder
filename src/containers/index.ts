@@ -17,5 +17,6 @@ export * from "./filter-dialog";
 export * from "./substance-drawer";
 export * from "./tabs-section";
 export * from "./search-section";
+export * from "./throttle-banner";
 export * from "./advanced-search-fields-section";
 export * from "./substance-drawer";

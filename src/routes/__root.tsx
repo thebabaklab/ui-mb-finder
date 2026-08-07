@@ -1,3 +1,4 @@
+import { ThrottleBanner } from "@containers";
 import { createRootRoute, ErrorComponent, Outlet } from "@tanstack/react-router";
 // import { useEffect } from "react";
 // import { trackPage } from "../analytics/analytics";
@@ -16,7 +17,12 @@ import { createRootRoute, ErrorComponent, Outlet } from "@tanstack/react-router"
 // }
 
 export const rootRoute = createRootRoute({
-  component: () => <Outlet />,
+  component: () => (
+    <>
+      <ThrottleBanner />
+      <Outlet />
+    </>
+  ),
   // component: RootLayout,
   errorComponent: (() => ErrorComponent)(),
   notFoundComponent: () => <div>not found</div>,
