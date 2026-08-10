@@ -24,6 +24,9 @@ interface IStoreState {
   setBioDatas: (value: TBioData[]) => void;
   selectedImage: TSelectedImage | null;
   setSelectedImage: (value: TSelectedImage | null) => void;
+  // Set when the API returns 429 (rate limited); drives the dismissible ThrottleBanner.
+  throttleNotice: { message: string; contactUrl: string } | null;
+  setThrottleNotice: (value: { message: string; contactUrl: string } | null) => void;
 }
 
 export const useStore = create<IStoreState>((set) => ({
@@ -56,4 +59,6 @@ export const useStore = create<IStoreState>((set) => ({
   setBioDatas: (bioDatas) => set({ bioDatas }),
   selectedImage: null,
   setSelectedImage: (selectedImage) => set({ selectedImage }),
+  throttleNotice: null,
+  setThrottleNotice: (throttleNotice) => set({ throttleNotice }),
 }));
