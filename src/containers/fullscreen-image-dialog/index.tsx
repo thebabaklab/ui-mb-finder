@@ -25,7 +25,7 @@ export const FullscreenImageDialog = () => {
         </DialogHeader>
 
         {selectedImage?.src && (
-          <img src={selectedImage.src} alt="chemical substance molecule" className="h-[590px] w-[752px]" />
+          <img src={selectedImage.src} alt="chemical substance molecule" className="h-[590px] w-[752px] object-contain" />
         )}
       </DialogContent>
     </Dialog>
