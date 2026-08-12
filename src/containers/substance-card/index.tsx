@@ -67,7 +67,7 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
       <div className="flex flex-col gap-5 p-6">
         <div className="flex flex-wrap gap-10">
           <div className="border-primary relative w-fit rounded-4xl border p-3">
-            <img src={substance.imageUrl} alt={substance.imageId} className="border-1 border-platinum-silver bg-platinum-silver rounded-3xl h-[200px] w-[240px]" />
+            <img src={substance.imageUrl} alt={substance.imageId} className="border-1 border-platinum-silver bg-platinum-silver rounded-3xl h-[200px] w-[240px] object-contain" />
 
             <Button variant="transparent" size="icon" className="absolute top-6 right-6" onClick={handleFullscreen}>
               <Icon name={mdiFullscreen} />

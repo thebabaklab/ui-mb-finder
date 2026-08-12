@@ -339,8 +339,7 @@ export const MainPage = () => {
 
               <p className="text-white text-center font-light leading-5">
                 <b className="font-bold">Prof. Maria Babak</b><br />
-                Principal Investigator<br />
-                PhD / Chemist
+                Principal Investigator
               </p>
             </article>
 
@@ -348,9 +347,7 @@ export const MainPage = () => {
               <img src={daniilPhoto} alt="Daniil Rusanov" className="w-[180px] mb-3" />
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Daniil Rusanov</b><br />
-                Project Lead<br />
-                PhD(c) / Chemist
+                <b className="font-bold">Daniil Rusanov</b>
               </p>
             </article>
 
@@ -358,8 +355,7 @@ export const MainPage = () => {
               <img src={dmitriiPhoto} alt="Dmitrii Brezgunov" className="w-[180px] mb-3" />
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Dmitrii Brezgunov</b><br />
-                Research Assistant
+                <b className="font-bold">Dmitrii Brezgunov</b>
               </p>
             </article>
 
@@ -367,8 +363,7 @@ export const MainPage = () => {
               <img src={hojungPhoto} alt="Ho-Jung Choe" className="w-[180px] mb-3" />
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Ho-Jung Choe</b><br />
-                Undergraduate Student
+                <b className="font-bold">Ho-Jung Choe</b>
               </p>
             </article>
 
@@ -376,8 +371,7 @@ export const MainPage = () => {
               <img src={maryanaPhoto} alt="Maryana Yarshova" className="w-[180px] mb-3" />
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Maryana Yarshova</b><br />
-                Undergraduate student
+                <b className="font-bold">Maryana Yarshova</b>
               </p>
             </article>
 
@@ -385,8 +379,7 @@ export const MainPage = () => {
               <img src={bekirPhoto} alt="Bekir Pashaliev" className="w-[180px] mb-3" />
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Bekir Pashaliev</b><br />
-                Research Assistant
+                <b className="font-bold">Bekir Pashaliev</b>
               </p>
             </article>
 
@@ -394,8 +387,7 @@ export const MainPage = () => {
               <img src={jackyPhoto} alt="Jacky Luk Ka Ho" className="w-[180px] mb-3" />
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Jacky Luk Ka Ho</b><br />
-                Undergraduate Student
+                <b className="font-bold">Jacky Luk Ka Ho</b>
               </p>
             </article>
 
@@ -403,8 +395,7 @@ export const MainPage = () => {
               <img src={tamaraPhoto} alt="Tamara Petrovic" className="w-[180px] mb-3" />
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Tamara Petrovic</b><br />
-                PhD / Chemist
+                <b className="font-bold">Tamara Petrovic</b>
               </p>
             </article>
 
@@ -412,8 +403,7 @@ export const MainPage = () => {
               <img src={dmitryPhoto} alt="Dmitry Dolgov" className="w-[180px] mb-3" />
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Dmitry Dolgov</b><br />
-                Research Assistant
+                <b className="font-bold">Dmitry Dolgov</b>
               </p>
             </article>
 
@@ -425,8 +415,7 @@ export const MainPage = () => {
               </div>
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Pavel Ivanov-Rostovtsev</b><br />
-                PhD(c) / Bioinformatician
+                <b className="font-bold">Pavel Ivanov-Rostovtsev</b>
               </p>
             </article>
 
@@ -438,8 +427,7 @@ export const MainPage = () => {
               </div>
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Gerald D’Cruz</b><br />
-                Research Assistant
+                <b className="font-bold">Gerald D’Cruz</b>
               </p>
             </article>
 
@@ -451,8 +439,7 @@ export const MainPage = () => {
               </div>
 
               <p className="text-white text-center font-light leading-5">
-                <b className="font-bold">Dariia Aitkulova</b><br />
-                Research Assistant
+                <b className="font-bold">Dariia Aitkulova</b>
               </p>
             </article>
           </div>

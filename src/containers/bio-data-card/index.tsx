@@ -32,7 +32,7 @@ export const BioDataCard: FC<BioDataCardProps> = ({ bioData, index }) => {
 
       <div className="flex flex-wrap items-start gap-10 p-6 md:flex-nowrap lg:flex-wrap xl:flex-nowrap">
         <div className="border-primary relative w-fit rounded-4xl border p-3">
-          <img src={bioData.compounds.imageUrl} alt={bioData.name} className="border-1 border-platinum-silver bg-platinum-silver rounded-3xl h-[200px] w-[240px]" />
+          <img src={bioData.compounds.imageUrl} alt={bioData.name} className="border-1 border-platinum-silver bg-platinum-silver rounded-3xl h-[200px] w-[240px] object-contain" />
 
           <Button variant="transparent" size="icon" className="absolute top-6 right-6" onClick={handleFullscreen}>
             <Icon name={mdiFullscreen} />

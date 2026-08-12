@@ -70,7 +70,7 @@ export const HomeHeader = () => {
       </nav>
 
       {pathname === '/' && (
-        <div className="relative lg:absolute top-8 lg:top-8 right-0 lg:right-8 flex flex-wrap min-w-[375px] justify-center gap-1 sm:min-w-0 lg:h-[600px] lg:w-[220px]">
+        <div className="relative lg:absolute top-8 lg:top-8 right-0 lg:right-8 flex flex-wrap min-w-[375px] justify-center gap-1 sm:min-w-0 lg:h-[660px] lg:w-[220px]">
           <StatHexagon
             value={counts.cellsCount}
             name="Cell Lines"
@@ -109,6 +109,12 @@ export const HomeHeader = () => {
             value={counts.metalCounts?.Au ?? 0}
             name="Au Compounds"
             className="bg-primary border-primary lg:absolute lg:top-[480px] lg:left-0"
+          />
+
+          <StatHexagon
+            value={counts.metalCounts?.Re ?? 0}
+            name="Re Compounds"
+            className="bg-[#B87333] border-[#B87333] lg:absolute lg:top-[540px] lg:right-0"
           />
         </div>
       )}
