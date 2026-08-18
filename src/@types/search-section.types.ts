@@ -41,6 +41,10 @@ export type TFilterItem =
   | {
       filterType: ENUM_SEARCH_FIELD_TYPE.Doi;
       filterValue: string;
+    }
+  | {
+      filterType: ENUM_SEARCH_FIELD_TYPE.Method;
+      filterValue: string;
     };
 
 export type TSearch = {

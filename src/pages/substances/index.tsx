@@ -47,6 +47,10 @@ const getFieldValues = (filter: TSearchField) => {
       return filter.values.cliDrug;
     case ENUM_SEARCH_FIELD_TYPE.Doi:
       return filter.values.doi;
+    case ENUM_SEARCH_FIELD_TYPE.Method:
+      return filter.values.method;
+    case ENUM_SEARCH_FIELD_TYPE.CellLines:
+      return filter.values.cellLine;
     case ENUM_SEARCH_FIELD_TYPE.IC50Range:
       return { "startIC50": filter.values.icStart, "endIC50": filter.values.icEnd };
     case ENUM_SEARCH_FIELD_TYPE.IncubationTime:

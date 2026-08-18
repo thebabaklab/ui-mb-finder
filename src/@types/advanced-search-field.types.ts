@@ -79,4 +79,20 @@ export type TSearchField =
       doi: string;
     }
   }
+  | {
+    type: ENUM_SEARCH_FIELD_TYPE.Method;
+    negate?: boolean;
+    logicalOperator?: string;
+    values: {
+      method: string;
+    }
+  }
+  | {
+    type: ENUM_SEARCH_FIELD_TYPE.CellLines;
+    negate?: boolean;
+    logicalOperator?: string;
+    values: {
+      cellLine: string;
+    }
+  }
 

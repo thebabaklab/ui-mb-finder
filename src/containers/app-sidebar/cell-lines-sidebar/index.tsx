@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { IncubationTimeFilter } from "../incubation-time-filter";
 import { Ic50RangeFilter } from "../ic50-range-filter";
+import { CellLineFilter } from "../cell-line-filter";
+import { DoiFilter } from "../doi-filter";
+import { MethodFilter } from "../method-filter";
 import { Button, Icon, Select } from "@ui-kit";
 import { ENUM_SEARCH_FIELD_TYPE, type TSearchField } from "@types";
 import { mdiPlus } from "@mdi/js";
@@ -35,6 +38,30 @@ export const CellLinesSidebar = () => {
         newFilter = {
           type,
           values: {
+          }
+        }
+        break;
+      case ENUM_SEARCH_FIELD_TYPE.Doi:
+        newFilter = {
+          type,
+          values: {
+            doi: ""
+          }
+        }
+        break;
+      case ENUM_SEARCH_FIELD_TYPE.Method:
+        newFilter = {
+          type,
+          values: {
+            method: ""
+          }
+        }
+        break;
+      case ENUM_SEARCH_FIELD_TYPE.CellLines:
+        newFilter = {
+          type,
+          values: {
+            cellLine: ""
           }
         }
         break;
@@ -84,6 +111,29 @@ export const CellLinesSidebar = () => {
             return {
               valid: false,
               message: "IC Range filter requires a start or end value"
+            }
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.Doi:
+          if (!filter.values?.doi)
+            return {
+              valid: false,
+              message: "DOI filter requires a value"
+            }
+          break;
+
+        case ENUM_SEARCH_FIELD_TYPE.Method:
+          if (!filter.values?.method)
+            return {
+              valid: false,
+              message: "Method filter requires a value"
+            }
+          break;
+
+        case ENUM_SEARCH_FIELD_TYPE.CellLines:
+          if (!filter.values?.cellLine)
+            return {
+              valid: false,
+              message: "Cell Line filter requires a value"
             }
           break;
       }
@@ -154,6 +204,50 @@ export const CellLinesSidebar = () => {
                 onRemove={() => removeFilter(index)}
                 onChange={(values_ic) => updateFilter(index, { ...field, values: { ...values_ic } })}
                 onLogicalOperatorChange={(operator) => updateFilter(index, { ...field, logicalOperator: operator })} />
+            )
+          case ENUM_SEARCH_FIELD_TYPE.Doi:
+            return (
+              <DoiFilter
+                key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
+                hasLogicOperator={index !== filters.length - 1}
+                initialValue={field.values.doi}
+                logicalOperator={field.logicalOperator}
+                onRemove={() => removeFilter(index)}
+                onChange={(value) => updateFilter(index, { ...field, values: { doi: value ?? "" } })}
+                onLogicalOperatorChange={(operator) => updateFilter(index, { ...field, logicalOperator: operator })}
+              />
+            )
+
+          case ENUM_SEARCH_FIELD_TYPE.Method:
+            return (
+              <MethodFilter
+                key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
+                hasLogicOperator={index !== filters.length - 1}
+                initialValue={field.values.method}
+                logicalOperator={field.logicalOperator}
+                onRemove={() => removeFilter(index)}
+                onChange={(value) => updateFilter(index, { ...field, values: { method: value ?? "" } })}
+                onLogicalOperatorChange={(operator) => updateFilter(index, { ...field, logicalOperator: operator })}
+              />
+            )
+
+          case ENUM_SEARCH_FIELD_TYPE.CellLines:
+            return (
+              <CellLineFilter
+                key={index}
+                negate={field.negate ?? false}
+                onNegateChange={(negate) => updateFilter(index, { ...field, negate: negate })}
+                hasLogicOperator={index !== filters.length - 1}
+                initialValue={field.values.cellLine}
+                logicalOperator={field.logicalOperator}
+                onRemove={() => removeFilter(index)}
+                onChange={(value) => updateFilter(index, { ...field, values: { cellLine: value ?? "" } })}
+                onLogicalOperatorChange={(operator) => updateFilter(index, { ...field, logicalOperator: operator })}
+              />
             )
         }
       })}

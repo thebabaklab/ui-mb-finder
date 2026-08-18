@@ -9,6 +9,7 @@ export enum ENUM_SEARCH_FIELD_TYPE {
   CellLines = "CELLS_LINES",
   PublicationYear = "YEAR_RANGE",
   Doi = "DOI",
+  Method = "METHOD",
 }
 
 export enum ENUM_LOGICAL_OPERATOR {
