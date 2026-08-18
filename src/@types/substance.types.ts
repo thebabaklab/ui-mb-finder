@@ -7,6 +7,7 @@ export type TSubstance = {
   cLogP: string | null;
   referenceCount: number;
   ceilLineCount: number;
+  bioDataCount: number;
   smiles: string;
 };
 

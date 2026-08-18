@@ -5,7 +5,7 @@ import { useNavigate } from "@tanstack/react-router";
 import type { TSubstance } from "@types";
 import { Button, Icon } from "@ui-kit";
 import { cn } from "@utils";
-import celllineIcon from "@assets/img/cell_lines-icon.svg";
+import biodataIcon from "@assets/img/biodata-icon.svg";
 import referenceIcon from "@assets/img/references-icon.svg";
 
 interface SubstanceCardProps {
@@ -44,7 +44,7 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
     navigate({ to: "/references", search: { page: 1, imgId: substance.imageId } });
   };
 
-  const handleCellLinesClick = () => {
+  const handleBioDataClick = () => {
     setSearch({
       queryStr: "",
       filters: [],
@@ -55,7 +55,7 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
       title: "",
       imgId: "",
     });
-    navigate({ to: "/cell-lines", search: { page: 1, imgId: substance.imageId } });
+    navigate({ to: "/substances/bio-data/$imgId", params: { imgId: substance.imageId }, search: { page: 1 } });
   };
 
   return (
@@ -102,9 +102,9 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
           </Button>
 
           <div className="flex flex-col gap-3 md:flex-row">
-            <Button variant={"transparent"} size="small" className="text-primary text-base font-light" onClick={handleCellLinesClick}>
-              <img className="w-[20px]" src={celllineIcon} aria-hidden="true" />
-              Cell Lines ({substance.ceilLineCount})
+            <Button variant={"transparent"} size="small" className="text-primary text-base font-light" onClick={handleBioDataClick}>
+              <img className="w-[25px]" src={biodataIcon} aria-hidden="true" />
+              View Bio Data ({substance.bioDataCount})
             </Button>
             <Button variant={"transparent"} size="small" className="text-primary text-base font-light" onClick={handleReferencesClick}>
               <img className="w-[20px]" src={referenceIcon} aria-hidden="true" />
