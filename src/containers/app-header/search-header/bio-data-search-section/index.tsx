@@ -7,9 +7,7 @@ import { SubstanceDrawer } from "../../../substance-drawer";
 
 export const BioDataSearchSection = () => {
   // const { cellId } = useParams({ from: "/search/cell-lines/bio-data/$cellId" });
-  const { queryStr } = useSearch({
-    from: "/search/cell-lines/bio-data/$cellId",
-  });
+  const { queryStr } = useSearch({ strict: false });
   const search = useStore((s) => s.search);
   const setSearch = useStore((s) => s.setSearch);
   const navigate = useNavigate();

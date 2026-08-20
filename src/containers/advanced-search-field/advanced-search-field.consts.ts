@@ -7,10 +7,16 @@ export const fieldTypes = {
     { name: "CAS Registry Number", id: ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber },
     { name: "Incubation Time", id: ENUM_SEARCH_FIELD_TYPE.IncubationTime },
     { name: "Molecular Weight", id: ENUM_SEARCH_FIELD_TYPE.MolecularWeight },
+    { name: "DOI", id: ENUM_SEARCH_FIELD_TYPE.Doi },
+    { name: "Method", id: ENUM_SEARCH_FIELD_TYPE.Method },
+    { name: "Cell Line", id: ENUM_SEARCH_FIELD_TYPE.CellLines },
   ],
   "cell-lines": [
     { name: "Incubation Time", id: ENUM_SEARCH_FIELD_TYPE.IncubationTime },
     { name: "IC50μM", id: ENUM_SEARCH_FIELD_TYPE.IC50Range },
+    { name: "DOI", id: ENUM_SEARCH_FIELD_TYPE.Doi },
+    { name: "Method", id: ENUM_SEARCH_FIELD_TYPE.Method },
+    { name: "Cell Line", id: ENUM_SEARCH_FIELD_TYPE.CellLines },
   ],
   "references": [
     { name: "Authors", id: ENUM_SEARCH_FIELD_TYPE.Author },

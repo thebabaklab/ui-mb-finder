@@ -31,7 +31,7 @@ export const BioDataCard: FC<BioDataCardProps> = ({ bioData, index }) => {
       </div>
 
       <div className="flex flex-wrap items-start gap-10 p-6 md:flex-nowrap lg:flex-wrap xl:flex-nowrap">
-        <div className="border-primary relative w-fit rounded-4xl border p-3">
+        <div className="border-primary relative w-fit shrink-0 rounded-4xl border p-3">
           <img src={bioData.compounds.imageUrl} alt={bioData.name} className="border-1 border-platinum-silver bg-platinum-silver rounded-3xl h-[200px] w-[240px] object-contain" />
 
           <Button variant="transparent" size="icon" className="absolute top-6 right-6" onClick={handleFullscreen}>
@@ -49,11 +49,21 @@ export const BioDataCard: FC<BioDataCardProps> = ({ bioData, index }) => {
               {bioData.compounds.title}
             </a>
           </h3>
+
+          {bioData.compounds.doi && (
+            <a
+              href={`https://www.doi.org/${bioData.compounds.doi}`}
+              target="_blank"
+              className="text-platinum-silver -mt-3 text-sm font-light break-all"
+            >
+              {bioData.compounds.doi}
+            </a>
+          )}
         </div>
       </div>
       <div className="px-6 pb-6">
         <div className="border-platinum-silver overflow-hidden rounded-4xl border">
-          <DataTable headers={headers} items={[bioData.compounds as TableItem]} hideFooter />
+          <DataTable headers={headers} items={bioData.measurements as unknown as TableItem[]} hideFooter />
         </div>
       </div>
     </div>

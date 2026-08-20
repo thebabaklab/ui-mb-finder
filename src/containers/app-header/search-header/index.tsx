@@ -32,7 +32,9 @@ export const SearchHeader = () => {
     (match) => match.routeId === "/search/cell-lines",
   );
   const isBioData = matches.some(
-    (match) => match.routeId === "/search/cell-lines/bio-data/$cellId",
+    (match) =>
+      match.routeId === "/search/cell-lines/bio-data/$cellId" ||
+      match.routeId === "/search/substances/bio-data/$imgId",
   );
   const isReferences = matches.some(
     (match) => match.routeId === "/search/references",
@@ -54,7 +56,9 @@ export const SearchHeader = () => {
           <TabsSection
             selectedTab={
               pathname.includes("bio-data")
-                ? "cell-lines"
+                ? pathname.startsWith("/substances")
+                  ? "substances"
+                  : "cell-lines"
                 : (pathname.slice(1) as TTabValue)
             }
             onChange={handleTabChange}

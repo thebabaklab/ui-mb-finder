@@ -26,7 +26,9 @@ export const FilterDialog = () => {
     (match) => match.routeId === "/search/cell-lines",
   );
   const isBioData = matches.some(
-    (match) => match.routeId === "/search/cell-lines/bio-data/$cellId",
+    (match) =>
+      match.routeId === "/search/cell-lines/bio-data/$cellId" ||
+      match.routeId === "/search/substances/bio-data/$imgId",
   );
   const isReferences = matches.some(
     (match) => match.routeId === "/search/references",

@@ -6,6 +6,7 @@ import { cellLinesRoute } from "./cell-lines";
 import { mainRoute } from "./main";
 import { referencesRoute } from "./references";
 import { searchRoute } from "./search";
+import { substanceBioDataRoute } from "./substance-bio-data";
 import { substancesRoute } from "./substances";
 import { aboutRoute } from "./about-us";
 import { contactRoute } from "./contact";
@@ -16,7 +17,7 @@ const routeTree = rootRoute.addChildren([
   aboutRoute,
   contactRoute,
   predictRoute,
-  searchRoute.addChildren([substancesRoute, cellLinesRoute, bioDataRoute, referencesRoute]),
+  searchRoute.addChildren([substancesRoute, substanceBioDataRoute, cellLinesRoute, bioDataRoute, referencesRoute]),
 ]);
 
 export const router = createRouter({
