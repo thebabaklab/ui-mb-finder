@@ -11,7 +11,15 @@ export const fieldTypes = {
     { name: "Method", id: ENUM_SEARCH_FIELD_TYPE.Method },
     { name: "Cell Line", id: ENUM_SEARCH_FIELD_TYPE.CellLines },
   ],
+  // No Cell Line here: the search itself is over cell lines, so filtering by one is redundant.
   "cell-lines": [
+    { name: "Incubation Time", id: ENUM_SEARCH_FIELD_TYPE.IncubationTime },
+    { name: "IC50μM", id: ENUM_SEARCH_FIELD_TYPE.IC50Range },
+    { name: "DOI", id: ENUM_SEARCH_FIELD_TYPE.Doi },
+    { name: "Method", id: ENUM_SEARCH_FIELD_TYPE.Method },
+  ],
+  // Bio data spans the cell lines a substance was tested on, so narrowing by one belongs here.
+  "bio-data": [
     { name: "Incubation Time", id: ENUM_SEARCH_FIELD_TYPE.IncubationTime },
     { name: "IC50μM", id: ENUM_SEARCH_FIELD_TYPE.IC50Range },
     { name: "DOI", id: ENUM_SEARCH_FIELD_TYPE.Doi },
