@@ -60,7 +60,11 @@ export const MainPage = () => {
         (field.type === ENUM_SEARCH_FIELD_TYPE.PublicationYear &&
           (field.values.pyearStart || field.values.pyearEnd)) ||
         (field.type === ENUM_SEARCH_FIELD_TYPE.Doi &&
-          (field.values.doi)),
+          (field.values.doi)) ||
+        (field.type === ENUM_SEARCH_FIELD_TYPE.Method &&
+          (field.values.method)) ||
+        (field.type === ENUM_SEARCH_FIELD_TYPE.CellLines &&
+          (field.values.cellLine)),
     );
   }, [advancedFields]);
 
@@ -135,6 +139,14 @@ export const MainPage = () => {
           break;
         case ENUM_SEARCH_FIELD_TYPE.Doi:
           if (field.values.doi)
+            filters.push(field);
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.Method:
+          if (field.values.method)
+            filters.push(field);
+          break;
+        case ENUM_SEARCH_FIELD_TYPE.CellLines:
+          if (field.values.cellLine)
             filters.push(field);
           break;
       }
