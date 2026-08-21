@@ -8,6 +8,7 @@ import { SmilesFilter } from "../smiles-filter";
 import { CellLineFilter } from "../cell-line-filter";
 import { DoiFilter } from "../doi-filter";
 import { MethodFilter } from "../method-filter";
+import { useStore } from "@store";
 import { Button, Icon, Select } from "@ui-kit";
 import { ENUM_SEARCH_FIELD_TYPE, type TSearchField } from "@types";
 import { mdiPlus } from "@mdi/js";
@@ -16,6 +17,7 @@ import { fieldTypes } from "../../advanced-search-field/advanced-search-field.co
 export const SubstancesSidebar = () => {
   const { title, ceillineName, filters: filtersString } = useSearch({ from: "/search/substances" });
   const navigate = useNavigate();
+  const setDialogs = useStore((s) => s.setDialogs);
   const parsedFilters: TSearchField[] = filtersString ? JSON.parse(filtersString) : [];
   const [filters, setFilters] = useState<TSearchField[]>(parsedFilters);
   const [pendingFilter, setPendingFilter] = useState(false);
@@ -200,6 +202,10 @@ export const SubstancesSidebar = () => {
       alert(validation.message);
       return;
     }
+
+    // On mobile these sidebars live in the filter dialog; without this it stays
+    // open over the results and Apply looks like it did nothing.
+    setDialogs([]);
 
     navigate({
       to: "/substances", search: (prev) => ({

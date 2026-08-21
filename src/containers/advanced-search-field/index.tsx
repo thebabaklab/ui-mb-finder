@@ -12,6 +12,8 @@ import { IC50Range } from "./ic50-range";
 import { Author } from "./author";
 import { PublicationYear } from "./publication-year";
 import { Doi } from "./doi";
+import { Method } from "./method";
+import { CellLine } from "./cell-line";
 
 interface AdvancedSearchFieldProps {
   lastIndex: boolean;
@@ -92,6 +94,22 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
             doi: ""
           }
         });
+        break;
+      case ENUM_SEARCH_FIELD_TYPE.Method:
+        onChange({
+          type,
+          values: {
+            method: ""
+          }
+        });
+        break;
+      case ENUM_SEARCH_FIELD_TYPE.CellLines:
+        onChange({
+          type,
+          values: {
+            cellLine: ""
+          }
+        });
     }
   };
 
@@ -155,6 +173,16 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
   const handleDoiChange = (doi: string) => {
     if (field.type === ENUM_SEARCH_FIELD_TYPE.Doi)
       onChange({ ...field, values: { doi: doi } });
+  };
+
+  const handleMethodChange = (method: string) => {
+    if (field.type === ENUM_SEARCH_FIELD_TYPE.Method)
+      onChange({ ...field, values: { method: method } });
+  };
+
+  const handleCellLineChange = (cellLine: string) => {
+    if (field.type === ENUM_SEARCH_FIELD_TYPE.CellLines)
+      onChange({ ...field, values: { cellLine: cellLine } });
   };
 
   return (
@@ -308,6 +336,30 @@ export const AdvancedSearchField: FC<AdvancedSearchFieldProps> = ({ lastIndex, f
           onLogicalOperatorChange={handleLogicalOperatorChange}
           value={field.values.doi}
           onChange={handleDoiChange}
+        />
+      )}
+
+      {field.type === ENUM_SEARCH_FIELD_TYPE.Method && (
+        <Method
+          lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
+          logicalOperator={field.logicalOperator ?? ""}
+          onLogicalOperatorChange={handleLogicalOperatorChange}
+          value={field.values.method}
+          onChange={handleMethodChange}
+        />
+      )}
+
+      {field.type === ENUM_SEARCH_FIELD_TYPE.CellLines && (
+        <CellLine
+          lastIndex={lastIndex}
+          negate={field.negate ?? false}
+          onNegateChange={handleNegateChange}
+          logicalOperator={field.logicalOperator ?? ""}
+          onLogicalOperatorChange={handleLogicalOperatorChange}
+          value={field.values.cellLine}
+          onChange={handleCellLineChange}
         />
       )}
 

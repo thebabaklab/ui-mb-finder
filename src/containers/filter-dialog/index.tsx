@@ -40,7 +40,10 @@ export const FilterDialog = () => {
       onOpenChange={(value) => setDialogs(value ? ["filter"] : [])}
     >
       <DialogContent
-        className="h-screen text-center sm:h-auto"
+        // Filters can outgrow the screen, so the dialog scrolls instead of clipping.
+        // dvh (not vh) keeps it inside the browser chrome and the on-screen keyboard,
+        // which would otherwise hide the Apply button near its top edge.
+        className="h-dvh max-h-dvh overflow-y-auto overscroll-contain text-center sm:h-auto sm:max-h-[90dvh]"
         aria-describedby={undefined}
       >
         <DialogHeader>

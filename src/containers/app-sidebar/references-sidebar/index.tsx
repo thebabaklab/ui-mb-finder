@@ -4,6 +4,7 @@ import { AuthorFilter } from "../author-filter";
 import { PublicationYearFilter } from "../publication-year-filter";
 import { DoiFilter } from "../doi-filter";
 import { ClinicalDrugFilter } from "../clinical-drug-filter";
+import { useStore } from "@store";
 import { Button, Icon, Select } from "@ui-kit";
 import { ENUM_SEARCH_FIELD_TYPE, type TSearchField } from "@types";
 import { fieldTypes } from "../../advanced-search-field/advanced-search-field.consts";
@@ -14,6 +15,7 @@ export const ReferencesSidebar = () => {
     from: "/search/references",
   });
   const navigate = useNavigate();
+  const setDialogs = useStore((s) => s.setDialogs);
   const parsedFilters: TSearchField[] = filtersString ? JSON.parse(filtersString) : [];
   const [filters, setFilters] = useState<TSearchField[]>(parsedFilters);
   const [pendingFilter, setPendingFilter] = useState(false);
@@ -140,6 +142,10 @@ export const ReferencesSidebar = () => {
       alert(validation.message);
       return;
     }
+
+    // On mobile these sidebars live in the filter dialog; without this it stays
+    // open over the results and Apply looks like it did nothing.
+    setDialogs([]);
 
     navigate({
       to: "/references", search: (prev) => ({

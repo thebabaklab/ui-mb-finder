@@ -1,7 +1,7 @@
 import { type FC, useState } from "react";
 import { mdiFullscreen, mdiMinus } from "@mdi/js";
 import { useStore } from "@store";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import type { TSubstance } from "@types";
 import { Button, Icon } from "@ui-kit";
 import { cn } from "@utils";
@@ -15,6 +15,9 @@ interface SubstanceCardProps {
 
 export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
   const navigate = useNavigate();
+  // Carry the active filters into the drill-downs so the counts on these buttons
+  // match what opens (cards are only ever rendered on filterable routes).
+  const { filters } = useSearch({ strict: false });
   const setSelectedImage = useStore((s) => s.setSelectedImage);
   const setDialogs = useStore((s) => s.setDialogs);
   const setSearch = useStore((s) => s.setSearch);
@@ -41,7 +44,7 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
       title: "",
       imgId: "",
     });
-    navigate({ to: "/references", search: { page: 1, imgId: substance.imageId } });
+    navigate({ to: "/references", search: { page: 1, imgId: substance.imageId, filters } });
   };
 
   const handleBioDataClick = () => {
@@ -55,7 +58,7 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
       title: "",
       imgId: "",
     });
-    navigate({ to: "/substances/bio-data/$imgId", params: { imgId: substance.imageId }, search: { page: 1 } });
+    navigate({ to: "/substances/bio-data/$imgId", params: { imgId: substance.imageId }, search: { page: 1, filters } });
   };
 
   return (
