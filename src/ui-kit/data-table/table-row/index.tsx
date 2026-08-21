@@ -34,7 +34,13 @@ export const TableRow: FC<TableRowProps> = ({ item, headers, expandable, expandC
             key={hi}
             className={clsx(
               "group flex h-14 items-center justify-between px-5 text-base font-light text-platinum-silver lg:table-cell lg:px-3",
-              "border-border border-b group-last-of-type:border-b-0 lg:border-r lg:last-of-type:border-r-0",
+              "border-border",
+              // Stacked below lg: each record is a block of label/value lines, so the rule
+              // closes off a record rather than sitting between its own lines — and the
+              // last record needs none, the card border already ends it.
+              "max-lg:last-of-type:border-b max-lg:group-last-of-type:last-of-type:border-b-0",
+              // Table layout at lg+: cells sit side by side, so rules separate rows and columns.
+              "lg:border-b lg:group-last-of-type:border-b-0 lg:border-r lg:last-of-type:border-r-0",
               "overflow-hidden text-ellipsis",
               alignments[align]
             )}

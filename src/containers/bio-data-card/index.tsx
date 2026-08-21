@@ -11,10 +11,22 @@ interface BioDataCardProps {
   index: number;
 }
 
+/**
+ * Stability and in vivo belong to the substance/paper pair — the measurement rows
+ * only repeat them — so they are shown once per card rather than in every row.
+ * Every unique value is listed, though in practice there is only ever one.
+ */
+const uniqueValues = (values: (string | null)[]) => {
+  const unique = [...new Set(values.filter((value) => typeof value === "string" && value.trim()))];
+
+  return unique.length ? unique.join(", ") : "Not Tested";
+};
+
 export const BioDataCard: FC<BioDataCardProps> = ({ bioData, index }) => {
   const setSelectedImage = useStore((s) => s.setSelectedImage);
   const setDialogs = useStore((s) => s.setDialogs);
   const { headers } = useBioDataHeaders();
+  const measurements = bioData.measurements ?? [];
 
   const handleFullscreen = () => {
     setSelectedImage({
@@ -59,11 +71,22 @@ export const BioDataCard: FC<BioDataCardProps> = ({ bioData, index }) => {
               {bioData.compounds.doi}
             </a>
           )}
+
+          <div className="flex flex-col gap-2 text-white font-light">
+            <p>
+              <span className="text-primary font-bold">Stability: </span>
+              {uniqueValues(measurements.map((measurement) => measurement.stability))}
+            </p>
+            <p>
+              <span className="text-primary font-bold">In Vivo: </span>
+              {uniqueValues(measurements.map((measurement) => measurement.in_vivo))}
+            </p>
+          </div>
         </div>
       </div>
       <div className="px-6 pb-6">
         <div className="border-platinum-silver overflow-hidden rounded-4xl border">
-          <DataTable headers={headers} items={bioData.measurements as unknown as TableItem[]} hideFooter />
+          <DataTable headers={headers} items={measurements as unknown as TableItem[]} hideFooter />
         </div>
       </div>
     </div>
