@@ -24,17 +24,8 @@ export const useBioDataHeaders = () => {
       value: "numeric_value",
       maxWidth: mdAndUp ? 120 : undefined,
     },
+    // stability and in vivo are not per-measurement; the card shows them once above.
     { text: "method", value: "method", maxWidth: mdAndUp ? 120 : undefined },
-    {
-      text: "stability",
-      value: (item) => (typeof item.stability === "string" ? item.stability : "Not Tested"),
-      maxWidth: mdAndUp ? 120 : undefined,
-    },
-    {
-      text: "in vivo",
-      value: (item) => (typeof item.in_vivo === "string" ? item.in_vivo : "Not Tested"),
-      maxWidth: mdAndUp ? 120 : undefined,
-    },
   ];
 
   return {
