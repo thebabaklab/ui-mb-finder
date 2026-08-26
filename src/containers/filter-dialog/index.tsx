@@ -42,7 +42,7 @@ export const FilterDialog = () => {
       <DialogContent
         // Filters can outgrow the screen, so the dialog scrolls instead of clipping.
         // dvh (not vh) keeps it inside the browser chrome and the on-screen keyboard,
-        // which would otherwise hide the Apply button near its top edge.
+        // which would otherwise hide the Apply button at the bottom of the form.
         className="h-dvh max-h-dvh overflow-y-auto overscroll-contain text-center sm:h-auto sm:max-h-[90dvh]"
         aria-describedby={undefined}
       >

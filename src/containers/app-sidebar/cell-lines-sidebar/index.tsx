@@ -174,10 +174,6 @@ export const CellLinesSidebar = () => {
       e.preventDefault();
       applyFilters();
     }}>
-      <Button variant={"back"} className="font-light text-base" size="small" type="submit">
-        Apply
-      </Button>
-
       {filters.map((field, index) => {
         switch (field.type) {
           case ENUM_SEARCH_FIELD_TYPE.IncubationTime:
@@ -268,11 +264,15 @@ export const CellLinesSidebar = () => {
       )}
 
       {!pendingFilter && (
-        <Button className="gap-2 bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={() => setPendingFilter(true)}>
+        <Button type="button" className="gap-2 bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={() => setPendingFilter(true)}>
           Add Field
           <Icon name={mdiPlus} className="bg-secondary rounded-full" color="current" add_sf />
         </Button>
       )}
+
+      <Button variant={"back"} className="font-light text-base" size="small" type="submit">
+        Apply
+      </Button>
     </form>
   );
 };
