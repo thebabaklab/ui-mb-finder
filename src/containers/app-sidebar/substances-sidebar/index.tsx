@@ -22,6 +22,10 @@ export const SubstancesSidebar = () => {
   const [filters, setFilters] = useState<TSearchField[]>(parsedFilters);
   const [pendingFilter, setPendingFilter] = useState(false);
 
+  // With no filters yet there is nothing to add to, so go straight to the
+  // field picker instead of making the user click Add Field first.
+  const showFieldPicker = pendingFilter || filters.length === 0;
+
   const handleAddFilter = (type: string) => {
     addFilter(type);
     setPendingFilter(false);
@@ -351,7 +355,7 @@ export const SubstancesSidebar = () => {
         }
       })}
 
-      {pendingFilter && (
+      {showFieldPicker && (
         <Select
           placeholder="Select Field Type"
           items={fieldTypes["substances"]}
@@ -360,7 +364,7 @@ export const SubstancesSidebar = () => {
         />
       )}
 
-      {!pendingFilter && (
+      {!showFieldPicker && (
         <Button type="button" className="gap-2 bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={() => setPendingFilter(true)}>
           Add Field
           <Icon name={mdiPlus} className="bg-secondary rounded-full" color="current" add_sf />
