@@ -9,8 +9,9 @@ import {
   SubstanceDrawer,
   TabsSection,
 } from "@containers";
-import { Link, useNavigate, useSearch } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
+  ENUM_SEARCH_BY,
   ENUM_SEARCH_FIELD_TYPE,
   type TSearchField,
   type TTabValue,
@@ -34,11 +35,12 @@ import predictLogo from "@assets/img/predict-icon.svg";
 
 export const MainPage = () => {
   const navigate = useNavigate();
-  const { queryStr } = useSearch({ strict: false });
   const [open, setOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState<TTabValue>("substances");
   const [advancedFields, setAdvancedFields] = useState<TSearchField[]>([]);
   const [addVisible, setAddVisible] = useState(true);
+  // Only the Substances search is scoped to a field.
+  const [searchBy, setSearchBy] = useState<string>(ENUM_SEARCH_BY.Name);
 
   const hasSearchField = useMemo(() => {
     return advancedFields.some(
@@ -156,34 +158,24 @@ export const MainPage = () => {
   }
 
   const handleDrawerSubmit = (smiles: string) => {
-    const filters = handleFilters();
-    filters.push({
-      type: ENUM_SEARCH_FIELD_TYPE.Smiles,
-      values: {
-        smiles: smiles
-      }
-    });
-
-    if (filters.some(field => field.type === "error"))
-      return window.alert('Logic operator must be specified for each Advanced Search Field.');
-
     setOpen(false);
-    if (selectedTab === "substances")
-      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
-    else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
-    else if (selectedTab === "references")
-      navigate({ to: "/references", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
+    // The drawn structure becomes a SMILES query in the search box.
+    setSearchBy(ENUM_SEARCH_BY.Smiles);
+    runSearch(smiles, ENUM_SEARCH_BY.Smiles);
   };
 
   const handleSearch = (queryStr: any) => {
+    runSearch(queryStr, searchBy);
+  };
+
+  const runSearch = (queryStr: any, _searchBy: string) => {
     const filters = handleFilters();
 
     if (filters.some(field => field.type === "error"))
       return window.alert('Logic operator must be specified for each Advanced Search Field.');
 
     if (selectedTab === "substances")
-      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
+      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, searchBy: _searchBy, filters: JSON.stringify(filters) } });
     else if (selectedTab === "cell-lines")
       navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
     else if (selectedTab === "references")
@@ -222,6 +214,8 @@ export const MainPage = () => {
               <SearchSection
                 hasSearchField={hasSearchField}
                 onDrawerClick={() => setOpen(true)}
+                searchBy={selectedTab === "substances" ? searchBy : undefined}
+                onSearchByChange={setSearchBy}
                 onSearch={(value: any) => handleSearch(value)}
               />
 
