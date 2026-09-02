@@ -4,10 +4,12 @@ import { Button, Icon, Select, TextField } from "@ui-kit";
 import { ENUM_SEARCH_BY } from "@types";
 import { cn } from "@utils";
 
+// Each field gets its own worked example — the point of the hint is the
+// separator, which is easiest to read in the notation being searched.
 const searchByOptions = [
-  { name: "Name", id: ENUM_SEARCH_BY.Name },
-  { name: "SMILES", id: ENUM_SEARCH_BY.Smiles },
-  { name: "CAS ID", id: ENUM_SEARCH_BY.CasRegistryNumber },
+  { name: "Name", id: ENUM_SEARCH_BY.Name, example: "cisplatin; transplatin" },
+  { name: "SMILES", id: ENUM_SEARCH_BY.Smiles, example: "Cl[Au][P](CC)(CC)CC; [Cl-][Au+][P](C)(C)C" },
+  { name: "CAS ID", id: ENUM_SEARCH_BY.CasRegistryNumber, example: "15663-27-1; 14913-33-8" },
 ];
 
 interface SearchSectionProps {
@@ -36,13 +38,18 @@ export const SearchSection: FC<SearchSectionProps> = ({
     setQueryStr(initialValue ?? "");
   }, [initialValue]);
 
+  const searchByExample = searchByOptions.find((option) => option.id === searchBy)?.example;
+
   return (
     <div className={cn("flex w-full max-w-4xl flex-col gap-1", className)}>
       {/* The picker sits on its own row on phones — beside the field there is
           not enough width left for the input and the Draw button. */}
       <div className="flex w-full flex-col items-stretch gap-2 sm:flex-row sm:items-center">
+        {/* Sized to the widest label ("SMILES", 48px at 14px Roboto) plus the
+            chevron and the trigger's own padding — fixed rather than w-fit so
+            the control does not resize as the selection changes. */}
         {searchBy && (
-          <div className="w-full sm:w-[150px] sm:shrink-0">
+          <div className="w-[108px] sm:w-[150px] sm:shrink-0">
             <Select
               value={searchBy}
               items={searchByOptions}
@@ -95,9 +102,9 @@ export const SearchSection: FC<SearchSectionProps> = ({
         </div>
       </div>
 
-      {searchBy && (
+      {searchByExample && (
         <p className="text-white/60 text-xs font-light text-center">
-          Separate several values with ; — e.g. Complex 1; Au 1:1
+          You can enter multiple values separated by semicolon, e.g. {searchByExample}
         </p>
       )}
     </div>
