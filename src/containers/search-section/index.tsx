@@ -97,7 +97,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
 
       {searchBy && (
         <p className="text-white/60 text-xs font-light text-center">
-          You can enter several values separated by a space.
+          Separate several values with ; — e.g. Complex 1; Au 1:1
         </p>
       )}
     </div>
