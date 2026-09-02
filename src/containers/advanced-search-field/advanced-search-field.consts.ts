@@ -1,10 +1,9 @@
 import { ENUM_LOGICAL_OPERATOR, ENUM_SEARCH_FIELD_TYPE } from "@types";
 
 export const fieldTypes = {
+  // No SMILES, Clinical Drug or CAS here: the search box's field dropdown
+  // covers those, so offering them again as filters would be redundant.
   "substances": [
-    { name: "SMILES", id: ENUM_SEARCH_FIELD_TYPE.Smiles },
-    { name: "Clinical Drug", id: ENUM_SEARCH_FIELD_TYPE.ClinicalDrug },
-    { name: "CAS Registry Number", id: ENUM_SEARCH_FIELD_TYPE.CasRegistryNumber },
     { name: "Incubation Time", id: ENUM_SEARCH_FIELD_TYPE.IncubationTime },
     { name: "Molecular Weight", id: ENUM_SEARCH_FIELD_TYPE.MolecularWeight },
     { name: "DOI", id: ENUM_SEARCH_FIELD_TYPE.Doi },

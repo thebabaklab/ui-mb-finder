@@ -19,6 +19,10 @@ export const CellLinesSidebar = () => {
   const [filters, setFilters] = useState<TSearchField[]>(parsedFilters);
   const [pendingFilter, setPendingFilter] = useState(false);
 
+  // With no filters yet there is nothing to add to, so go straight to the
+  // field picker instead of making the user click Add Field first.
+  const showFieldPicker = pendingFilter || filters.length === 0;
+
   const handleAddFilter = (type: string) => {
     addFilter(type);
     setPendingFilter(false);
@@ -174,10 +178,6 @@ export const CellLinesSidebar = () => {
       e.preventDefault();
       applyFilters();
     }}>
-      <Button variant={"back"} className="font-light text-base" size="small" type="submit">
-        Apply
-      </Button>
-
       {filters.map((field, index) => {
         switch (field.type) {
           case ENUM_SEARCH_FIELD_TYPE.IncubationTime:
@@ -258,7 +258,7 @@ export const CellLinesSidebar = () => {
         }
       })}
 
-      {pendingFilter && (
+      {showFieldPicker && (
         <Select
           placeholder="Select Field Type"
           items={fieldTypes["cell-lines"]}
@@ -267,12 +267,16 @@ export const CellLinesSidebar = () => {
         />
       )}
 
-      {!pendingFilter && (
-        <Button className="gap-2 bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={() => setPendingFilter(true)}>
+      {!showFieldPicker && (
+        <Button type="button" className="gap-2 bg-transparent shadow-none text-xl font-light hover:bg-transparent hover:text-primary" onClick={() => setPendingFilter(true)}>
           Add Field
           <Icon name={mdiPlus} className="bg-secondary rounded-full" color="current" add_sf />
         </Button>
       )}
+
+      <Button variant={"back"} className="font-light text-base" size="small" type="submit">
+        Apply
+      </Button>
     </form>
   );
 };

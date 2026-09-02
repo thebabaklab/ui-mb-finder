@@ -17,3 +17,10 @@ export enum ENUM_LOGICAL_OPERATOR {
   // Not = "NOT",
   Or = "OR",
 }
+
+// Field the main Substances search box is scoped to. Name is the default.
+export enum ENUM_SEARCH_BY {
+  Name = "NAME",
+  Smiles = "SMILES",
+  CasRegistryNumber = "CAS_NUMBER",
+}

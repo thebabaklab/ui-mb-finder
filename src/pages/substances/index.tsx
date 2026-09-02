@@ -134,7 +134,7 @@ export const SubstancesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, title, ceillineName, queryStr, filters: filtersString } = useSearch({ from: "/search/substances", });
+  const { page, title, ceillineName, queryStr, searchBy, filters: filtersString } = useSearch({ from: "/search/substances", });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
@@ -159,6 +159,7 @@ export const SubstancesPage = () => {
         {
           ...search,
           queryStr,
+          searchBy,
           currentPage,
           paper_id: title,
           ceil_line_name: ceillineName,
@@ -173,12 +174,12 @@ export const SubstancesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, title, ceillineName, queryStr, filtersString]);
+  }, [search, currentPage, title, ceillineName, queryStr, searchBy, filtersString]);
   // }, [search, currentPage, title, ceillineName, queryStr, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd]);
 
   useEffect(() => {
     void getSubstances();
-  }, [page, title, ceillineName, queryStr, filtersString]);
+  }, [page, title, ceillineName, queryStr, searchBy, filtersString]);
   // }, [page, title, ceillineName, queryStr, smiles, cliDrug, cas, incuTime, incuOther, weightStart, weightEnd]);
 
   return (

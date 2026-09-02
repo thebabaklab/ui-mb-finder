@@ -10,6 +10,7 @@ export const substancesRoute = createRoute({
     page: z.number().optional(),
     title: z.string().optional(),
     queryStr: z.string().optional(),
+    searchBy: z.string().optional(),
     ceillineName: z.string().optional(),
     // NEW FILTERS
     filters: z.string().optional(),
