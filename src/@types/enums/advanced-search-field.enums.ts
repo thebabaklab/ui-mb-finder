@@ -23,4 +23,5 @@ export enum ENUM_SEARCH_BY {
   Name = "NAME",
   Smiles = "SMILES",
   CasRegistryNumber = "CAS_NUMBER",
+  MbId = "MB_ID",
 }

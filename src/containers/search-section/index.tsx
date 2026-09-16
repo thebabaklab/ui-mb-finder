@@ -10,6 +10,7 @@ const searchByOptions = [
   { name: "Name", id: ENUM_SEARCH_BY.Name, example: "cisplatin; transplatin" },
   { name: "SMILES", id: ENUM_SEARCH_BY.Smiles, example: "Cl[Au][P](CC)(CC)CC; [Cl-][Au+][P](C)(C)C" },
   { name: "CAS ID", id: ENUM_SEARCH_BY.CasRegistryNumber, example: "15663-27-1; 14913-33-8" },
+  { name: "MB ID", id: ENUM_SEARCH_BY.MbId, example: "MB-Pt-000005; MB-Pt-Ru-000087" },
 ];
 
 interface SearchSectionProps {
