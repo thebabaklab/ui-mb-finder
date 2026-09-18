@@ -49,8 +49,9 @@ export const MainPage = () => {
   const [searchBy, setSearchBy] = useState<string>(ENUM_SEARCH_BY.Name);
   const [cellLineSearchBy, setCellLineSearchBy] = useState<string>(ENUM_CELL_LINE_SEARCH_BY.CellLine);
 
+  const isSubstances = selectedTab === "substances";
   const isCellLines = selectedTab === "cell-lines";
-  const activeSearchBy = selectedTab === "substances" ? searchBy : isCellLines ? cellLineSearchBy : undefined;
+  const activeSearchBy = isSubstances ? searchBy : isCellLines ? cellLineSearchBy : undefined;
   const isTissue = isCellLines && cellLineSearchBy === ENUM_CELL_LINE_SEARCH_BY.Tissue;
   const { tissues, loading: tissuesLoading } = useTissues(isTissue);
 
@@ -225,7 +226,9 @@ export const MainPage = () => {
 
               <SearchSection
                 hasSearchField={hasSearchField}
-                onDrawerClick={() => setOpen(true)}
+                // The drawer produces a SMILES query, which only the
+                // Substances tab can search by — so it is offered only there.
+                onDrawerClick={isSubstances ? () => setOpen(true) : undefined}
                 searchBy={activeSearchBy}
                 searchByOptions={isCellLines ? cellLineSearchByOptions : substanceSearchByOptions}
                 valueOptions={isTissue ? tissues : undefined}
@@ -234,11 +237,13 @@ export const MainPage = () => {
                 onSearch={(value: any) => handleSearch(value)}
               />
 
-              <SubstanceDrawer
-                open={open}
-                onOpenChange={setOpen}
-                onSubmit={handleDrawerSubmit}
-              />
+              {isSubstances && (
+                <SubstanceDrawer
+                  open={open}
+                  onOpenChange={setOpen}
+                  onSubmit={handleDrawerSubmit}
+                />
+              )}
             </div>
 
             <AdvancedSearchFieldsSection

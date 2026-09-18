@@ -42,6 +42,7 @@ interface SearchSectionProps {
   valueOptions?: string[];
   valueOptionsLoading?: boolean;
   onSearchByChange?: (searchBy: string) => void;
+  /** Omit to hide the Draw button — the drawer only makes sense for substances. */
   onDrawerClick?: () => void;
   onChange?: (queryStr: string) => void;
   onSearch: (queryStr?: string) => void;
@@ -72,7 +73,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
     .map((value) => value.trim())
     .filter(Boolean);
 
-  const drawButton = (
+  const drawButton = onDrawerClick && (
     <Button
       type="button"
       variant="draw"
@@ -80,7 +81,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        onDrawerClick?.();
+        onDrawerClick();
       }}
     >
       Draw
