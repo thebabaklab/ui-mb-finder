@@ -1,5 +1,6 @@
 export * from "./button";
 export * from "./select";
+export * from "./multi-select";
 export * from "./icon";
 export * from "./progress-circular";
 export * from "./text-field";

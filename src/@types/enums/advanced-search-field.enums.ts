@@ -25,3 +25,9 @@ export enum ENUM_SEARCH_BY {
   CasRegistryNumber = "CAS_NUMBER",
   MbId = "MB_ID",
 }
+
+// Field the Cell Lines search box is scoped to. The code is the default.
+export enum ENUM_CELL_LINE_SEARCH_BY {
+  CellLine = "CELL_LINE",
+  Tissue = "TISSUE",
+}

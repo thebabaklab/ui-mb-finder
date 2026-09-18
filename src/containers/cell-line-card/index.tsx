@@ -52,6 +52,9 @@ export const CellLineCard: FC<CellLineCardProps> = ({ cellLine, index }) => {
     <div className="border-primary rounded-4xl border">
       <div className="bg-primary rounded-full px-6 py-3 font-bold text-gunmetal">
         {index}. {cellLine.name}
+        {/* Shown so a tissue search makes sense of its own results — without it
+            a search for "Bladder" returns a list of codes and no reason why. */}
+        {cellLine.tissue && <span className="font-light"> · {cellLine.tissue}</span>}
       </div>
 
       <div className="flex flex-wrap gap-3 p-6">

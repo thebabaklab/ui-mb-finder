@@ -4,18 +4,22 @@ import {
   AdvancedSearchFieldsSection,
   AppFooter,
   AppHeader,
+  cellLineSearchByOptions,
   emptySearchField,
   SearchSection,
+  substanceSearchByOptions,
   SubstanceDrawer,
   TabsSection,
 } from "@containers";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
+  ENUM_CELL_LINE_SEARCH_BY,
   ENUM_SEARCH_BY,
   ENUM_SEARCH_FIELD_TYPE,
   type TSearchField,
   type TTabValue,
 } from "@types";
+import { useTissues } from "@hooks";
 import substanceLogo from "@assets/img/substances-icon.svg";
 import cellLineLogo from "@assets/img/cell_lines-icon.svg";
 import referenceLogo from "@assets/img/references-icon.svg";
@@ -39,8 +43,16 @@ export const MainPage = () => {
   const [selectedTab, setSelectedTab] = useState<TTabValue>("substances");
   const [advancedFields, setAdvancedFields] = useState<TSearchField[]>([]);
   const [addVisible, setAddVisible] = useState(true);
-  // Only the Substances search is scoped to a field.
+  // Substances and Cell Lines are each scoped to a field; References is not.
+  // The two keep separate state so switching tabs does not carry a field over
+  // to a tab that has no such field.
   const [searchBy, setSearchBy] = useState<string>(ENUM_SEARCH_BY.Name);
+  const [cellLineSearchBy, setCellLineSearchBy] = useState<string>(ENUM_CELL_LINE_SEARCH_BY.CellLine);
+
+  const isCellLines = selectedTab === "cell-lines";
+  const activeSearchBy = selectedTab === "substances" ? searchBy : isCellLines ? cellLineSearchBy : undefined;
+  const isTissue = isCellLines && cellLineSearchBy === ENUM_CELL_LINE_SEARCH_BY.Tissue;
+  const { tissues, loading: tissuesLoading } = useTissues(isTissue);
 
   const hasSearchField = useMemo(() => {
     return advancedFields.some(
@@ -165,7 +177,7 @@ export const MainPage = () => {
   };
 
   const handleSearch = (queryStr: any) => {
-    runSearch(queryStr, searchBy);
+    runSearch(queryStr, activeSearchBy ?? searchBy);
   };
 
   const runSearch = (queryStr: any, _searchBy: string) => {
@@ -177,7 +189,7 @@ export const MainPage = () => {
     if (selectedTab === "substances")
       navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, searchBy: _searchBy, filters: JSON.stringify(filters) } });
     else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
+      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, searchBy: _searchBy, filters: JSON.stringify(filters) } });
     else if (selectedTab === "references")
       navigate({ to: "/references", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
   };
@@ -214,8 +226,11 @@ export const MainPage = () => {
               <SearchSection
                 hasSearchField={hasSearchField}
                 onDrawerClick={() => setOpen(true)}
-                searchBy={selectedTab === "substances" ? searchBy : undefined}
-                onSearchByChange={setSearchBy}
+                searchBy={activeSearchBy}
+                searchByOptions={isCellLines ? cellLineSearchByOptions : substanceSearchByOptions}
+                valueOptions={isTissue ? tissues : undefined}
+                valueOptionsLoading={tissuesLoading}
+                onSearchByChange={isCellLines ? setCellLineSearchBy : setSearchBy}
                 onSearch={(value: any) => handleSearch(value)}
               />
 
