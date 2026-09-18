@@ -9,6 +9,8 @@ export type TSearchByOption = {
   id: string;
   /** Worked example for the semicolon hint. Omitted for a field picked from a list. */
   example?: string;
+  /** Extra sentence appended to the hint, for a field whose matching needs explaining. */
+  note?: string;
   /** Prompt shown by the value dropdown, for a field picked from a list. */
   placeholder?: string;
 };
@@ -19,7 +21,14 @@ export const substanceSearchByOptions: TSearchByOption[] = [
   { name: "Name", id: ENUM_SEARCH_BY.Name, example: "cisplatin; transplatin" },
   { name: "SMILES", id: ENUM_SEARCH_BY.Smiles, example: "Cl[Au][P](CC)(CC)CC; [Cl-][Au+][P](C)(C)C" },
   { name: "CAS ID", id: ENUM_SEARCH_BY.CasRegistryNumber, example: "15663-27-1; 14913-33-8" },
-  { name: "MB ID", id: ENUM_SEARCH_BY.MbId, example: "MB-Pt-000005; MB-Pt-Ru-000087" },
+  {
+    name: "MB ID",
+    id: ENUM_SEARCH_BY.MbId,
+    example: "MB-Pt-000005; MB-Pt-Ru-000087",
+    // The ID is matched on a substring, which the other fields are not, so the
+    // hint says so — a metal or a number alone is a useful group lookup.
+    note: "You can also search by part of the name, e.g. Pt or 537.",
+  },
 ];
 
 // Tissue examples are spelled as the curated list spells them, since the field
@@ -159,6 +168,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
       {!picked && activeOption?.example && (
         <p className="text-white/60 text-xs font-light text-center">
           You can enter multiple values separated by semicolon, e.g. {activeOption.example}
+          {activeOption.note && `. ${activeOption.note}`}
         </p>
       )}
     </div>
