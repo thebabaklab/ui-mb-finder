@@ -4,13 +4,29 @@ import { Button, Icon, Select, TextField } from "@ui-kit";
 import { ENUM_SEARCH_BY } from "@types";
 import { cn } from "@utils";
 
+type TSearchByOption = {
+  name: string;
+  id: string;
+  /** Worked example for the semicolon hint. */
+  example?: string;
+  /** Extra sentence appended to the hint, for a field whose matching needs explaining. */
+  note?: string;
+};
+
 // Each field gets its own worked example — the point of the hint is the
 // separator, which is easiest to read in the notation being searched.
-const searchByOptions = [
+const searchByOptions: TSearchByOption[] = [
   { name: "Name", id: ENUM_SEARCH_BY.Name, example: "cisplatin; transplatin" },
   { name: "SMILES", id: ENUM_SEARCH_BY.Smiles, example: "Cl[Au][P](CC)(CC)CC; [Cl-][Au+][P](C)(C)C" },
   { name: "CAS ID", id: ENUM_SEARCH_BY.CasRegistryNumber, example: "15663-27-1; 14913-33-8" },
-  { name: "MB ID", id: ENUM_SEARCH_BY.MbId, example: "MB-Pt-000005; MB-Pt-Ru-000087" },
+  {
+    name: "MB ID",
+    id: ENUM_SEARCH_BY.MbId,
+    example: "MB-Pt-000005; MB-Pt-Ru-000087",
+    // The ID is matched on a substring, which the other fields are not, so the
+    // hint says so — a metal or a number alone is a useful group lookup.
+    note: "You can also search by part of the name, e.g. Pt or 537.",
+  },
 ];
 
 interface SearchSectionProps {
@@ -39,7 +55,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
     setQueryStr(initialValue ?? "");
   }, [initialValue]);
 
-  const searchByExample = searchByOptions.find((option) => option.id === searchBy)?.example;
+  const activeOption = searchByOptions.find((option) => option.id === searchBy);
 
   return (
     <div className={cn("flex w-full max-w-4xl flex-col gap-1", className)}>
@@ -103,9 +119,10 @@ export const SearchSection: FC<SearchSectionProps> = ({
         </div>
       </div>
 
-      {searchByExample && (
+      {activeOption?.example && (
         <p className="text-white/60 text-xs font-light text-center">
-          You can enter multiple values separated by semicolon, e.g. {searchByExample}
+          You can enter multiple values separated by semicolon, e.g. {activeOption.example}
+          {activeOption.note && `. ${activeOption.note}`}
         </p>
       )}
     </div>
