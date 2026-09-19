@@ -9,6 +9,7 @@ export const cellLinesRoute = createRoute({
   validateSearch: z.object({
     page: z.number().optional(),
     queryStr: z.string().optional(),
+    searchBy: z.string().optional(),
     imgId: z.string().optional(),
     title: z.string().optional(),
     // NEW FILTERS
