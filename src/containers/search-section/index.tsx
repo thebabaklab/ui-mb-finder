@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from "react";
 import { mdiHexagonOutline, mdiMagnify } from "@mdi/js";
-import { Button, Icon, MultiSelect, Select, TextField } from "@ui-kit";
-import { ENUM_CELL_LINE_SEARCH_BY, ENUM_SEARCH_BY } from "@types";
+import { Button, Icon, MultiSelect, SegmentedControl, Select, TextField } from "@ui-kit";
+import { ENUM_CANCER_STATUS, ENUM_CELL_LINE_SEARCH_BY, ENUM_SEARCH_BY } from "@types";
 import { cn } from "@utils";
 
 export type TSearchByOption = {
@@ -39,6 +39,12 @@ export const cellLineSearchByOptions: TSearchByOption[] = [
   { name: "Tissue", id: ENUM_CELL_LINE_SEARCH_BY.Tissue, placeholder: "Select tissues" },
 ];
 
+const cancerStatusOptions = [
+  { name: "All lines", id: ENUM_CANCER_STATUS.All },
+  { name: "Cancer", id: ENUM_CANCER_STATUS.Cancer },
+  { name: "Non-cancer", id: ENUM_CANCER_STATUS.NonCancer },
+];
+
 interface SearchSectionProps {
   initialValue?: string;
   hasSearchField: boolean;
@@ -51,6 +57,9 @@ interface SearchSectionProps {
   valueOptions?: string[];
   valueOptionsLoading?: boolean;
   onSearchByChange?: (searchBy: string) => void;
+  /** Omit onCancerStatusChange to hide the toggle — only cell lines have a status. */
+  cancerStatus?: string;
+  onCancerStatusChange?: (cancerStatus: string) => void;
   /** Omit to hide the Draw button — the drawer only makes sense for substances. */
   onDrawerClick?: () => void;
   onChange?: (queryStr: string) => void;
@@ -66,6 +75,8 @@ export const SearchSection: FC<SearchSectionProps> = ({
   valueOptions,
   valueOptionsLoading,
   onSearchByChange,
+  cancerStatus = ENUM_CANCER_STATUS.All,
+  onCancerStatusChange,
   onDrawerClick,
   onSearch,
 }) => {
@@ -164,6 +175,19 @@ export const SearchSection: FC<SearchSectionProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Under the search row rather than in it: the row is already full on
+          phones, and this narrows the results instead of saying what to
+          search for. */}
+      {onCancerStatusChange && (
+        <SegmentedControl
+          className="mt-1 self-center"
+          label="Cancer status"
+          value={cancerStatus}
+          items={cancerStatusOptions}
+          onValueChange={onCancerStatusChange}
+        />
+      )}
 
       {!picked && activeOption?.example && (
         <p className="text-white/60 text-xs font-light text-center">
