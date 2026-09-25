@@ -31,3 +31,11 @@ export enum ENUM_CELL_LINE_SEARCH_BY {
   CellLine = "CELL_LINE",
   Tissue = "TISSUE",
 }
+
+// Narrows the Cell Lines search to cancer or non-cancer lines. All is the
+// default and is left out of the URL rather than sent.
+export enum ENUM_CANCER_STATUS {
+  All = "ALL",
+  Cancer = "CANCER",
+  NonCancer = "NON_CANCER",
+}

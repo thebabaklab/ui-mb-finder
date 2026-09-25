@@ -10,6 +10,7 @@ export const cellLinesRoute = createRoute({
     page: z.number().optional(),
     queryStr: z.string().optional(),
     searchBy: z.string().optional(),
+    cancerStatus: z.string().optional(),
     imgId: z.string().optional(),
     title: z.string().optional(),
     // NEW FILTERS

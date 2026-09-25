@@ -13,6 +13,7 @@ import {
 } from "@containers";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
+  ENUM_CANCER_STATUS,
   ENUM_CELL_LINE_SEARCH_BY,
   ENUM_SEARCH_BY,
   ENUM_SEARCH_FIELD_TYPE,
@@ -48,6 +49,7 @@ export const MainPage = () => {
   // to a tab that has no such field.
   const [searchBy, setSearchBy] = useState<string>(ENUM_SEARCH_BY.Name);
   const [cellLineSearchBy, setCellLineSearchBy] = useState<string>(ENUM_CELL_LINE_SEARCH_BY.CellLine);
+  const [cellLineCancerStatus, setCellLineCancerStatus] = useState<string>(ENUM_CANCER_STATUS.All);
 
   const isSubstances = selectedTab === "substances";
   const isCellLines = selectedTab === "cell-lines";
@@ -190,7 +192,16 @@ export const MainPage = () => {
     if (selectedTab === "substances")
       navigate({ to: "/substances", search: { page: 1, queryStr: queryStr, searchBy: _searchBy, filters: JSON.stringify(filters) } });
     else if (selectedTab === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr, searchBy: _searchBy, filters: JSON.stringify(filters) } });
+      navigate({
+        to: "/cell-lines",
+        search: {
+          page: 1,
+          queryStr: queryStr,
+          searchBy: _searchBy,
+          cancerStatus: cellLineCancerStatus === ENUM_CANCER_STATUS.All ? undefined : cellLineCancerStatus,
+          filters: JSON.stringify(filters),
+        },
+      });
     else if (selectedTab === "references")
       navigate({ to: "/references", search: { page: 1, queryStr: queryStr, filters: JSON.stringify(filters) } });
   };
@@ -225,7 +236,9 @@ export const MainPage = () => {
               </Link>
 
               <SearchSection
-                hasSearchField={hasSearchField}
+                // A status alone is a search worth running — "every non-cancer
+                // line" — so it enables the button without a query.
+                hasSearchField={hasSearchField || (isCellLines && cellLineCancerStatus !== ENUM_CANCER_STATUS.All)}
                 // The drawer produces a SMILES query, which only the
                 // Substances tab can search by — so it is offered only there.
                 onDrawerClick={isSubstances ? () => setOpen(true) : undefined}
@@ -234,6 +247,8 @@ export const MainPage = () => {
                 valueOptions={isTissue ? tissues : undefined}
                 valueOptionsLoading={tissuesLoading}
                 onSearchByChange={isCellLines ? setCellLineSearchBy : setSearchBy}
+                cancerStatus={cellLineCancerStatus}
+                onCancerStatusChange={isCellLines ? setCellLineCancerStatus : undefined}
                 onSearch={(value: any) => handleSearch(value)}
               />
 

@@ -12,7 +12,7 @@ export const CellLinesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, imgId, queryStr, searchBy, title, filters: filtersString } = useSearch({ from: "/search/cell-lines" });
+  const { page, imgId, queryStr, searchBy, cancerStatus, title, filters: filtersString } = useSearch({ from: "/search/cell-lines" });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
@@ -36,6 +36,7 @@ export const CellLinesPage = () => {
         ...search,
         queryStr,
         searchBy,
+        cancerStatus,
         currentPage,
         imgId,
         paper_id: title,
@@ -49,12 +50,12 @@ export const CellLinesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, imgId, title, queryStr, searchBy, filtersString]);
+  }, [search, currentPage, imgId, title, queryStr, searchBy, cancerStatus, filtersString]);
   // }, [search, currentPage, imgId, title, queryStr, incuTime, incuOther, icStart, icEnd]);
 
   useEffect(() => {
     void getCellLines();
-  }, [page, queryStr, searchBy, imgId, title, filtersString]);
+  }, [page, queryStr, searchBy, cancerStatus, imgId, title, filtersString]);
   // }, [page, queryStr, imgId, title, incuTime, incuOther, icStart, icEnd]);
 
   return (
