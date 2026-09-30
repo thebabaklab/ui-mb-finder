@@ -39,3 +39,13 @@ export enum ENUM_CANCER_STATUS {
   Cancer = "CANCER",
   NonCancer = "NON_CANCER",
 }
+
+// Narrows the Cell Lines search to one species' lines, as Cellosaurus gives
+// them. Human and mouse lines are 95% of the data, so everything else is one
+// choice. All is the default and is left out of the URL rather than sent.
+export enum ENUM_SPECIES {
+  All = "ALL",
+  Human = "HUMAN",
+  Mouse = "MOUSE",
+  Other = "OTHER",
+}

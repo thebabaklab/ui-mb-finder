@@ -17,6 +17,7 @@ import {
   ENUM_CELL_LINE_SEARCH_BY,
   ENUM_SEARCH_BY,
   ENUM_SEARCH_FIELD_TYPE,
+  ENUM_SPECIES,
   type TSearchField,
   type TTabValue,
 } from "@types";
@@ -50,6 +51,7 @@ export const MainPage = () => {
   const [searchBy, setSearchBy] = useState<string>(ENUM_SEARCH_BY.Name);
   const [cellLineSearchBy, setCellLineSearchBy] = useState<string>(ENUM_CELL_LINE_SEARCH_BY.CellLine);
   const [cellLineCancerStatus, setCellLineCancerStatus] = useState<string>(ENUM_CANCER_STATUS.All);
+  const [cellLineSpecies, setCellLineSpecies] = useState<string>(ENUM_SPECIES.All);
 
   const isSubstances = selectedTab === "substances";
   const isCellLines = selectedTab === "cell-lines";
@@ -199,6 +201,7 @@ export const MainPage = () => {
           queryStr: queryStr,
           searchBy: _searchBy,
           cancerStatus: cellLineCancerStatus === ENUM_CANCER_STATUS.All ? undefined : cellLineCancerStatus,
+          species: cellLineSpecies === ENUM_SPECIES.All ? undefined : cellLineSpecies,
           filters: JSON.stringify(filters),
         },
       });
@@ -236,9 +239,13 @@ export const MainPage = () => {
               </Link>
 
               <SearchSection
-                // A status alone is a search worth running — "every non-cancer
-                // line" — so it enables the button without a query.
-                hasSearchField={hasSearchField || (isCellLines && cellLineCancerStatus !== ENUM_CANCER_STATUS.All)}
+                // A status or a species alone is a search worth running —
+                // "every non-cancer line", "every mouse line" — so either
+                // enables the button without a query.
+                hasSearchField={
+                  hasSearchField ||
+                  (isCellLines && (cellLineCancerStatus !== ENUM_CANCER_STATUS.All || cellLineSpecies !== ENUM_SPECIES.All))
+                }
                 // The drawer produces a SMILES query, which only the
                 // Substances tab can search by — so it is offered only there.
                 onDrawerClick={isSubstances ? () => setOpen(true) : undefined}
@@ -249,6 +256,8 @@ export const MainPage = () => {
                 onSearchByChange={isCellLines ? setCellLineSearchBy : setSearchBy}
                 cancerStatus={cellLineCancerStatus}
                 onCancerStatusChange={isCellLines ? setCellLineCancerStatus : undefined}
+                species={cellLineSpecies}
+                onSpeciesChange={isCellLines ? setCellLineSpecies : undefined}
                 onSearch={(value: any) => handleSearch(value)}
               />
 

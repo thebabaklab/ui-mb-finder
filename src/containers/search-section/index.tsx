@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from "react";
 import { mdiHexagonOutline, mdiMagnify } from "@mdi/js";
 import { Button, Icon, MultiSelect, SegmentedControl, Select, TextField } from "@ui-kit";
-import { ENUM_CANCER_STATUS, ENUM_CELL_LINE_SEARCH_BY, ENUM_SEARCH_BY } from "@types";
+import { ENUM_CANCER_STATUS, ENUM_CELL_LINE_SEARCH_BY, ENUM_SEARCH_BY, ENUM_SPECIES } from "@types";
 import { cn } from "@utils";
 
 export type TSearchByOption = {
@@ -11,7 +11,7 @@ export type TSearchByOption = {
   example?: string;
   /** Extra sentence appended to the hint, for a field whose matching needs explaining. */
   note?: string;
-  /** Prompt shown by the value dropdown, for a field picked from a list. */
+  /** Prompt shown while the field or the value dropdown is empty. */
   placeholder?: string;
 };
 
@@ -34,7 +34,14 @@ export const substanceSearchByOptions: TSearchByOption[] = [
 // Tissue examples are spelled as the curated list spells them, since the field
 // matches that vocabulary rather than free text ("Ovary", not "ovarian").
 export const cellLineSearchByOptions: TSearchByOption[] = [
-  { name: "Cell line", id: ENUM_CELL_LINE_SEARCH_BY.CellLine, example: "MCF-7; A2780" },
+  // Synonyms come from Cellosaurus — "Michigan Cancer Foundation-7" finds
+  // MCF-7 — which nobody would guess without being told.
+  {
+    name: "Cell line",
+    id: ENUM_CELL_LINE_SEARCH_BY.CellLine,
+    example: "MCF-7; A2780",
+    placeholder: "Cell line code or synonym",
+  },
   // Tissues are chosen from a list rather than typed, so no worked example.
   { name: "Tissue", id: ENUM_CELL_LINE_SEARCH_BY.Tissue, placeholder: "Select tissues" },
 ];
@@ -43,6 +50,13 @@ const cancerStatusOptions = [
   { name: "All lines", id: ENUM_CANCER_STATUS.All },
   { name: "Cancer", id: ENUM_CANCER_STATUS.Cancer },
   { name: "Non-cancer", id: ENUM_CANCER_STATUS.NonCancer },
+];
+
+const speciesOptions = [
+  { name: "All species", id: ENUM_SPECIES.All },
+  { name: "Human", id: ENUM_SPECIES.Human },
+  { name: "Mouse", id: ENUM_SPECIES.Mouse },
+  { name: "Other", id: ENUM_SPECIES.Other },
 ];
 
 interface SearchSectionProps {
@@ -60,6 +74,9 @@ interface SearchSectionProps {
   /** Omit onCancerStatusChange to hide the toggle — only cell lines have a status. */
   cancerStatus?: string;
   onCancerStatusChange?: (cancerStatus: string) => void;
+  /** Omit onSpeciesChange to hide the toggle — only cell lines have a species. */
+  species?: string;
+  onSpeciesChange?: (species: string) => void;
   /** Omit to hide the Draw button — the drawer only makes sense for substances. */
   onDrawerClick?: () => void;
   onChange?: (queryStr: string) => void;
@@ -77,6 +94,8 @@ export const SearchSection: FC<SearchSectionProps> = ({
   onSearchByChange,
   cancerStatus = ENUM_CANCER_STATUS.All,
   onCancerStatusChange,
+  species = ENUM_SPECIES.All,
+  onSpeciesChange,
   onDrawerClick,
   onSearch,
 }) => {
@@ -146,6 +165,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
             ) : (
               <TextField
                 value={queryStr}
+                placeholder={activeOption?.placeholder}
                 className="search-bar text-base placeholder:font-semibold"
                 clearable
                 hideDetails
@@ -179,14 +199,26 @@ export const SearchSection: FC<SearchSectionProps> = ({
       {/* Under the search row rather than in it: the row is already full on
           phones, and this narrows the results instead of saying what to
           search for. */}
-      {onCancerStatusChange && (
-        <SegmentedControl
-          className="mt-1 self-center"
-          label="Cancer status"
-          value={cancerStatus}
-          items={cancerStatusOptions}
-          onValueChange={onCancerStatusChange}
-        />
+      {(onCancerStatusChange || onSpeciesChange) && (
+        // Side by side where they fit, one under the other on a phone.
+        <div className="mt-1 flex flex-wrap justify-center gap-2">
+          {onCancerStatusChange && (
+            <SegmentedControl
+              label="Cancer status"
+              value={cancerStatus}
+              items={cancerStatusOptions}
+              onValueChange={onCancerStatusChange}
+            />
+          )}
+          {onSpeciesChange && (
+            <SegmentedControl
+              label="Species"
+              value={species}
+              items={speciesOptions}
+              onValueChange={onSpeciesChange}
+            />
+          )}
+        </div>
       )}
 
       {!picked && activeOption?.example && (

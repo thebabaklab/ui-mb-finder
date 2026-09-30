@@ -7,6 +7,17 @@ import biodataIcon from "@assets/img/biodata-icon.svg";
 import substanceIcon from "@assets/img/substances-icon.svg";
 import referenceIcon from "@assets/img/references-icon.svg";
 
+/** One entry per species, linked to the first Cellosaurus line of that species. */
+const cellLineSpecies = (cellLine: TCellLine) => {
+  const seen = new Set<string>();
+
+  return (cellLine.cellosaurus ?? []).filter(({ species }) => {
+    if (!species || seen.has(species)) return false;
+    seen.add(species);
+    return true;
+  }) as { accession: string; species: string }[];
+};
+
 interface CellLineCardProps {
   cellLine: TCellLine;
   index: number;
@@ -55,6 +66,31 @@ export const CellLineCard: FC<CellLineCardProps> = ({ cellLine, index }) => {
         {/* Shown so a tissue search makes sense of its own results — without it
             a search for "Bladder" returns a list of codes and no reason why. */}
         {cellLine.tissue && <span className="font-light"> · {cellLine.tissue}</span>}
+        {/* Each species links to its line's Cellosaurus page — the place to
+            check what the line really is (contamination warnings included).
+            A name with several meanings (CH1) can have several. */}
+        {cellLineSpecies(cellLine).map(({ accession, species }) => (
+          <span key={accession} className="font-light">
+            {" · "}
+            <a
+              className="hover:underline"
+              href={`https://www.cellosaurus.org/${accession}`}
+              target="_blank"
+              rel="noreferrer"
+              title="Open this cell line in Cellosaurus"
+            >
+              {species}
+            </a>
+          </span>
+        ))}
+        {/* Only when a synonym, not the code, is what the search found — so a
+            search for "Michigan Cancer Foundation" says why MCF-7 came back. */}
+        {cellLine.matchedSynonym && (
+          <span className="block text-sm font-light italic sm:inline">
+            {" "}
+            — matched “{cellLine.matchedSynonym}”
+          </span>
+        )}
       </div>
 
       <div className="flex flex-wrap gap-3 p-6">

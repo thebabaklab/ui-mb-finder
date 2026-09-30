@@ -11,6 +11,7 @@ export const cellLinesRoute = createRoute({
     queryStr: z.string().optional(),
     searchBy: z.string().optional(),
     cancerStatus: z.string().optional(),
+    species: z.string().optional(),
     imgId: z.string().optional(),
     title: z.string().optional(),
     // NEW FILTERS
