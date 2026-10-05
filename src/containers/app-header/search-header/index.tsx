@@ -4,7 +4,6 @@ import {
   useLocation,
   useMatches,
   useNavigate,
-  useSearch,
 } from "@tanstack/react-router";
 import type { TTabValue } from "@types";
 
@@ -19,7 +18,6 @@ import predictLogo from "@assets/img/predict-icon.svg";
 
 export const SearchHeader = () => {
   const navigate = useNavigate();
-  const { queryStr } = useSearch({ strict: false });
   const location = useLocation();
   const pathname = location.pathname;
   const loading = useStore((s) => s.loading);
@@ -40,13 +38,11 @@ export const SearchHeader = () => {
     (match) => match.routeId === "/search/references",
   );
 
+  // Another tab is another search, so it opens as on a first visit: that
+  // tab's empty search form. A results page with no query would list every
+  // record instead, which reads as the result of a search nobody made.
   const handleTabChange = (value: TTabValue) => {
-    if (value === "substances")
-      navigate({ to: "/substances", search: { page: 1, queryStr: queryStr } });
-    else if (value === "cell-lines")
-      navigate({ to: "/cell-lines", search: { page: 1, queryStr: queryStr } });
-    else if (value === "references")
-      navigate({ to: "/references", search: { page: 1, queryStr: queryStr } });
+    navigate({ to: "/", search: { tab: value === "substances" ? undefined : value } });
   };
 
   return (

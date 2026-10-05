@@ -42,7 +42,8 @@ export const SubstancesSearchSection = () => {
         className="w-full md:w-[936px] max-w-4xl"
         initialValue={queryStr}
         searchBy={activeSearchBy}
-        onSearchByChange={(value) => getItems(queryStr, value)}
+        // The old query belonged to the old field, so it is dropped.
+        onSearchByChange={(value) => getItems(undefined, value)}
         onSearch={(value: any) => handleSearch(value)}
       />
 

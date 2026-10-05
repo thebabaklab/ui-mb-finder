@@ -73,10 +73,11 @@ interface SearchSectionProps {
   onSearchByChange?: (searchBy: string) => void;
   /** Omit onCancerStatusChange to hide the toggle — only cell lines have a status. */
   cancerStatus?: string;
-  onCancerStatusChange?: (cancerStatus: string) => void;
+  onCancerStatusChange?: (cancerStatus: string, queryStr?: string) => void;
   /** Omit onSpeciesChange to hide the toggle — only cell lines have a species. */
   species?: string;
-  onSpeciesChange?: (species: string) => void;
+  /** Both toggles also pass what is typed in the box, so the page can search at once. */
+  onSpeciesChange?: (species: string, queryStr?: string) => void;
   /** Omit to hide the Draw button — the drawer only makes sense for substances. */
   onDrawerClick?: () => void;
   onChange?: (queryStr: string) => void;
@@ -145,13 +146,19 @@ export const SearchSection: FC<SearchSectionProps> = ({
               // Switching tabs swaps the whole item list under the Select, and
               // Radix answers that by clearing its value and reporting "". Left
               // alone it would unset the field and hide this picker entirely.
-              onValueChange={(value) => value && onSearchByChange?.(value)}
+              // What was typed for one field means nothing in another — a
+              // cell line code is not a tissue — so the box starts empty.
+              onValueChange={(value) => {
+                if (!value || value === searchBy) return;
+                setQueryStr("");
+                onSearchByChange?.(value);
+              }}
             />
           </div>
         )}
 
-        <div className="flex grow items-center gap-2">
-          <div className="grow">
+        <div className="flex min-w-0 grow items-center gap-2">
+          <div className="min-w-0 grow">
             {picked ? (
               <MultiSelect
                 values={pickedValues}
@@ -161,6 +168,14 @@ export const SearchSection: FC<SearchSectionProps> = ({
                 // Joined the same way a typed query is, so the URL and the API
                 // see one format whichever way the values were entered.
                 onChange={(values) => setQueryStr(values.join("; "))}
+                // Closing the list with a changed selection searches at once,
+                // like the toggles below — Enter cannot do it here, since on a
+                // dropdown Enter opens the list. With nothing picked there is
+                // nothing to search for, as with the button.
+                onCommit={(values) => {
+                  const picked = values.join("; ");
+                  if (picked || hasSearchField) onSearch(picked || undefined);
+                }}
               />
             ) : (
               <TextField
@@ -207,7 +222,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
               label="Cancer status"
               value={cancerStatus}
               items={cancerStatusOptions}
-              onValueChange={onCancerStatusChange}
+              onValueChange={(value) => onCancerStatusChange(value, queryStr || undefined)}
             />
           )}
           {onSpeciesChange && (
@@ -215,7 +230,7 @@ export const SearchSection: FC<SearchSectionProps> = ({
               label="Species"
               value={species}
               items={speciesOptions}
-              onValueChange={onSpeciesChange}
+              onValueChange={(value) => onSpeciesChange(value, queryStr || undefined)}
             />
           )}
         </div>

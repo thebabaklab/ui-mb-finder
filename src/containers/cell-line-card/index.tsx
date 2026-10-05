@@ -2,7 +2,8 @@ import type { FC } from "react";
 import { useStore } from "@store";
 import { useNavigate } from "@tanstack/react-router";
 import { type TCellLine } from "@types";
-import { Button } from "@ui-kit";
+import { mdiAlertOutline } from "@mdi/js";
+import { Button, Icon } from "@ui-kit";
 import biodataIcon from "@assets/img/biodata-icon.svg";
 import substanceIcon from "@assets/img/substances-icon.svg";
 import referenceIcon from "@assets/img/references-icon.svg";
@@ -92,6 +93,28 @@ export const CellLineCard: FC<CellLineCardProps> = ({ cellLine, index }) => {
           </span>
         )}
       </div>
+
+      {/* Cellosaurus flags lines shown to be something other than their name
+          says — SGC-7901 is a HeLa derivative — which changes how its results
+          read. Its literature references are left to the linked page. */}
+      {(cellLine.cellosaurus ?? [])
+        .filter(({ warning }) => warning)
+        .map(({ accession, warning }) => (
+          <p key={accession} className="text-secondary flex items-start gap-2 px-6 pt-4 text-sm font-light">
+            <Icon name={mdiAlertOutline} color="current" dense className="mt-0.5 shrink-0" />
+            <span>
+              {warning!.replace(/\s*\(PubMed=[^)]*\)/g, "")}{" "}
+              <a
+                className="underline hover:text-white"
+                href={`https://www.cellosaurus.org/${accession}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Cellosaurus
+              </a>
+            </span>
+          </p>
+        ))}
 
       <div className="flex flex-wrap gap-3 p-6">
         <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleSubstancesClick}>

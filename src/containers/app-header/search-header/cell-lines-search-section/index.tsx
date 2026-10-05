@@ -49,13 +49,13 @@ export const CellLinesSearchSection = () => {
       searchByOptions={cellLineSearchByOptions}
       valueOptions={isTissue ? tissues : undefined}
       valueOptionsLoading={tissuesLoading}
-      onSearchByChange={(value) => getItems(queryStr, value)}
+      onSearchByChange={(value) => getItems(undefined, value)}
       cancerStatus={activeCancerStatus}
       // Applies at once, like changing the field: the results already on the
       // page are what it narrows.
-      onCancerStatusChange={(value) => getItems(queryStr, activeSearchBy, value)}
+      onCancerStatusChange={(value, typed) => getItems(typed, activeSearchBy, value)}
       species={activeSpecies}
-      onSpeciesChange={(value) => getItems(queryStr, activeSearchBy, activeCancerStatus, value)}
+      onSpeciesChange={(value, typed) => getItems(typed, activeSearchBy, activeCancerStatus, value)}
       onSearch={(value: any) => handleSearch(value)}
     />
   );

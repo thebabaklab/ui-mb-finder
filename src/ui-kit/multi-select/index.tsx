@@ -13,7 +13,12 @@ interface MultiSelectProps {
   loading?: boolean;
   className?: string;
   onChange: (values: string[]) => void;
+  /** Called when the panel closes with a different selection than it opened with. */
+  onCommit?: (values: string[]) => void;
 }
+
+/** How many picked values the closed field names before counting the rest. */
+const SHOWN = 3;
 
 /**
  * A closed list of values, several of which may be picked at once. Radix's
@@ -27,19 +32,34 @@ export const MultiSelect: FC<MultiSelectProps> = ({
   loading,
   className,
   onChange,
+  onCommit,
 }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  // The selection when the panel opened, to tell on closing whether anything
+  // changed. The latest values and callback sit in refs because the listeners
+  // below are attached once per opening and would otherwise see stale ones.
+  const openedWith = useRef<string[]>(values);
+  const latest = useRef({ values, onCommit });
+  latest.current = { values, onCommit };
+
+  const close = () => {
+    setOpen(false);
+
+    const { values: now, onCommit: commit } = latest.current;
+    const before = openedWith.current;
+    if (now.length !== before.length || now.some((value) => !before.includes(value))) commit?.(now);
+  };
 
   // The panel is not in a portal, so a click anywhere else closes it.
   useEffect(() => {
     if (!open) return;
 
     const handlePointerDown = (event: MouseEvent) => {
-      if (!containerRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!containerRef.current?.contains(event.target as Node)) close();
     };
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") close();
     };
 
     document.addEventListener("mousedown", handlePointerDown);
@@ -60,10 +80,23 @@ export const MultiSelect: FC<MultiSelectProps> = ({
       <button
         type="button"
         className="border-border flex h-12 w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-platinum-silver px-4 text-left text-base text-gunmetal"
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          if (open) return close();
+          openedWith.current = values;
+          setOpen(true);
+        }}
       >
-        <span className={cn("truncate font-light", !values.length && "opacity-60")}>
-          {values.length ? values.join(", ") : placeholder}
+        {/* Past a few values the names stop fitting on one line, so the rest
+            become a count; the panel's checkboxes show which they are. */}
+        <span
+          className={cn("min-w-0 truncate font-light", !values.length && "opacity-60")}
+          title={values.length > SHOWN ? values.join(", ") : undefined}
+        >
+          {!values.length
+            ? placeholder
+            : values.length > SHOWN
+              ? `${values.slice(0, SHOWN).join(", ")} +${values.length - SHOWN} more`
+              : values.join(", ")}
         </span>
         <Icon
           name={mdiChevronDown}
