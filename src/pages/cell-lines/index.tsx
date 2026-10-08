@@ -12,7 +12,7 @@ export const CellLinesPage = () => {
   const {
     history: { back },
   } = useRouter();
-  const { page, imgId, queryStr, searchBy, cancerStatus, title, filters: filtersString } = useSearch({ from: "/search/cell-lines" });
+  const { page, imgId, queryStr, searchBy, cancerStatus, species, title, filters: filtersString } = useSearch({ from: "/search/cell-lines" });
   const setDialogs = useStore((s) => s.setDialogs);
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
@@ -37,6 +37,7 @@ export const CellLinesPage = () => {
         queryStr,
         searchBy,
         cancerStatus,
+        species,
         currentPage,
         imgId,
         paper_id: title,
@@ -50,12 +51,12 @@ export const CellLinesPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, imgId, title, queryStr, searchBy, cancerStatus, filtersString]);
+  }, [search, currentPage, imgId, title, queryStr, searchBy, cancerStatus, species, filtersString]);
   // }, [search, currentPage, imgId, title, queryStr, incuTime, incuOther, icStart, icEnd]);
 
   useEffect(() => {
     void getCellLines();
-  }, [page, queryStr, searchBy, cancerStatus, imgId, title, filtersString]);
+  }, [page, queryStr, searchBy, cancerStatus, species, imgId, title, filtersString]);
   // }, [page, queryStr, imgId, title, incuTime, incuOther, icStart, icEnd]);
 
   return (
@@ -91,6 +92,24 @@ export const CellLinesPage = () => {
           ))}
 
           {!!cellLines.length && totalPages > 1 && <PaginationSection currentPage={page || 0} length={totalPages} />}
+
+          {/* Cellosaurus is CC BY 4.0, which asks for credit where its data shows. */}
+          <p className="text-center text-xs font-light text-white/60">
+            Species and synonyms from{" "}
+            <a className="underline hover:text-white" href="https://www.cellosaurus.org" target="_blank" rel="noreferrer">
+              Cellosaurus
+            </a>{" "}
+            (
+            <a
+              className="underline hover:text-white"
+              href="https://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              CC BY 4.0
+            </a>
+            )
+          </p>
         </>
       ) : (
         <NoDataFound />

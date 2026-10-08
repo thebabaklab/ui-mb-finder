@@ -11,12 +11,13 @@ import {
   SubstanceDrawer,
   TabsSection,
 } from "@containers";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import {
   ENUM_CANCER_STATUS,
   ENUM_CELL_LINE_SEARCH_BY,
   ENUM_SEARCH_BY,
   ENUM_SEARCH_FIELD_TYPE,
+  ENUM_SPECIES,
   type TSearchField,
   type TTabValue,
 } from "@types";
@@ -41,7 +42,8 @@ import predictLogo from "@assets/img/predict-icon.svg";
 export const MainPage = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState<TTabValue>("substances");
+  const { tab } = useSearch({ from: "/" });
+  const [selectedTab, setSelectedTab] = useState<TTabValue>(tab ?? "substances");
   const [advancedFields, setAdvancedFields] = useState<TSearchField[]>([]);
   const [addVisible, setAddVisible] = useState(true);
   // Substances and Cell Lines are each scoped to a field; References is not.
@@ -50,6 +52,7 @@ export const MainPage = () => {
   const [searchBy, setSearchBy] = useState<string>(ENUM_SEARCH_BY.Name);
   const [cellLineSearchBy, setCellLineSearchBy] = useState<string>(ENUM_CELL_LINE_SEARCH_BY.CellLine);
   const [cellLineCancerStatus, setCellLineCancerStatus] = useState<string>(ENUM_CANCER_STATUS.All);
+  const [cellLineSpecies, setCellLineSpecies] = useState<string>(ENUM_SPECIES.All);
 
   const isSubstances = selectedTab === "substances";
   const isCellLines = selectedTab === "cell-lines";
@@ -183,7 +186,25 @@ export const MainPage = () => {
     runSearch(queryStr, activeSearchBy ?? searchBy);
   };
 
-  const runSearch = (queryStr: any, _searchBy: string) => {
+  // A toggle searches at once, as it does on the results page — but only
+  // when there is something to search for: the box, a status or species
+  // other than All, or an advanced field. The same test the button uses.
+  const handleToggle = (queryStr: string | undefined, cancerStatus: string, species: string) => {
+    setCellLineCancerStatus(cancerStatus);
+    setCellLineSpecies(species);
+
+    if (queryStr || hasSearchField || cancerStatus !== ENUM_CANCER_STATUS.All || species !== ENUM_SPECIES.All)
+      runSearch(queryStr, cellLineSearchBy, cancerStatus, species);
+  };
+
+  const runSearch = (
+    queryStr: any,
+    _searchBy: string,
+    // The toggles pass their new value: state set in the same click is not
+    // readable until the next render.
+    cancerStatus: string = cellLineCancerStatus,
+    species: string = cellLineSpecies,
+  ) => {
     const filters = handleFilters();
 
     if (filters.some(field => field.type === "error"))
@@ -198,7 +219,8 @@ export const MainPage = () => {
           page: 1,
           queryStr: queryStr,
           searchBy: _searchBy,
-          cancerStatus: cellLineCancerStatus === ENUM_CANCER_STATUS.All ? undefined : cellLineCancerStatus,
+          cancerStatus: cancerStatus === ENUM_CANCER_STATUS.All ? undefined : cancerStatus,
+          species: species === ENUM_SPECIES.All ? undefined : species,
           filters: JSON.stringify(filters),
         },
       });
@@ -236,9 +258,16 @@ export const MainPage = () => {
               </Link>
 
               <SearchSection
-                // A status alone is a search worth running — "every non-cancer
-                // line" — so it enables the button without a query.
-                hasSearchField={hasSearchField || (isCellLines && cellLineCancerStatus !== ENUM_CANCER_STATUS.All)}
+                // A new instance per tab, so the box starts empty: text typed
+                // for substances is not a cell line or a reference.
+                key={selectedTab}
+                // A status or a species alone is a search worth running —
+                // "every non-cancer line", "every mouse line" — so either
+                // enables the button without a query.
+                hasSearchField={
+                  hasSearchField ||
+                  (isCellLines && (cellLineCancerStatus !== ENUM_CANCER_STATUS.All || cellLineSpecies !== ENUM_SPECIES.All))
+                }
                 // The drawer produces a SMILES query, which only the
                 // Substances tab can search by — so it is offered only there.
                 onDrawerClick={isSubstances ? () => setOpen(true) : undefined}
@@ -248,7 +277,9 @@ export const MainPage = () => {
                 valueOptionsLoading={tissuesLoading}
                 onSearchByChange={isCellLines ? setCellLineSearchBy : setSearchBy}
                 cancerStatus={cellLineCancerStatus}
-                onCancerStatusChange={isCellLines ? setCellLineCancerStatus : undefined}
+                onCancerStatusChange={isCellLines ? (value, queryStr) => handleToggle(queryStr, value, cellLineSpecies) : undefined}
+                species={cellLineSpecies}
+                onSpeciesChange={isCellLines ? (value, queryStr) => handleToggle(queryStr, cellLineCancerStatus, value) : undefined}
                 onSearch={(value: any) => handleSearch(value)}
               />
 

@@ -1,7 +1,7 @@
 import { useEffect, useState, type FC } from "react";
 import { mdiHexagonOutline, mdiMagnify } from "@mdi/js";
 import { Button, Icon, MultiSelect, SegmentedControl, Select, TextField } from "@ui-kit";
-import { ENUM_CANCER_STATUS, ENUM_CELL_LINE_SEARCH_BY, ENUM_SEARCH_BY } from "@types";
+import { ENUM_CANCER_STATUS, ENUM_CELL_LINE_SEARCH_BY, ENUM_SEARCH_BY, ENUM_SPECIES } from "@types";
 import { cn } from "@utils";
 
 export type TSearchByOption = {
@@ -11,7 +11,7 @@ export type TSearchByOption = {
   example?: string;
   /** Extra sentence appended to the hint, for a field whose matching needs explaining. */
   note?: string;
-  /** Prompt shown by the value dropdown, for a field picked from a list. */
+  /** Prompt shown while the field or the value dropdown is empty. */
   placeholder?: string;
 };
 
@@ -34,15 +34,30 @@ export const substanceSearchByOptions: TSearchByOption[] = [
 // Tissue examples are spelled as the curated list spells them, since the field
 // matches that vocabulary rather than free text ("Ovary", not "ovarian").
 export const cellLineSearchByOptions: TSearchByOption[] = [
-  { name: "Cell line", id: ENUM_CELL_LINE_SEARCH_BY.CellLine, example: "MCF-7; A2780" },
+  // Synonyms come from Cellosaurus — "Michigan Cancer Foundation-7" finds
+  // MCF-7 — which nobody would guess without being told.
+  {
+    name: "Cell line",
+    id: ENUM_CELL_LINE_SEARCH_BY.CellLine,
+    example: "MCF-7; A2780",
+    placeholder: "Cell line code or synonym",
+  },
   // Tissues are chosen from a list rather than typed, so no worked example.
-  { name: "Tissue", id: ENUM_CELL_LINE_SEARCH_BY.Tissue, placeholder: "Select tissues" },
+  // No tissue picked means no tissue filter, so the empty field says "all".
+  { name: "Tissue", id: ENUM_CELL_LINE_SEARCH_BY.Tissue, placeholder: "All tissues" },
 ];
 
 const cancerStatusOptions = [
   { name: "All lines", id: ENUM_CANCER_STATUS.All },
   { name: "Cancer", id: ENUM_CANCER_STATUS.Cancer },
   { name: "Non-cancer", id: ENUM_CANCER_STATUS.NonCancer },
+];
+
+const speciesOptions = [
+  { name: "All species", id: ENUM_SPECIES.All },
+  { name: "Human", id: ENUM_SPECIES.Human },
+  { name: "Mouse", id: ENUM_SPECIES.Mouse },
+  { name: "Other", id: ENUM_SPECIES.Other },
 ];
 
 interface SearchSectionProps {
@@ -59,7 +74,11 @@ interface SearchSectionProps {
   onSearchByChange?: (searchBy: string) => void;
   /** Omit onCancerStatusChange to hide the toggle — only cell lines have a status. */
   cancerStatus?: string;
-  onCancerStatusChange?: (cancerStatus: string) => void;
+  onCancerStatusChange?: (cancerStatus: string, queryStr?: string) => void;
+  /** Omit onSpeciesChange to hide the toggle — only cell lines have a species. */
+  species?: string;
+  /** Both toggles also pass what is typed in the box, so the page can search at once. */
+  onSpeciesChange?: (species: string, queryStr?: string) => void;
   /** Omit to hide the Draw button — the drawer only makes sense for substances. */
   onDrawerClick?: () => void;
   onChange?: (queryStr: string) => void;
@@ -77,6 +96,8 @@ export const SearchSection: FC<SearchSectionProps> = ({
   onSearchByChange,
   cancerStatus = ENUM_CANCER_STATUS.All,
   onCancerStatusChange,
+  species = ENUM_SPECIES.All,
+  onSpeciesChange,
   onDrawerClick,
   onSearch,
 }) => {
@@ -92,6 +113,14 @@ export const SearchSection: FC<SearchSectionProps> = ({
     .split(";")
     .map((value) => value.trim())
     .filter(Boolean);
+
+  // Every value picked is the same as none picked: no filter. Searched as
+  // none, so the two give the same results — all 29 tissues taken literally
+  // would leave out the lines that have no tissue assigned yet.
+  const searchable = (query: string) => {
+    const count = query.split(";").filter((value) => value.trim()).length;
+    return query && !(valueOptions && count === valueOptions.length) ? query : undefined;
+  };
 
   const drawButton = onDrawerClick && (
     <Button
@@ -126,13 +155,19 @@ export const SearchSection: FC<SearchSectionProps> = ({
               // Switching tabs swaps the whole item list under the Select, and
               // Radix answers that by clearing its value and reporting "". Left
               // alone it would unset the field and hide this picker entirely.
-              onValueChange={(value) => value && onSearchByChange?.(value)}
+              // What was typed for one field means nothing in another — a
+              // cell line code is not a tissue — so the box starts empty.
+              onValueChange={(value) => {
+                if (!value || value === searchBy) return;
+                setQueryStr("");
+                onSearchByChange?.(value);
+              }}
             />
           </div>
         )}
 
-        <div className="flex grow items-center gap-2">
-          <div className="grow">
+        <div className="flex min-w-0 grow items-center gap-2">
+          <div className="min-w-0 grow">
             {picked ? (
               <MultiSelect
                 values={pickedValues}
@@ -141,11 +176,18 @@ export const SearchSection: FC<SearchSectionProps> = ({
                 placeholder={activeOption?.placeholder}
                 // Joined the same way a typed query is, so the URL and the API
                 // see one format whichever way the values were entered.
+                selectAllLabel="Select all"
                 onChange={(values) => setQueryStr(values.join("; "))}
+                // Closing the list with a changed selection searches at once,
+                // like the toggles below — Enter cannot do it here, since on a
+                // dropdown Enter opens the list. Nothing picked searches too:
+                // it means every tissue.
+                onCommit={(values) => onSearch(searchable(values.join("; ")))}
               />
             ) : (
               <TextField
                 value={queryStr}
+                placeholder={activeOption?.placeholder}
                 className="search-bar text-base placeholder:font-semibold"
                 clearable
                 hideDetails
@@ -168,8 +210,9 @@ export const SearchSection: FC<SearchSectionProps> = ({
           <button
             type="submit"
             className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-r-xl text-secondary disabled:cursor-not-allowed"
-            disabled={!queryStr && !hasSearchField}
-            onClick={() => onSearch(queryStr || undefined)}
+            // A picked field is searchable while empty: that is "all".
+            disabled={!queryStr && !hasSearchField && !picked}
+            onClick={() => onSearch(searchable(queryStr))}
           >
             <Icon name={mdiMagnify} className="search-icon" color="current" search />
           </button>
@@ -179,14 +222,26 @@ export const SearchSection: FC<SearchSectionProps> = ({
       {/* Under the search row rather than in it: the row is already full on
           phones, and this narrows the results instead of saying what to
           search for. */}
-      {onCancerStatusChange && (
-        <SegmentedControl
-          className="mt-1 self-center"
-          label="Cancer status"
-          value={cancerStatus}
-          items={cancerStatusOptions}
-          onValueChange={onCancerStatusChange}
-        />
+      {(onCancerStatusChange || onSpeciesChange) && (
+        // Side by side where they fit, one under the other on a phone.
+        <div className="mt-1 flex flex-wrap justify-center gap-2">
+          {onCancerStatusChange && (
+            <SegmentedControl
+              label="Cancer status"
+              value={cancerStatus}
+              items={cancerStatusOptions}
+              onValueChange={(value) => onCancerStatusChange(value, queryStr || undefined)}
+            />
+          )}
+          {onSpeciesChange && (
+            <SegmentedControl
+              label="Species"
+              value={species}
+              items={speciesOptions}
+              onValueChange={(value) => onSpeciesChange(value, queryStr || undefined)}
+            />
+          )}
+        </div>
       )}
 
       {!picked && activeOption?.example && (
