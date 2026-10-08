@@ -11,6 +11,8 @@ interface MultiSelectProps {
   items: string[];
   placeholder?: string;
   loading?: boolean;
+  /** Adds a first row that ticks or clears every item at once. */
+  selectAllLabel?: string;
   className?: string;
   onChange: (values: string[]) => void;
   /** Called when the panel closes with a different selection than it opened with. */
@@ -30,6 +32,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
   items,
   placeholder = "Select",
   loading,
+  selectAllLabel,
   className,
   onChange,
   onCommit,
@@ -113,7 +116,17 @@ export const MultiSelect: FC<MultiSelectProps> = ({
           {loading ? (
             <p className="px-2 py-3 text-sm text-gunmetal/60">Loading…</p>
           ) : items.length ? (
-            items.map((item) => (
+            <>
+              {selectAllLabel && (
+                <div className="border-border mb-1 border-b px-2 py-1.5 [&_label]:font-semibold">
+                  <Checkbox
+                    label={selectAllLabel}
+                    checked={items.every((item) => values.includes(item))}
+                    onCheckedChange={(checked) => onChange(checked ? [...items] : [])}
+                  />
+                </div>
+              )}
+              {items.map((item) => (
               <div key={item} className="px-2 py-1.5">
                 <Checkbox
                   label={item}
@@ -121,7 +134,8 @@ export const MultiSelect: FC<MultiSelectProps> = ({
                   onCheckedChange={(checked) => toggle(item, !!checked)}
                 />
               </div>
-            ))
+              ))}
+            </>
           ) : (
             <p className="px-2 py-3 text-sm text-gunmetal/60">Nothing to choose from</p>
           )}

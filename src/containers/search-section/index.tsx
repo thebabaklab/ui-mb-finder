@@ -43,7 +43,8 @@ export const cellLineSearchByOptions: TSearchByOption[] = [
     placeholder: "Cell line code or synonym",
   },
   // Tissues are chosen from a list rather than typed, so no worked example.
-  { name: "Tissue", id: ENUM_CELL_LINE_SEARCH_BY.Tissue, placeholder: "Select tissues" },
+  // No tissue picked means no tissue filter, so the empty field says "all".
+  { name: "Tissue", id: ENUM_CELL_LINE_SEARCH_BY.Tissue, placeholder: "All tissues" },
 ];
 
 const cancerStatusOptions = [
@@ -113,6 +114,14 @@ export const SearchSection: FC<SearchSectionProps> = ({
     .map((value) => value.trim())
     .filter(Boolean);
 
+  // Every value picked is the same as none picked: no filter. Searched as
+  // none, so the two give the same results — all 29 tissues taken literally
+  // would leave out the lines that have no tissue assigned yet.
+  const searchable = (query: string) => {
+    const count = query.split(";").filter((value) => value.trim()).length;
+    return query && !(valueOptions && count === valueOptions.length) ? query : undefined;
+  };
+
   const drawButton = onDrawerClick && (
     <Button
       type="button"
@@ -167,15 +176,13 @@ export const SearchSection: FC<SearchSectionProps> = ({
                 placeholder={activeOption?.placeholder}
                 // Joined the same way a typed query is, so the URL and the API
                 // see one format whichever way the values were entered.
+                selectAllLabel="Select all"
                 onChange={(values) => setQueryStr(values.join("; "))}
                 // Closing the list with a changed selection searches at once,
                 // like the toggles below — Enter cannot do it here, since on a
-                // dropdown Enter opens the list. With nothing picked there is
-                // nothing to search for, as with the button.
-                onCommit={(values) => {
-                  const picked = values.join("; ");
-                  if (picked || hasSearchField) onSearch(picked || undefined);
-                }}
+                // dropdown Enter opens the list. Nothing picked searches too:
+                // it means every tissue.
+                onCommit={(values) => onSearch(searchable(values.join("; ")))}
               />
             ) : (
               <TextField
@@ -203,8 +210,9 @@ export const SearchSection: FC<SearchSectionProps> = ({
           <button
             type="submit"
             className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-r-xl text-secondary disabled:cursor-not-allowed"
-            disabled={!queryStr && !hasSearchField}
-            onClick={() => onSearch(queryStr || undefined)}
+            // A picked field is searchable while empty: that is "all".
+            disabled={!queryStr && !hasSearchField && !picked}
+            onClick={() => onSearch(searchable(queryStr))}
           >
             <Icon name={mdiMagnify} className="search-icon" color="current" search />
           </button>
