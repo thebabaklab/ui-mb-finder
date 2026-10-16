@@ -11,7 +11,7 @@ export const BioDataPage = () => {
 
 export const SubstanceBioDataPage = () => {
   const { imgId } = useParams({ from: "/search/substances/bio-data/$imgId" });
-  const { page, filters } = useSearch({ from: "/search/substances/bio-data/$imgId" });
+  const { page, filters, paperId } = useSearch({ from: "/search/substances/bio-data/$imgId" });
 
-  return <BioDataView scope={{ imgId }} page={page} filtersString={filters} />;
+  return <BioDataView scope={{ imgId }} page={page} filtersString={filters} paperId={paperId} />;
 };

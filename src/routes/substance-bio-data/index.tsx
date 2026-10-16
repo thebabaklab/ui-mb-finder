@@ -10,5 +10,7 @@ export const substanceBioDataRoute = createRoute({
     page: z.number().optional(),
     queryStr: z.string().optional(),
     filters: z.string().optional(),
+    // Set when opened from a paper's substance list: only that paper's data is shown.
+    paperId: z.string().optional(),
   }),
 }).lazy(() => import("./substance-bio-data.lazy").then((d) => d.Route));

@@ -17,7 +17,8 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
   const navigate = useNavigate();
   // Carry the active filters into the drill-downs so the counts on these buttons
   // match what opens (cards are only ever rendered on filterable routes).
-  const { filters } = useSearch({ strict: false });
+  // `title` is the paper id when the list shows one paper's substances.
+  const { filters, title } = useSearch({ strict: false });
   const setSelectedImage = useStore((s) => s.setSelectedImage);
   const setDialogs = useStore((s) => s.setDialogs);
   const setSearch = useStore((s) => s.setSearch);
@@ -58,7 +59,7 @@ export const SubstanceCard: FC<SubstanceCardProps> = ({ substance, index }) => {
       title: "",
       imgId: "",
     });
-    navigate({ to: "/substances/bio-data/$imgId", params: { imgId: substance.imageId }, search: { page: 1, filters } });
+    navigate({ to: "/substances/bio-data/$imgId", params: { imgId: substance.imageId }, search: { page: 1, filters, paperId: title } });
   };
 
   return (

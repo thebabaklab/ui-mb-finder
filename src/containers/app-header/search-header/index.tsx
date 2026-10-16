@@ -49,14 +49,10 @@ export const SearchHeader = () => {
     <header className="pt-30">
       <AppContainer className="flex flex-col gap-5 items-center">
         <div className="flex flex-col items-center justify-between gap-5 lg:max-w-5xl">
+          {/* Bio data pages list cell-line cards and search cell lines,
+              so they sit under Cell Lines even when reached from a substance. */}
           <TabsSection
-            selectedTab={
-              pathname.includes("bio-data")
-                ? pathname.startsWith("/substances")
-                  ? "substances"
-                  : "cell-lines"
-                : (pathname.slice(1) as TTabValue)
-            }
+            selectedTab={isBioData ? "cell-lines" : (pathname.slice(1) as TTabValue)}
             onChange={handleTabChange}
           />
 

@@ -7,10 +7,10 @@ import {
   NoDataFound,
   PaginationSection,
 } from "@containers";
-import { mdiChevronLeft, mdiFilterOutline } from "@mdi/js";
+import { mdiChevronLeft, mdiClose, mdiFileDocumentOutline, mdiFilterOutline } from "@mdi/js";
 import { useStore } from "@store";
 import { API_BASE_URL } from "@utils";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import axios from "axios";
 import { buildFilters } from "../substances";
@@ -23,12 +23,15 @@ interface BioDataViewProps {
   scope: BioDataScope;
   page?: number;
   filtersString?: string;
+  // Narrows a substance's bio data to one paper (only used with the imgId scope).
+  paperId?: string;
 }
 
-export const BioDataView = ({ scope, page, filtersString }: BioDataViewProps) => {
+export const BioDataView = ({ scope, page, filtersString, paperId }: BioDataViewProps) => {
   const {
     history: { back },
   } = useRouter();
+  const navigate = useNavigate();
   const search = useStore((s) => s.search);
   const loading = useStore((s) => s.loading);
   const setLoading = useStore((s) => s.setLoading);
@@ -55,6 +58,7 @@ export const BioDataView = ({ scope, page, filtersString }: BioDataViewProps) =>
           ...search,
           currentPage,
           ...scope,
+          paper_id: paperId,
           filters: apiFilters ? apiFilters : {},
         },
       );
@@ -66,11 +70,18 @@ export const BioDataView = ({ scope, page, filtersString }: BioDataViewProps) =>
     } finally {
       setLoading(false);
     }
-  }, [search, currentPage, scopeKey, filtersString]);
+  }, [search, currentPage, scopeKey, filtersString, paperId]);
 
   useEffect(() => {
     void getBioData();
-  }, [page, scopeKey, filtersString]);
+  }, [page, scopeKey, filtersString, paperId]);
+
+  // Every card of a one-paper view comes from that paper, so any card names it.
+  const paperTitle = bioDatas[0]?.compounds.title;
+
+  const showAllPapers = () => {
+    navigate({ to: ".", search: (prev: Record<string, unknown>) => ({ ...prev, page: 1, paperId: undefined }) });
+  };
 
   return (
     <div className="flex flex-col gap-5">
@@ -87,6 +98,23 @@ export const BioDataView = ({ scope, page, filtersString }: BioDataViewProps) =>
 
         <FilterDialog />
       </div>
+
+      {paperId && (
+        <div className="border-primary flex flex-col gap-3 rounded-4xl border px-6 py-4 text-white font-light sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <Icon name={mdiFileDocumentOutline} color="primary" className="shrink-0" />
+            <span>
+              <span className="text-primary font-bold">Showing bio data from one paper</span>
+              {!loading && paperTitle && <>: {paperTitle}</>}
+            </span>
+          </div>
+
+          <Button variant="back" size="small" className="w-fit shrink-0 text-base font-light px-4 py-2" onClick={showAllPapers}>
+            <Icon name={mdiClose} color="current" dense />
+            Show all papers
+          </Button>
+        </div>
+      )}
 
       {loading ? (
         <>
