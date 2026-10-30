@@ -25,3 +25,12 @@ export type TBioData = {
   compounds: TCompound;
   measurements: TMeasurement[];
 };
+
+// A paper a substance's bio data comes from, for the paper picker.
+export type TBioDataPaper = {
+  id: number;
+  title: string;
+  year: string | number | null;
+  doi: string | null;
+  bioDataCount: number;
+};

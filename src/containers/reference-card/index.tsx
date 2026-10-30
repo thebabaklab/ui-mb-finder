@@ -1,11 +1,12 @@
 import type { FC } from "react";
 import { useStore } from "@store";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import type { TReference } from "@types";
 import { Button } from "@ui-kit";
 import { CollapsibleContent } from "./collapsible-content";
 import substanceIcon from "@assets/img/substances-icon.svg";
 import celllineIcon from "@assets/img/cell_lines-icon.svg";
+import biodataIcon from "@assets/img/biodata-icon.svg";
 
 interface ReferenceCardProps {
   reference: TReference;
@@ -14,6 +15,9 @@ interface ReferenceCardProps {
 
 export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
   const navigate = useNavigate();
+  // Set when this is a substance's list of papers: each card can then open that
+  // substance's bio data from this one paper, with the same filters.
+  const { imgId, filters } = useSearch({ strict: false });
   const setSearch = useStore((s) => s.setSearch);
 
   const handleSubstancesClick = () => {
@@ -42,6 +46,26 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
       imgId: "",
     });
     navigate({ to: "/cell-lines", search: { page: 1, title: String(reference.id) } });
+  };
+
+  const handleBioDataClick = () => {
+    if (!imgId) return;
+
+    setSearch({
+      queryStr: "",
+      filters: [],
+      cellLinesTable: "ic50",
+      complexTable: "compounds",
+      compoundId: "",
+      size: 5,
+      title: "",
+      imgId: "",
+    });
+    navigate({
+      to: "/substances/bio-data/$imgId",
+      params: { imgId },
+      search: { page: 1, filters, paperId: String(reference.id) },
+    });
   };
 
   return (
@@ -81,6 +105,12 @@ export const ReferenceCard: FC<ReferenceCardProps> = ({ reference, index }) => {
         <CollapsibleContent>{reference.abstract}</CollapsibleContent>
 
         <div className="flex flex-col justify-end gap-3 sm:flex-row">
+          {imgId && reference.bioDataCount !== null && (
+            <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleBioDataClick}>
+              <img className="w-[25px]" src={biodataIcon} aria-hidden="true" />
+              View Bio Data ({reference.bioDataCount})
+            </Button>
+          )}
           <Button variant={"transparent"} className="text-primary text-base font-light" size="small" onClick={handleSubstancesClick}>
             <img className="w-[22px]" src={substanceIcon} aria-hidden="true" />
             Substances ({reference.substancesCount})

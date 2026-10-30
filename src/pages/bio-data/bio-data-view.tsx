@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   BioDataCard,
   BioDataCardSkeleton,
@@ -8,12 +8,14 @@ import {
   PaginationSection,
 } from "@containers";
 import { mdiChevronLeft, mdiClose, mdiFileDocumentOutline, mdiFilterOutline } from "@mdi/js";
+import type { TBioDataPaper } from "@types";
 import { useStore } from "@store";
 import { API_BASE_URL } from "@utils";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { Button, Icon } from "@ui-kit";
 import axios from "axios";
 import { buildFilters } from "../substances";
+import { PaperPicker } from "./paper-picker";
 
 // Bio data is scoped either to one cell line (cellId) or to one substance (imgId),
 // in which case every cell line that substance was tested on is listed.
@@ -43,6 +45,9 @@ export const BioDataView = ({ scope, page, filtersString, paperId }: BioDataView
   const setDialogs = useStore((s) => s.setDialogs);
   const currentPage = Number(page);
   const scopeKey = "cellId" in scope ? scope.cellId : scope.imgId;
+  const imgId = "imgId" in scope ? scope.imgId : undefined;
+  const [papers, setPapers] = useState<TBioDataPaper[]>([]);
+  const [papersLoading, setPapersLoading] = useState(false);
 
   const getBioData = useCallback(async () => {
     try {
@@ -76,11 +81,35 @@ export const BioDataView = ({ scope, page, filtersString, paperId }: BioDataView
     void getBioData();
   }, [page, scopeKey, filtersString, paperId]);
 
-  // Every card of a one-paper view comes from that paper, so any card names it.
-  const paperTitle = bioDatas[0]?.compounds.title;
+  // A substance's papers for the picker, under the same filters as the cards so
+  // each paper's count matches what picking it shows. Not refetched on paging
+  // or on picking a paper: neither changes the list.
+  useEffect(() => {
+    if (!imgId) return;
 
-  const showAllPapers = () => {
-    navigate({ to: ".", search: (prev: Record<string, unknown>) => ({ ...prev, page: 1, paperId: undefined }) });
+    let cancelled = false;
+    setPapersLoading(true);
+
+    axios
+      .post(`${API_BASE_URL}/api/v2/get-bio-data-papers`, {
+        imgId,
+        filters: filtersString ? buildFilters(JSON.parse(filtersString)) : {},
+      })
+      .then(({ data }) => {
+        if (!cancelled) setPapers(Array.isArray(data?.data) ? data.data : []);
+      })
+      .catch((err) => console.error("Error", err))
+      .finally(() => {
+        if (!cancelled) setPapersLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [imgId, filtersString]);
+
+  const choosePaper = (nextPaperId: string | undefined) => {
+    navigate({ to: ".", search: (prev: Record<string, unknown>) => ({ ...prev, page: 1, paperId: nextPaperId }) });
   };
 
   return (
@@ -99,20 +128,24 @@ export const BioDataView = ({ scope, page, filtersString, paperId }: BioDataView
         <FilterDialog />
       </div>
 
-      {paperId && (
-        <div className="border-primary flex flex-col gap-3 rounded-4xl border px-6 py-4 text-white font-light sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-start gap-3">
-            <Icon name={mdiFileDocumentOutline} color="primary" className="shrink-0" />
-            <span>
-              <span className="text-primary font-bold">Showing bio data from one paper</span>
-              {!loading && paperTitle && <>: {paperTitle}</>}
-            </span>
+      {imgId && (
+        <div className="border-primary flex flex-col gap-3 rounded-4xl border px-4 py-4 text-white font-light sm:px-6">
+          {/* Titles are long, so the picker gets the full width on its own row. */}
+          <div className="flex min-h-10 items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <Icon name={mdiFileDocumentOutline} color="primary" />
+              <span className="text-primary font-bold">Paper</span>
+            </div>
+
+            {paperId && (
+              <Button variant="back" size="small" className="w-fit shrink-0 text-base font-light px-4 py-2" onClick={() => choosePaper(undefined)}>
+                <Icon name={mdiClose} color="current" dense />
+                Show all papers
+              </Button>
+            )}
           </div>
 
-          <Button variant="back" size="small" className="w-fit shrink-0 text-base font-light px-4 py-2" onClick={showAllPapers}>
-            <Icon name={mdiClose} color="current" dense />
-            Show all papers
-          </Button>
+          <PaperPicker papers={papers} value={paperId} loading={papersLoading} onChange={choosePaper} />
         </div>
       )}
 
