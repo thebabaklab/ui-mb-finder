@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { mdiPlus } from "@mdi/js";
-import type { TSearchField, TTabValue } from "@types";
+import type { TSearchField, TSearchTabValue } from "@types";
 import { Button, Icon } from "@ui-kit";
 import { AdvancedSearchField } from "../advanced-search-field";
 import { fieldTypes } from "../advanced-search-field/advanced-search-field.consts";
@@ -10,7 +10,7 @@ interface AdvancedSearchFieldsSectionProps {
   onAdd: () => void;
   onRemove: (index: number) => void;
   onChange: (field: TSearchField, index: number) => void;
-  activeTab: TTabValue;
+  activeTab: TSearchTabValue;
   addVisible: boolean;
 }
 
