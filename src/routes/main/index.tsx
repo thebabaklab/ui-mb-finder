@@ -9,6 +9,6 @@ export const mainRoute = createRoute({
   // Which search tab to open on. Left out for Substances, the default; the
   // tabs on a results page link here with theirs.
   validateSearch: z.object({
-    tab: z.enum(["substances", "cell-lines", "references"]).optional(),
+    tab: z.enum(["substances", "cell-lines", "references", "convert-3d"]).optional(),
   }),
 }).lazy(() => import("./main.lazy").then((d) => d.Route));

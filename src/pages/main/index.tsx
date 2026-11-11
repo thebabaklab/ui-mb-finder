@@ -4,6 +4,7 @@ import {
   AdvancedSearchFieldsSection,
   AppFooter,
   AppHeader,
+  Convert3dSection,
   cellLineSearchByOptions,
   emptySearchField,
   SearchSection,
@@ -56,6 +57,9 @@ export const MainPage = () => {
 
   const isSubstances = selectedTab === "substances";
   const isCellLines = selectedTab === "cell-lines";
+  // Convert to 3D takes one SMILES and searches nothing, so it has its own
+  // box and no advanced fields.
+  const isConvert = selectedTab === "convert-3d";
   const activeSearchBy = isSubstances ? searchBy : isCellLines ? cellLineSearchBy : undefined;
   const isTissue = isCellLines && cellLineSearchBy === ENUM_CELL_LINE_SEARCH_BY.Tissue;
   const { tissues, loading: tissuesLoading } = useTissues(isTissue);
@@ -257,31 +261,35 @@ export const MainPage = () => {
                 Predict Activity
               </Link>
 
-              <SearchSection
-                // A new instance per tab, so the box starts empty: text typed
-                // for substances is not a cell line or a reference.
-                key={selectedTab}
-                // A status or a species alone is a search worth running —
-                // "every non-cancer line", "every mouse line" — so either
-                // enables the button without a query.
-                hasSearchField={
-                  hasSearchField ||
-                  (isCellLines && (cellLineCancerStatus !== ENUM_CANCER_STATUS.All || cellLineSpecies !== ENUM_SPECIES.All))
-                }
-                // The drawer produces a SMILES query, which only the
-                // Substances tab can search by — so it is offered only there.
-                onDrawerClick={isSubstances ? () => setOpen(true) : undefined}
-                searchBy={activeSearchBy}
-                searchByOptions={isCellLines ? cellLineSearchByOptions : substanceSearchByOptions}
-                valueOptions={isTissue ? tissues : undefined}
-                valueOptionsLoading={tissuesLoading}
-                onSearchByChange={isCellLines ? setCellLineSearchBy : setSearchBy}
-                cancerStatus={cellLineCancerStatus}
-                onCancerStatusChange={isCellLines ? (value, queryStr) => handleToggle(queryStr, value, cellLineSpecies) : undefined}
-                species={cellLineSpecies}
-                onSpeciesChange={isCellLines ? (value, queryStr) => handleToggle(queryStr, cellLineCancerStatus, value) : undefined}
-                onSearch={(value: any) => handleSearch(value)}
-              />
+              {isConvert ? (
+                <Convert3dSection />
+              ) : (
+                <SearchSection
+                  // A new instance per tab, so the box starts empty: text typed
+                  // for substances is not a cell line or a reference.
+                  key={selectedTab}
+                  // A status or a species alone is a search worth running —
+                  // "every non-cancer line", "every mouse line" — so either
+                  // enables the button without a query.
+                  hasSearchField={
+                    hasSearchField ||
+                    (isCellLines && (cellLineCancerStatus !== ENUM_CANCER_STATUS.All || cellLineSpecies !== ENUM_SPECIES.All))
+                  }
+                  // The drawer produces a SMILES query, which only the
+                  // Substances tab can search by — so it is offered only there.
+                  onDrawerClick={isSubstances ? () => setOpen(true) : undefined}
+                  searchBy={activeSearchBy}
+                  searchByOptions={isCellLines ? cellLineSearchByOptions : substanceSearchByOptions}
+                  valueOptions={isTissue ? tissues : undefined}
+                  valueOptionsLoading={tissuesLoading}
+                  onSearchByChange={isCellLines ? setCellLineSearchBy : setSearchBy}
+                  cancerStatus={cellLineCancerStatus}
+                  onCancerStatusChange={isCellLines ? (value, queryStr) => handleToggle(queryStr, value, cellLineSpecies) : undefined}
+                  species={cellLineSpecies}
+                  onSpeciesChange={isCellLines ? (value, queryStr) => handleToggle(queryStr, cellLineCancerStatus, value) : undefined}
+                  onSearch={(value: any) => handleSearch(value)}
+                />
+              )}
 
               {isSubstances && (
                 <SubstanceDrawer
@@ -292,14 +300,16 @@ export const MainPage = () => {
               )}
             </div>
 
-            <AdvancedSearchFieldsSection
-              searchFields={advancedFields}
-              onAdd={addSearchField}
-              onRemove={removeSearchField}
-              onChange={handleSearchFieldsChange}
-              activeTab={selectedTab}
-              addVisible={addVisible}
-            />
+            {!isConvert && (
+              <AdvancedSearchFieldsSection
+                searchFields={advancedFields}
+                onAdd={addSearchField}
+                onRemove={removeSearchField}
+                onChange={handleSearchFieldsChange}
+                activeTab={selectedTab}
+                addVisible={addVisible}
+              />
+            )}
           </form>
         </section>
 
